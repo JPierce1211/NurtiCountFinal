@@ -25,7 +25,7 @@ CREATE TABLE user_profile (
 	height decimal NOT NULL,
 	starting_weight decimal NOT NULL,
 	display_name varchar(12) NOT NULL,
-	profile_pic_id int NOT NULL,
+	profile_pic_id int NOT NULL
 );
 
 CREATE TABLE meal_user (
