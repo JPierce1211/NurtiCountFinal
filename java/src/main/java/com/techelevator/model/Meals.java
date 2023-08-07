@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public class Meals {
 
     private int mealId;
+    private int userId;
 
     private String mealType;
 
@@ -12,10 +13,11 @@ public class Meals {
 
     public Meals() {};
 
-    public Meals(int mealId, String mealType, LocalDate mealDate) {
+    public Meals(int mealId, String mealType, LocalDate mealDate, int userId) {
         this.mealId = mealId;
         this.mealType = mealType;
         this.mealDate = mealDate;
+        this.userId = userId;
     }
 
     public int getMealId() {
@@ -26,7 +28,7 @@ public class Meals {
         this.mealId = mealId;
     }
 
-    public String getMealType() {
+    public String getMealType(String mealType) {
         return mealType;
     }
 
@@ -34,11 +36,19 @@ public class Meals {
         this.mealType = mealType;
     }
 
-    public LocalDate getMealDate() {
+    public LocalDate getMealDate(LocalDate mealDate) {
         return mealDate;
     }
 
     public void setMealDate(LocalDate mealDate) {
         this.mealDate = mealDate;
+    }
+
+    public int getUserId(int userId) {
+        return this.userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
