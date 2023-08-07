@@ -3,6 +3,8 @@ package com.techelevator.model;
 public class Food {
     private int foodId;
 
+    private int mealId;
+
     private int foodType;
 
     private int servingSize;
@@ -11,8 +13,9 @@ public class Food {
 
     private int numOfServings;
 
-    public Food(int foodId, int foodType, int servingSize, double calories, int numOfServings) {
+    public Food(int foodId, int mealId, int foodType, int servingSize, double calories, int numOfServings) {
         this.foodId = foodId;
+        this.mealId = mealId;
         this.foodType = foodType;
         this.servingSize = servingSize;
         this.calories = calories;
@@ -25,6 +28,14 @@ public class Food {
 
     public void setFoodId(int foodId) {
         this.foodId = foodId;
+    }
+
+    public int getMealId() {
+        return mealId;
+    }
+
+    public void setMealId(int mealId) {
+        this.mealId = mealId;
     }
 
     public int getFoodType() {

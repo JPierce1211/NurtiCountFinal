@@ -4,12 +4,12 @@ import com.techelevator.model.Profile;
 
 public interface ProfileDao {
 
-     Profile getProfileById(int id);
+    Profile getProfileById(int id);
 
-     Profile createProfile(Profile profile);
+    Profile createProfile(Profile profile);
 
-     Profile updateProfile(Profile profile);
+    Profile updateProfile(Profile profile);
 
-     int deleteProfile(int id);
+    int deleteProfile(int id);
 
 }
