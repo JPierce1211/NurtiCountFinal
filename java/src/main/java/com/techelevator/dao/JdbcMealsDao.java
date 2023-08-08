@@ -2,13 +2,16 @@ package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Meals;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class JdbcMealsDao implements MealsDao {
     private final JdbcTemplate jdbcTemplate;
     public JdbcMealsDao(JdbcTemplate jdbcTemplate){
@@ -16,7 +19,7 @@ public class JdbcMealsDao implements MealsDao {
     }
 
     @Override
-    public Meals findMealById(int mealId){
+    public Meals getMealById(int mealId){
         String sql = "SELECT * FROM meal_user WHERE meal_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         if (results.next()) {
@@ -37,25 +40,48 @@ public class JdbcMealsDao implements MealsDao {
     }
 
     @Override
+    public Meals createMeal(Meals meals) {
+        Meals newMeal = null;
+        String sql = "INSERT INTO meal_user (meal_type, log_day) VALUES (?,?) Returning meal_id";
+        try {
+            int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getMealType(), meals.getMealDate());
+            newMeal = getMealById(mealId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return newMeal;
+    }
+
+    @Override
     public Meals updateMeals(Meals meals){
         Meals updateMeals = null;
         String sql = "UPDATE meal_user SET log_day = ?, meal_type = ? WHERE meal_id = ?";
-        try{
+        try {
             int rowsAffected = jdbcTemplate.update(sql, meals.getMealId(), meals.getMealType(), meals.getMealDate());
-            if(rowsAffected == 0){
+            if (rowsAffected == 0) {
                 throw new DaoException("Zero rows affected, expected at least one");
-        }
+            }
             updateMeals = getMealById(meals.getMealId());
-
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data intgerity violation", e);
+        }
+        return updateMeals;
     }
-//    @Override
-//    public Meals createMeal(Meals meals){
-//        Meals newMeal = null;
-//        String sql = "INSERT INTO meal_user (meal_type, log_day) VALUES (?,?) Returning meal_id";
-//        try{
-//            int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getMealType(), meals.getMealDate());
-//            newMeal =
-//        }
+    public int deleteMealById(int id){
+        int numberOfRows = 0;
+        String sql = "DELETE FROM meal_user WHERE meal_id = ?";
+        try{
+            numberOfRows = jdbcTemplate.update(sql, id);
+        }catch (CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to server or database", e);
+        }catch (DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation", e);
+        }
+        return numberOfRows;
 
     }
     private Meals mapRowToMeals(SqlRowSet sql){
