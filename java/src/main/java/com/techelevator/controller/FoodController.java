@@ -3,7 +3,6 @@ package com.techelevator.controller;
 import com.techelevator.dao.FoodDao;
 import com.techelevator.dao.MealsDao;
 import com.techelevator.model.Food;
-import com.techelevator.model.Meals;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +16,10 @@ import java.util.List;
 public class FoodController {
 
     private FoodDao foodDao;
-    private final MealsDao mealsDao;
-    public FoodController(FoodDao foodDao, MealsDao mealsDao) {
+
+    public FoodController(FoodDao foodDao) {
         this.foodDao = foodDao;
-        this.mealsDao = mealsDao;
+
     }
 
     @GetMapping("/profile/{id}/food")
