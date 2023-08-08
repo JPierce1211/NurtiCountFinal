@@ -51,7 +51,7 @@ export default {
           .then((response) => {
             if (response.status == 201) {
               this.$router.push({
-                path: '/create-profile',
+                path: '/create-profile/${id}',
                 //query: { registration: 'success' },
               });
             }
