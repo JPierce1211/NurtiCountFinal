@@ -21,7 +21,7 @@ import java.util.List;
     @Override
     public Food getFoodById(int foodId) {
         Food food = null;
-        String sql = "SELECT id, food_type, serving_size, calories, meal_id, number_of_servings FROM food WHERE id = ?";
+        String sql = "SELECT id, meal_id, food_name, food_type, serving_size, calories, number_of_servings FROM food WHERE id = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, foodId);
             if (results.next()) {
@@ -36,7 +36,7 @@ import java.util.List;
     @Override
     public List<Food> listFood() {
         List<Food> foodList = new ArrayList<>();
-        String sql = "SELECT id, food_type, serving_size, calories, meal_id, number_of_servings";
+        String sql = "SELECT id, meal_id, food_name, food_type, serving_size, calories, number_of_servings";
             try {
                 SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
                 while (results.next()) {
@@ -72,10 +72,11 @@ import java.util.List;
     public Food mapRowToFood(SqlRowSet rs) {
         Food fd = new Food();
         fd.setFoodId(rs.getInt("id"));
+        fd.setMealId(rs.getInt("meal_id"));
+        fd.setfoodName(rs.getString("food_name"));
         fd.setFoodType(rs.getString("food_type"));
         fd.setServingSize(rs.getInt("serving_size"));
         fd.setCalories(rs.getDouble("calories"));
-        fd.setMealId(rs.getInt("meal_id"));
         fd.setNumOfServings(rs.getInt("number_of_servings"));
         return fd;
     }

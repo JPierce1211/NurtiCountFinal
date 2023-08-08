@@ -5,6 +5,8 @@ public class Food {
 
     private int mealId;
 
+    private String foodName;
+
     private String foodType;
 
     private int servingSize;
@@ -13,13 +15,22 @@ public class Food {
 
     private int numOfServings;
 
-    public Food(int foodId, int mealId, String foodType, int servingSize, double calories, int numOfServings) {
+    public Food(int foodId, int mealId, String foodName, String foodType, int servingSize, double calories, int numOfServings) {
         this.foodId = foodId;
         this.mealId = mealId;
+        this.foodName = foodName;
         this.foodType = foodType;
         this.servingSize = servingSize;
         this.calories = calories;
         this.numOfServings = numOfServings;
+    }
+
+    public String getFoodName() {
+        return foodName;
+    }
+
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 
     public Food() {
