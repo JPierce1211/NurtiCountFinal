@@ -3,6 +3,7 @@ package com.techelevator.controller;
 import com.techelevator.dao.JdbcMealsDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Meals;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,9 +29,27 @@ public class MealsController {
         return meals;
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create-meal")
     public Meals createMeal(@RequestBody Meals meals){
         return mealsDao.createMeal(meals);
+    }
+
+    @PutMapping("/meals/{id}")
+    public Meals update(@RequestBody Meals meals, @PathVariable int id){
+        meals.setMealId(id);
+        try{
+            Meals updateMeal = mealsDao.updateMeals(meals);
+            return updateMeal;
+        }catch (DaoException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found.");
+        }
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/meals/{id}")
+    public void delete(@PathVariable int id){
+        int deleteMeal = mealsDao.deleteMealById(id);
     }
 }
 

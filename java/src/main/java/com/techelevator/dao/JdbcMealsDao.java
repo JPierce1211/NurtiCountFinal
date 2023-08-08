@@ -67,7 +67,7 @@ public class JdbcMealsDao implements MealsDao {
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data intgerity violation", e);
+            throw new DaoException("Data integrity violation", e);
         }
         return updateMeals;
     }
