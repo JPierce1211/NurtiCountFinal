@@ -61,7 +61,7 @@ public class AuthenticationController {
         try {
             User user = userDao.createUser(newUser);
             if (user == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User registration failed.");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Name is Invalid.");
             }
         } catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User registration failed.");

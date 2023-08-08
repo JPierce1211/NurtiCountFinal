@@ -6,6 +6,7 @@ import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import store from '../store/index.js'
 import Profile from '../views/Profile.vue'
+import createProfile from '../views/CreateProfile.vue'
 
 Vue.use(Router)
 
@@ -23,7 +24,7 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/:id',
+      path: '/',
       name: 'home',
       component: Home,
       meta: {
@@ -63,7 +64,7 @@ const router = new Router({
     {
       path: "/create-profile/:id",
       name: "createProfile",
-      component: Profile,
+      component: createProfile,
 
     },
     {

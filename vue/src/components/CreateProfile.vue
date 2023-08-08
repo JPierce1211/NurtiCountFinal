@@ -2,6 +2,15 @@
   <div>
     <form @submit.prevent="submitForm">
          <div>
+              <label for="gender">
+                Sex:
+              </label>
+              <select id="gender" v-model="gender">
+                <option value="M"> Male </option>
+                <option value="F"> Female </option>
+              </select>
+
+
               <label for="height">Height:</label>
               <select id="height" v-model="height">
                 <option value="53">4' 5"</option>
@@ -51,8 +60,30 @@
         <input type="date" id="birthdate" v-model="birthdate" />
       </div>
       <div>
-        <label for="profile_pic_id">Profile Picture ID:</label>
-        <input type="dropbox" id="profile_pic_id" v-model="profilePicId" />
+        <label for="profile_pic_id">Profile Picture:</label>
+
+        <label>
+        <input type="radio" id="profilePics" name="profilePic" v-model="profilePicId" value="01" />
+        <img :src="imgPP01" alt="Man">
+      </label>
+      <label>
+        <input type="radio" id="profilePics" name="profilePic" v-model="profilePicId" value="02" />
+        <img :src="imgPP02" alt="Flower">
+      </label>
+      <label>
+        <input type="radio" id="profilePics" name="profilePic" v-model="profilePicId" value="03" />
+        <img :src="imgPP03" alt="Runners">
+      </label>
+      <label>
+        <input type="radio" id="profilePics" name="profilePic" v-model="profilePicId" value="04" />
+        <img :src="imgPP04" alt="Music Note">
+      </label>
+      <label>
+        <input type="radio" id="profilePics" name="profilePic" v-model="profilePicId" value="05" />
+        <img :src="imgPP05" alt="The Healthiest of Meals">
+      </label>
+
+
       </div>
       <div>
         <label for="starting_weight">Starting Weight:</label>
@@ -71,45 +102,86 @@ export default
   {
     return {
       profile: 
-      {  
+      { 
+        userId: '', 
         height: '',
+        gender: '',
         displayName: '',
         birthdate: '',
         profilePicId: '',
-        startingWeight: 0
+        startingWeight: ''
       }
     }; 
- },
+  },
+
+  computed: 
+  {
+    imgPP01() { 
+      return require('../imgs/pngs/01.png')
+    },
+    imgPP02() { 
+      return require('../imgs/pngs/02.png')
+    },
+    imgPP03() { 
+      return require('../imgs/pngs/03.png')
+    },
+    imgPP04() { 
+      return require('../imgs/pngs/04.png')
+    },
+    imgPP05() { 
+      return require('../imgs/pngs/05.png')
+    },
+  },
  
-    methods: 
-    {
-        submitForm() 
-        {
+  methods: 
+  {
+      submitForm() 
+      {
+        //let hasProfile = true;
         const formData = 
         {
-                userId: Number(this.$route.params.userId),
-               // profileId: Number(this.$route.params.profileId),
-                height: this.height,
-                display_name: this.displayName,
-                birthdate: this.birthdate,
-                profile_pic_id: this.profilePicId,
-                starting_weight: this.startingWeight
+          userId: this.$store.state.profile.userId, 
+          height: this.profile.height,
+          gender: this.profile.gender,
+          display_name: this.profile.displayName,
+          birthdate: this.profile.birthdate,
+          profile_pic_id: this.profile.profilePicId,
+          starting_weight: this.profile.startingWeight
         };
-        //CardForm kanabn 
-        if(this.userId === 0){
-            ProfileService
-                .createProfile(formData)
-                .then(response => {
-                    if (response.status === 201){
-                        this.$router.push(`/${formData.userId}`);
-                    }
-                })
-                .catch(error => {
-                    this.handleErrorResponse(error, "updating");
-                });
-            } 
-        },   
-    },
+        ProfileService
+          .createProfile(formData.userId, formData)
+          .then(response => 
+          {
+              if (response.status === 201)
+              {      
+                this.$store.state.user.hasProfile = true; //This could create errors later down the line. 
+                this.$router.push(`/`);                     
+              }
+          })
+          .catch(error => 
+          {
+              this.handleErrorResponse(error, "updating");
+          });
+
+ 
+
+    }, 
+    handleErrorResponse(error, verb) 
+    {
+      if (error.response) {
+        this.errorMsg =
+          "Error " + verb + " card. Response received was '" +
+          error.response.statusText +
+          "'.";
+      } else if (error.request) {
+        this.errorMsg =
+          "Error " + verb + " card. Server could not be reached.";
+      } else {
+        this.errorMsg =
+          "Error " + verb + " card. Request could not be created.";
+      }
+    }  
+  },
 }
 </script>
 

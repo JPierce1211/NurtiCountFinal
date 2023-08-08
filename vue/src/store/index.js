@@ -38,6 +38,7 @@ export default new Vuex.Store({
     },
     SET_USER(state, user) {
       state.user = user;
+      state.profile.userId = user.id;
       localStorage.setItem('user',JSON.stringify(user));
     },
     LOGOUT(state) {
