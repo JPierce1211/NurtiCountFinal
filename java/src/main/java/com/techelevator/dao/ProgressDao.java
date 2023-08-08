@@ -12,6 +12,8 @@ public interface ProgressDao {
 
     List<Progress> getProgressByDate(LocalDate date);
 
+    List<Progress> getProgressByTimeframe(LocalDate fromDate, LocalDate toDate);
+
     Progress getProgressByProfileId(int profileId);
 
     Progress getProgressByProgressId(int progressId);
