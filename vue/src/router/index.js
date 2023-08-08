@@ -55,16 +55,21 @@ const router = new Router({
       }
     },
     {
-      path:"/profile/",
+      path:"/profile/${id}",
       name:"profile",
       component: Profile,
 
     },
     {
-      path:"/create-profile/",
+      path:"/create-profile/${id}",
       name:"createProfile",
       component: Profile,
 
+    },
+    {
+      path:"/profile/${id}/edit",
+      name:"edit-profile",
+      component: Profile,
     },
   ]
 })
