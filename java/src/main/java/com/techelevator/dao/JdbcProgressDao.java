@@ -25,7 +25,7 @@ public class JdbcProgressDao implements ProgressDao{
     }
 
     @Override
-    public List<Progress> list(){
+    public List<Progress> list(){ //List all progress in one place
         List<Progress> progressCheckPoints = new ArrayList<>();
         String sql = "SELECT profile_id, current_weight, desired_weight, bmi, log_day FROM progress;";
         try {
@@ -41,7 +41,7 @@ public class JdbcProgressDao implements ProgressDao{
     }
 
     @Override
-    public List<Progress> getProgressByDate(LocalDate date){
+    public List<Progress> getProgressByDate(LocalDate date){ //Retrieve a specific progress log by a certain date
         List<Progress> progressDate = new ArrayList<>();
         String sql = "SELECT profile_id, current_weight, desired_weight, bmi, log_day " +
                 "FROM progress " +
@@ -60,7 +60,25 @@ public class JdbcProgressDao implements ProgressDao{
     }
 
     @Override
-    public Progress getProgressByProfileId(int profileId){
+    public List<Progress> getProgressByTimeframe(LocalDate fromDate, LocalDate toDate){ //Viewing trajectories based on timeframes
+        List<Progress> progressChart = new ArrayList<>();
+        String sql = "SELECT profile_id, current_weight, desired_weight, bmi, log_day " +
+                "FROM progress " +
+                "WHERE log_day BETWEEN ? AND ? " +
+                "ORDER BY log_day;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, fromDate, toDate);
+            while (results.next()) {
+                progressChart.add(mapRowToProgress(results));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return progressChart;
+    }
+
+    @Override
+    public Progress getProgressByProfileId(int profileId){ //Get all progress by the profile to be ready to display
         Progress progress = null;
         String sql = "SELECT progress_id, profile_id, current_weight, desired_weight, bmi, log_day " +
                 "FROM progress " +
@@ -76,7 +94,7 @@ public class JdbcProgressDao implements ProgressDao{
         return progress;
     }
 
-    public Progress getProgressByProgressId(int progressId){
+    public Progress getProgressByProgressId(int progressId){ //Specific progress point
         Progress progress = null;
         String sql = "SELECT profile_id, current_weight, desired_weight, bmi, log_day " +
                 "FROM progress " +
@@ -93,7 +111,7 @@ public class JdbcProgressDao implements ProgressDao{
     }
 
     @Override
-    public Progress createProgress(Progress progress){
+    public Progress createProgress(Progress progress){ //Allows user to log a new progress point
         Progress newProgress = null;
         String sql = "INSERT INTO progress (profile_id, current_weight, desired_weight, bmi, log_day) " +
                 "VALUES (?, ?, ?, ?, ?) RETURNING progress_id;";
@@ -112,7 +130,7 @@ public class JdbcProgressDao implements ProgressDao{
     }
 
     @Override
-    public Progress updateProgress(Progress progress){
+    public Progress updateProgress(Progress progress){ //Allows user to update current progress
         Progress updateProgress = null;
         String sql = "UPDATE progress SET profile_id = ?, current_weight = ?, desired_weight = ?, bmi  = ?, log_day = ? " +
                 "WHERE progress_id = ?;";
