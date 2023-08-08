@@ -9,6 +9,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class JdbcProgressDao implements ProgressDao{
 
@@ -21,13 +25,64 @@ public class JdbcProgressDao implements ProgressDao{
     }
 
     @Override
-    public Progress getProgressById(int profileId){
-        Progress progress = null;
+    public List<Progress> list(){
+        List<Progress> progressCheckPoints = new ArrayList<>();
+        String sql = "SELECT profile_id, current_weight, desired_weight, bmi, log_day FROM progress;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            while (results.next()){
+                Progress progress = mapRowToProgress(results);
+                progressCheckPoints.add(progress);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return progressCheckPoints;
+    }
+
+    @Override
+    public List<Progress> getProgressByDate(LocalDate date){
+        List<Progress> progressDate = new ArrayList<>();
         String sql = "SELECT profile_id, current_weight, desired_weight, bmi, log_day " +
+                "FROM progress " +
+                "WHERE log_day = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, date);
+            while (results.next()){
+                Progress progress = mapRowToProgress(results);
+                progressDate.add(progress);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return progressDate;
+
+    }
+
+    @Override
+    public Progress getProgressByProfileId(int profileId){
+        Progress progress = null;
+        String sql = "SELECT progress_id, profile_id, current_weight, desired_weight, bmi, log_day " +
                 "FROM progress " +
                 "WHERE profile_id = ?;";
         try{
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, profileId);
+            if (results.next()){
+                progress = mapRowToProgress(results);
+            }
+        }catch (CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return progress;
+    }
+
+    public Progress getProgressByProgressId(int progressId){
+        Progress progress = null;
+        String sql = "SELECT profile_id, current_weight, desired_weight, bmi, log_day " +
+                "FROM progress " +
+                "WHERE progress_id = ?;";
+        try{
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, progressId);
             if (results.next()){
                 progress = mapRowToProgress(results);
             }
@@ -47,7 +102,7 @@ public class JdbcProgressDao implements ProgressDao{
             int newProgressId = jdbcTemplate.queryForObject(sql, int.class, profileDao.getProfileById(progress.getProfileId()),
                     progress.getCurrentWeight(), progress.getDesiredWeight(), progress.getBmi(), progress.getDate());
 
-            newProgress = getProgressById(newProgressId);
+            newProgress = getProgressByProfileId(newProgressId);
         }catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to the server or database", e);
         }catch (DataIntegrityViolationException e) {
@@ -67,7 +122,7 @@ public class JdbcProgressDao implements ProgressDao{
             if(numberOfRows == 0){
                 throw new DaoException("Zero rows affected, expected at least one");
             }else{
-                updateProgress = getProgressById(progress.getProfileId());
+                updateProgress = getProgressByProgressId(progress.getProgressId());
             }
         }catch(CannotGetJdbcConnectionException e){
             throw new DaoException("Unable to connect to server or database", e);
@@ -80,6 +135,7 @@ public class JdbcProgressDao implements ProgressDao{
 
     private Progress mapRowToProgress(SqlRowSet rs){
         Progress progress = new Progress();
+        progress.setProgressId(rs.getInt("progress_id"));
         progress.setProfileId(rs.getInt("profile_id"));
         progress.setCurrentWeight(rs.getDouble("current_weight"));
         progress.setDesiredWeight(rs.getDouble("desired_weight"));
