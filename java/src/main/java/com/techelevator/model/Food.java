@@ -23,7 +23,7 @@ public class Food {
     }
 
     public Food() {
-        
+
     }
 
     public int getFoodId() {
