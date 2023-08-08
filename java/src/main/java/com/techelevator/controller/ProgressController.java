@@ -2,12 +2,12 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.ProfileDao;
 import com.techelevator.dao.ProgressDao;
+import com.techelevator.model.Profile;
 import com.techelevator.model.Progress;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,9 +26,24 @@ public class ProgressController {
         this.profileDao = profileDao;
     }
 
-    @GetMapping("progress")
+    @GetMapping("profile/progress")
     public List<Progress> listAllProgress(){
         return progressDao.list();
     }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("profile/{id}/create-process")
+    public Progress create(Progress progress, @PathVariable int profileId){
+        Profile profile = profileDao.getProfileById(profileId);
+        Progress newProgress = progressDao.createProgress(progress);
+
+        return null;
+    }
+
+    @PutMapping("profile/{id}/progress/update")
+    public Progress update(Progress progress){
+        return progressDao.updateProgress(progress);
+    }
+
 
 }
