@@ -34,12 +34,12 @@ public class ProfileController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create-profile/{id}")
-    public Profile create(@RequestBody Profile profile, @PathVariable int profileId, Principal principal){
+    public Profile create(@RequestBody Profile profile, @PathVariable int userId, Principal principal){
         Profile newProfile = profileDao.createProfile(profile);
         return newProfile;
     }
 
-    @PutMapping("/profile/${id}/edit")
+    @PutMapping("/profile/{id}/edit")
     public Profile update(@RequestBody Profile profile, @PathVariable int profileId, Principal principal){
         Profile updateProfile = profileDao.updateProfile(profile);
         return updateProfile;
