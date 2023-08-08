@@ -18,17 +18,17 @@ public class FoodController {
         this.foodDao = foodDao;
     }
 
-    @GetMapping("")
-    public List<Food> getAllFood(){
+    @GetMapping("/profile/{id}/food")
+    public List<Food> listAllFood(){
         return null;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/profile/{id}/food/{id}")
     public FoodDao getFoodById(int id){
         return null;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/profile/{id}/food/{id}")
     public FoodDao deleteFoodById(int id){
         return null;
     }
