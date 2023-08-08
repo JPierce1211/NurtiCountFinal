@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class Progress {
 
+    private int progressId;
     private int profileId;
     private double currentWeight;
 
@@ -15,12 +16,21 @@ public class Progress {
 
     public Progress (){};
 
-    public Progress(int profileId, double currentWeight, double desiredWeight, double bmi, LocalDate date) {
+    public Progress(int progressId, int profileId, double currentWeight, double desiredWeight, double bmi, LocalDate date) {
+        this.progressId = progressId;
         this.profileId = profileId;
         this.currentWeight = currentWeight;
         this.desiredWeight = desiredWeight;
         this.bmi = bmi;
         this.date = date;
+    }
+
+    public int getProgressId() {
+        return progressId;
+    }
+
+    public void setProgressId(int progressId) {
+        this.progressId = progressId;
     }
 
     public int getProfileId() {
