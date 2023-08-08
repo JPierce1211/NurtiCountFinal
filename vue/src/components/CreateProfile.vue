@@ -63,7 +63,7 @@
   </div>
 </template>
 <script>
-import profileService from "../services/ProfileService";
+import ProfileService from "../services/ProfileService";
 
 export default 
 {
@@ -97,8 +97,8 @@ export default
         };
         //CardForm kanabn 
         if(this.userId === 0){
-            profileService
-                .addProfile(formData)
+            ProfileService
+                .createProfile(formData)
                 .then(response => {
                     if (response.status === 201){
                         this.$router.push(`/profile/${formData.userId}`);
