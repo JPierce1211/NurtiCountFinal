@@ -23,6 +23,7 @@ CREATE TABLE user_profile (
 	profile_id serial,
 	birthday date NOT NULL,
 	height decimal NOT NULL,
+	gender varchar(1) NOT NULL,
 	starting_weight decimal NOT NULL,
 	display_name varchar(12) NOT NULL,
 	profile_pic_id int NOT NULL
