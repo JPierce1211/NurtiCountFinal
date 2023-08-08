@@ -5,6 +5,7 @@ import com.techelevator.model.Meals;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,14 @@ public class JdbcMealsDao implements MealsDao {
     @Override
     public Meals updateMeals(Meals meals){
         Meals updateMeals = null;
-        String sql 
+        String sql = "UPDATE meal_user SET log_day = ?, meal_type = ? WHERE meal_id = ?";
+        try{
+            int rowsAffected = jdbcTemplate.update(sql, meals.getMealId(), meals.getMealType(), meals.getMealDate());
+            if(rowsAffected == 0){
+                throw new DaoException("Zero rows affected, expected at least one");
+        }
+            updateMeals = getMealById(meals.getMealId());
+
     }
 //    @Override
 //    public Meals createMeal(Meals meals){
@@ -53,9 +61,9 @@ public class JdbcMealsDao implements MealsDao {
     private Meals mapRowToMeals(SqlRowSet sql){
         Meals meals = new Meals();
         meals.setMealId(sql.getInt("meal_id"));
-        meals.getMealDate(sql.getDate("log_day").toLocalDate());
-        meals.getUserId(sql.getInt("user_id"));
-        meals.getMealType(sql.getString("meal_type"));
+        meals.setMealDate(sql.getDate("log_day").toLocalDate());
+        meals.setUserId(sql.getInt("user_id"));
+        meals.setMealType(sql.getString("meal_type"));
         return meals;
     }
 }

@@ -28,7 +28,7 @@ public class Meals {
         this.mealId = mealId;
     }
 
-    public String getMealType(String mealType) {
+    public String getMealType() {
         return mealType;
     }
 
@@ -36,7 +36,7 @@ public class Meals {
         this.mealType = mealType;
     }
 
-    public LocalDate getMealDate(LocalDate mealDate) {
+    public LocalDate getMealDate() {
         return mealDate;
     }
 
