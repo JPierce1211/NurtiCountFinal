@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JdbcProfileDao implements ProfileDao{
 
-    UserDao userDao;
+    private UserDao userDao;
     private JdbcTemplate jdbcTemplate;
 
     public JdbcProfileDao(JdbcTemplate jdbcTemplate, UserDao userDao) {
