@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class Profile {
 
+    private int userId;
     private int profileId;
 
     private double height; //Most fitness and health app measure height in meters
@@ -14,19 +15,28 @@ public class Profile {
 
     private LocalDate birthday;
 
-    private String profilePicture; //URL string???
-
     private double startingWeight; //Will display as pounds
+
+    private int profilePicId;
 
     public Profile() {};
 
-    public Profile(int profileId, double height, String displayName, LocalDate birthday, String profilePicture, double startingWeight){
+    public Profile(int userId, int profileId, double height, String displayName, LocalDate birthday, double startingWeight, int profilePicId){
+        this.userId = userId;
         this.profileId = profileId;
         this.height = height;
         this.displayName = displayName;
         this.birthday = birthday;
-        this.profilePicture = profilePicture;
         this.startingWeight = startingWeight;
+        this.profilePicId = profilePicId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getProfileId() {
@@ -61,19 +71,19 @@ public class Profile {
         this.birthday = birthday;
     }
 
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
     public double getStartingWeight() {
         return startingWeight;
     }
 
     public void setStartingWeight(double startingWeight) {
         this.startingWeight = startingWeight;
+    }
+
+    public int getProfilePicId() {
+        return profilePicId;
+    }
+
+    public void setProfilePicId(int profilePicId) {
+        this.profilePicId = profilePicId;
     }
 }

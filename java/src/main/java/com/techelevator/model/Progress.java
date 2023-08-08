@@ -1,9 +1,10 @@
 package com.techelevator.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 
-public class Goals {
+public class Progress {
+
+    private int profileId;
     private double currentWeight;
 
     private double desiredWeight;
@@ -12,11 +13,22 @@ public class Goals {
 
     private LocalDate date;
 
-    public Goals(double currentWeight, double desiredWeight, double bmi, LocalDate date) {
+    public Progress (){};
+
+    public Progress(int profileId, double currentWeight, double desiredWeight, double bmi, LocalDate date) {
+        this.profileId = profileId;
         this.currentWeight = currentWeight;
         this.desiredWeight = desiredWeight;
         this.bmi = bmi;
         this.date = date;
+    }
+
+    public int getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(int profileId) {
+        this.profileId = profileId;
     }
 
     public double getCurrentWeight() {
@@ -51,4 +63,3 @@ public class Goals {
         this.date = date;
     }
 }
-
