@@ -5,6 +5,7 @@ import com.techelevator.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcFoodDao implements FoodDao{
@@ -19,6 +20,10 @@ public class JdbcFoodDao implements FoodDao{
     }
 
     public List<Food> getFood() {
+        List<Food> foodList = new ArrayList<>();
+        String sql = "SELECT id, "
+    }
+    public Food deleteFoodById(){
         return null;
     }
 
