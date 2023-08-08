@@ -24,12 +24,12 @@
       <h2>Some info about consecutive meals</h2>
     </div>
     <div class="body-health">
-      <h1 id="health-info">Current Health Info<h1>
+      <h1 id="health-info">Current Health Info</h1>
        <h2>Some info about current health</h2> 
     </div>
     <div>
       <h1>Last Meal Logged:</h1>
-      <h2>Date of the last time food was logged<h2>
+      <h2>Date of the last time food was logged</h2>
     </div> 
 
     </div>
