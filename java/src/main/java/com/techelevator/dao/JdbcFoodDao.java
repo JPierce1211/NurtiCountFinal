@@ -7,11 +7,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-    public class JdbcFoodDao implements FoodDao {
+@Component
+public class JdbcFoodDao implements FoodDao {
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcFoodDao(JdbcTemplate jdbcTemplate) {
@@ -68,7 +70,6 @@ import java.util.List;
 //        return null;
 //    }
 
-    @Override
     public Food mapRowToFood(SqlRowSet rs) {
         Food fd = new Food();
         fd.setFoodId(rs.getInt("id"));

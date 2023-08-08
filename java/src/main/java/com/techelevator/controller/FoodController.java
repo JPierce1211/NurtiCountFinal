@@ -4,15 +4,16 @@ import com.techelevator.dao.FoodDao;
 import com.techelevator.dao.MealsDao;
 import com.techelevator.model.Food;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin
 @Component
 @RestController
-@RequestMapping
 public class FoodController {
 
     private FoodDao foodDao;
@@ -27,7 +28,7 @@ public class FoodController {
         return null;
     }
 
-    @GetMapping("/profile/{id}/food/{id}")
+    @GetMapping("/food/{id}")
     public FoodDao getFoodById(int foodId){
         return null;
     }
