@@ -1,25 +1,13 @@
-<!--
+
 <template>
-  
+  <edit-profile />
 </template>
 
 <script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style><template>
-  <profile />
-</template>
-
-<script>
-import Profile from '../components/Profile.vue'
+import editProfile from '../components/EditProfile.vue'
 export default {
   components: { 
-      Profile 
+      editProfile 
       },
 
 }
@@ -28,4 +16,3 @@ export default {
 <style>
 
 </style>
--->
