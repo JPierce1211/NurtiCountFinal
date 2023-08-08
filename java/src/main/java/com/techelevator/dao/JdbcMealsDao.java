@@ -19,16 +19,6 @@ public class JdbcMealsDao implements MealsDao{
     }
 
     @Override
-    public Meals getMealByProfile(int profileId){
-        String sql = "SELECT * FROM meal_user WHERE user_id = ?";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-        if (results.next()) {
-            return mapRowToMeals(results);
-        }
-        throw new DaoException("meal_user" + profileId + "was not found");
-    }
-
-    @Override
     public List<Meals> findAllById(){
         List<Meals> meals = new ArrayList<>();
         String sql = "SELECT * FROM meal_user WHERE user_id = ?";
@@ -56,6 +46,28 @@ public class JdbcMealsDao implements MealsDao{
     }
 
     @Override
+    public Meals getMealByProfile(int profileId){
+        String sql = "SELECT * FROM meal_user WHERE user_id = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        if (results.next()) {
+            return mapRowToMeals(results);
+        }
+        throw new DaoException("meal_user" + profileId + "was not found");
+    }
+    @Override
+    public int deleteMealById(int mealId){
+        int numberOfRows = 0;
+        String sql = "DELETE FROM meal_user WHERE meal_id = ?";
+        try{
+            numberOfRows = jdbcTemplate.update(sql, mealId);
+        }catch (CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to server or database", e);
+        }catch (DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation", e);
+        }
+        return numberOfRows;
+    }
+    @Override
     public Meals updateMealsById(Meals meals){
         Meals updateMeals = null;
         String sql = "UPDATE meal_user m JOIN food f ON m.meal_type SET log_day = ?, meal_type = ? WHERE meal_id = ?";
@@ -72,25 +84,13 @@ public class JdbcMealsDao implements MealsDao{
         }
         return updateMeals;
     }
-    public int deleteMealById(int mealId){
-        int numberOfRows = 0;
-        String sql = "DELETE FROM meal_user WHERE meal_id = ?";
-        try{
-            numberOfRows = jdbcTemplate.update(sql, mealId);
-        }catch (CannotGetJdbcConnectionException e){
-            throw new DaoException("Unable to connect to server or database", e);
-        }catch (DataIntegrityViolationException e){
-            throw new DaoException("Data integrity violation", e);
-        }
-        return numberOfRows;
 
-    }
     private Meals mapRowToMeals(SqlRowSet sql){
         Meals meals = new Meals();
         meals.setMealId(sql.getInt("meal_id"));
-        meals.setMealDate(sql.getDate("log_day").toLocalDate());
         meals.setProfileId(sql.getInt("user_id"));
         meals.setMealType(sql.getString("meal_type"));
+        meals.setMealDate(sql.getDate("log_day").toLocalDate());
         return meals;
     }
 }
