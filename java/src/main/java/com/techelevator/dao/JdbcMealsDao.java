@@ -12,25 +12,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JdbcMealsDao implements MealsDao {
+public class JdbcMealsDao implements MealsDao{
     private final JdbcTemplate jdbcTemplate;
     public JdbcMealsDao(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public Meals getMealById(int mealId){
-        String sql = "SELECT * FROM meal_user WHERE meal_id = ?";
+    public Meals getMealByProfile(int profileId){
+        String sql = "SELECT * FROM meal_user WHERE user_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         if (results.next()) {
             return mapRowToMeals(results);
         }
-        throw new DaoException("meal_user" + mealId + "was not found");
+        throw new DaoException("meal_user" + profileId + "was not found");
     }
+
     @Override
-    public List<Meals> findAll(){
+    public List<Meals> findAllById(){
         List<Meals> meals = new ArrayList<>();
-        String sql = "SELECT * FROM meal_user";
+        String sql = "SELECT * FROM meal_user WHERE user_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while(results.next()){
             Meals meal = mapRowToMeals(results);
@@ -42,10 +43,10 @@ public class JdbcMealsDao implements MealsDao {
     @Override
     public Meals createMeal(Meals meals) {
         Meals newMeal = null;
-        String sql = "INSERT INTO meal_user (meal_type, log_day) VALUES (?,?) Returning meal_id";
+        String sql = "INSERT INTO meal_user (meal_type, log_day) VALUES (?,?) WHERE user_id = ? Returning meal_id";
         try {
             int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getMealType(), meals.getMealDate());
-            newMeal = getMealById(mealId);
+            newMeal = getMealByProfile(mealId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
@@ -55,15 +56,15 @@ public class JdbcMealsDao implements MealsDao {
     }
 
     @Override
-    public Meals updateMeals(Meals meals){
+    public Meals updateMealsById(Meals meals){
         Meals updateMeals = null;
-        String sql = "UPDATE meal_user SET log_day = ?, meal_type = ? WHERE meal_id = ?";
+        String sql = "UPDATE meal_user m JOIN food f ON m.meal_type SET log_day = ?, meal_type = ? WHERE meal_id = ?";
         try {
             int rowsAffected = jdbcTemplate.update(sql, meals.getMealId(), meals.getMealType(), meals.getMealDate());
             if (rowsAffected == 0) {
                 throw new DaoException("Zero rows affected, expected at least one");
             }
-            updateMeals = getMealById(meals.getMealId());
+            updateMeals = getMealByProfile(meals.getMealId());
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
@@ -71,11 +72,11 @@ public class JdbcMealsDao implements MealsDao {
         }
         return updateMeals;
     }
-    public int deleteMealById(int id){
+    public int deleteMealById(int mealId){
         int numberOfRows = 0;
         String sql = "DELETE FROM meal_user WHERE meal_id = ?";
         try{
-            numberOfRows = jdbcTemplate.update(sql, id);
+            numberOfRows = jdbcTemplate.update(sql, mealId);
         }catch (CannotGetJdbcConnectionException e){
             throw new DaoException("Unable to connect to server or database", e);
         }catch (DataIntegrityViolationException e){
@@ -88,7 +89,7 @@ public class JdbcMealsDao implements MealsDao {
         Meals meals = new Meals();
         meals.setMealId(sql.getInt("meal_id"));
         meals.setMealDate(sql.getDate("log_day").toLocalDate());
-        meals.setUserId(sql.getInt("user_id"));
+        meals.setProfileId(sql.getInt("user_id"));
         meals.setMealType(sql.getString("meal_type"));
         return meals;
     }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 @Component
 @PreAuthorize("isAuthenticated()")
@@ -24,39 +25,77 @@ public class MealsController {
 
     public MealsController(JdbcMealsDao mealsDao, JdbcProfileDao profileDao){
         this.mealsDao = mealsDao;
+        this.profileDao = profileDao;
     }
 
-    @GetMapping("/meals")
-    public List<Meals> listMeals(){
-       return mealsDao.findAll();
+    @GetMapping("/profile/{id}/meals")
+    public List<Meals> listMeals(@PathVariable int profileId){
+        Profile profile = profileDao.getProfileById(profileId);
+        if(profile != null){
+            return mealsDao.findAllById();
+        }else{
+        }
+            return null;
     }
-    @GetMapping("/meals/{id}")
-    public Meals get(@PathVariable int mealsId){
-        Meals meals = mealsDao.getMealById(mealsId);
-        return meals;
-    }
+    @GetMapping("/profile/{id}/meals/{id}")
+    public Meals get(@PathVariable int profileId, @PathVariable int mealsId) {
+        Profile profile = profileDao.getProfileById(profileId);
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/create-meal")
-    public Meals createMeal(@RequestBody Meals meals){
-        return mealsDao.createMeal(meals);
-    }
-
-    @PutMapping("/meals/{id}")
-    public Meals update(@RequestBody Meals meals, @PathVariable int id){
-        meals.setMealId(id);
-        try{
-            Meals updateMeal = mealsDao.updateMeals(meals);
-            return updateMeal;
-        }catch (DaoException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found.");
+        if (profile != null) {
+            Meals meals = mealsDao.getMealByProfile(mealsId);
+            return meals;
+        } else {
+            return null;
         }
     }
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/profile/{id}/create-meal")
+    public Meals createMeal(@PathVariable int profileId, @RequestBody Meals meals){
+        Profile profile = profileDao.getProfileById(profileId);
+        if(profile != null){
+            return mealsDao.createMeal(meals);
+        }else{
+            return null;
+        }
 
+    }
+
+    @PutMapping("/profile/{id}/meals/{id}")
+    public Meals update(@PathVariable int profileId, @RequestBody Meals updatedMeal, @PathVariable int mealId){
+        Profile profile = profileDao.getProfileById(profileId);
+        if(profile != null){
+            Meals updatedMeals = mealsDao.getMealByProfile(mealId);
+            if(updatedMeals != null) {
+                updatedMeal.setProfileId(profileId);
+                updatedMeal.setMealId(mealId);
+                updatedMeal.setMealDate(updatedMeal.getMealDate());
+                updatedMeal.setMealType(updatedMeal.getMealType());
+
+                try {
+                    Meals updateMeal = mealsDao.updateMealsById(updatedMeal);
+                    return updateMeal;
+                } catch (DaoException e) {
+                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to update meal");
+                }
+//                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found");
+                }
+            }else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found");
+        }
+               return updatedMeal;
+            }
+
+    //meals.setMealId(mealId);
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/meals/{id}")
-    public void delete(@PathVariable int id){
-        int deleteMeal = mealsDao.deleteMealById(id);
+    @DeleteMapping("/profile/{id}/meals/{id}")
+    public void delete(@PathVariable int mealId, @PathVariable int profileId){
+        Profile profile = profileDao.getProfileById(profileId);
+        if(profile != null){
+            int deleteMeal = mealsDao.deleteMealById(mealId);
+        }
+        if(mealsDao.deleteMealById(mealId) != 1){
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Meal not found");
+        }
     }
 }
 
