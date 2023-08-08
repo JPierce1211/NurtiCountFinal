@@ -73,7 +73,7 @@ import java.util.List;
         Food fd = new Food();
         fd.setFoodId(rs.getInt("id"));
         fd.setMealId(rs.getInt("meal_id"));
-        fd.setfoodName(rs.getString("food_name"));
+        fd.setFoodName(rs.getString("food_name"));
         fd.setFoodType(rs.getString("food_type"));
         fd.setServingSize(rs.getInt("serving_size"));
         fd.setCalories(rs.getDouble("calories"));
