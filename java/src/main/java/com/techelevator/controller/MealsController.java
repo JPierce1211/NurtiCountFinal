@@ -1,21 +1,28 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.JdbcMealsDao;
+import com.techelevator.dao.JdbcProfileDao;
+import com.techelevator.dao.ProfileDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Meals;
+import com.techelevator.model.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-
+@Component
+@PreAuthorize("isAuthenticated()")
 @RestController
 public class MealsController {
     private JdbcTemplate jdbcTemplate;
     private JdbcMealsDao mealsDao;
+    private ProfileDao profileDao;
 
-    public MealsController(JdbcMealsDao mealsDao){
+    public MealsController(JdbcMealsDao mealsDao, JdbcProfileDao profileDao){
         this.mealsDao = mealsDao;
     }
 
