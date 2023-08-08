@@ -32,7 +32,7 @@ CREATE TABLE user_profile (
 
 CREATE TABLE meal_user (
 	meal_id serial,
-	user_id int,
+	profile_id int,   ---DONT SAVE ******* ALSO.. MAKE CONSTRAINTS!!
 	meal_type varchar(10) NOT NULL,
 	log_day date NOT NULL
 );
@@ -40,6 +40,7 @@ CREATE TABLE meal_user (
 CREATE TABLE food (
 	food_id serial,
 	meal_id int NOT NULL,
+	food_name varchar(100) NOT NULL,
 	food_type varchar(50) NOT NULL,
 	serving_size decimal NOT NULL,
 	calories decimal NOT NULL,
