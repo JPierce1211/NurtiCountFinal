@@ -55,14 +55,14 @@ const router = new Router({
       }
     },
     {
-      path:"/profile/${id}",
+      path:"/profile/",
       name:"profile",
       component: Profile,
 
     },
     {
-      path:"/create-profile/${id}",
-      name:"profile",
+      path:"/create-profile/",
+      name:"createProfile",
       component: Profile,
 
     },

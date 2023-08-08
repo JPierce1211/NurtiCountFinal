@@ -63,39 +63,54 @@
   </div>
 </template>
 <script>
-export default {
-  data() {
+import profileService from "../services/ProfileService";
+
+export default 
+{
+  data() 
+  {
     return {
-      profile: {  
-      height: '',
-      displayName: '',
-      birthdate: '',
-      profilePicId: '',
-      startingWeight: 0
+      profile: 
+      {  
+        height: '',
+        displayName: '',
+        birthdate: '',
+        profilePicId: '',
+        startingWeight: 0
       }
     }; 
  },
  
-//   methods: {
-//     submitForm() {
-// //      // const formData = {
-// //        // height: this.height,
-// //         //display_name: this.displayName,
-// //         birthdate: this.birthdate,
-// //         profile_pic_id: this.profilePicId,
-// //         starting_weight: this.startingWeight
-// //       };
-// //          // Do something with formData, such as sending it to an API or processing it
-// //       // Optionally, you can reset the form fields after submission
-// //       this.height = '';
-// //       this.displayName = '';
-// //       this.birthdate = '';
-// //       this.profilePicId = '';
-// //       this.startingWeight = 0;
-// //     }
-// //   }
-// } 
-}   
+    methods: 
+    {
+        submitForm() 
+        {
+        const formData = 
+        {
+                userId: Number(this.$route.params.userId),
+               // profileId: Number(this.$route.params.profileId),
+                height: this.height,
+                display_name: this.displayName,
+                birthdate: this.birthdate,
+                profile_pic_id: this.profilePicId,
+                starting_weight: this.startingWeight
+        };
+        //CardForm kanabn 
+        if(this.userId === 0){
+            profileService
+                .addProfile(formData)
+                .then(response => {
+                    if (response.status === 201){
+                        this.$router.push(`/profile/${formData.userId}`);
+                    }
+                })
+                .catch(error => {
+                    this.handleErrorResponse(error, "updating");
+                });
+            } 
+        },   
+    },
+}
 </script>
 
 <style>
