@@ -1,6 +1,6 @@
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users,progress,user_profile,meal_user,food,profile_img;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -15,7 +15,8 @@ CREATE TABLE progress (
 	current_weight decimal NOT NULL,
 	desired_weight decimal NOT NULL,
 	bmi decimal NOT NULL,
-	log_day date NOT NULL
+	log_day date NOT NULL,
+	progress_id SERIAL NOT NULL
 );
 
 CREATE TABLE user_profile (
