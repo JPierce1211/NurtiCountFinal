@@ -9,12 +9,15 @@ import java.util.List;
 public interface FoodDao {
 
 
-    Food getFoodById(int id);
+    Food getFoodById(int foodId);
 
     List<Food> listFood();
 
-    Food deleteFoodById(int id);
-    Food mapRowToFood(SqlRowSet rs);
+    int deleteFoodById(int foodId);
 
-    Food deleteFoodByName();
+////    fooName was not added. This is a placeholder for it
+//    Food deleteFoodByName();
+
+    Food mapRowToFood(SqlRowSet rs);
 }
+

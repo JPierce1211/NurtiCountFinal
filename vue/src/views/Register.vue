@@ -35,6 +35,7 @@ export default {
         password: '',
         confirmPassword: '',
         role: 'user',
+        hasProfile: false,
       },
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',
@@ -48,21 +49,31 @@ export default {
       } else {
         authService
           .register(this.user)
-          .then((response) => {
-            if (response.status == 201) {
-              this.$router.push({
-                path: '/create-profile/${id}',
+          .then((response) => 
+          {
+            if (response.status == 201) 
+            {
+              this.$router.push(
+              {
+                path: '/login',
                 //query: { registration: 'success' },
               });
             }
           })
-          .catch((error) => {
+          
+          .catch((error) => 
+          {
             const response = error.response;
             this.registrationErrors = true;
             if (response.status === 400) {
               this.registrationErrorMsg = 'Bad Request: Validation Errors';
             }
           });
+
+          
+
+          
+
       }
     },
     clearErrors() {

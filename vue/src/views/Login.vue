@@ -39,14 +39,30 @@ export default {
     };
   },
   methods: {
+
     login() {
       authService
         .login(this.user)
         .then(response => {
           if (response.status == 200) {
+
+
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
+
+            //console.log(this.$store.state.profile.userId);
+
+            //const userIdFromToken = getUserIdFromToken(token);
+
+            if (this.$store.state.user.hasProfile !== true)
+            {
+              this.$router.push("/create-profile/:id");
+            }
+            else
+            {
+
             this.$router.push("/");
+            }
           }
         })
         .catch(error => {
@@ -56,6 +72,8 @@ export default {
             this.invalidCredentials = true;
           }
         });
+
+      // MethodMan checks to see if a profile has been set up. If not, redirect to create Profile form. If so, continue to dashboard
     }
   }
 };
