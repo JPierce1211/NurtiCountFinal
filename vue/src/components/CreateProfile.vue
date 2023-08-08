@@ -154,7 +154,8 @@ export default
           {
               if (response.status === 201)
               {      
-                this.$router.push(`/login`);                     
+                this.$store.state.user.hasProfile = true; //This could create errors later down the line. 
+                this.$router.push(`/`);                     
               }
           })
           .catch(error => 
@@ -162,7 +163,7 @@ export default
               this.handleErrorResponse(error, "updating");
           });
 
-          this.$store.state.user.hasProfile = true;
+ 
 
     }, 
     handleErrorResponse(error, verb) 

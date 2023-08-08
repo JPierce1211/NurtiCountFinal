@@ -22,7 +22,6 @@ public class MealsController {
     private JdbcTemplate jdbcTemplate;
     private JdbcMealsDao mealsDao;
     private ProfileDao profileDao;
-
     public MealsController(JdbcMealsDao mealsDao, JdbcProfileDao profileDao){
         this.mealsDao = mealsDao;
         this.profileDao = profileDao;
