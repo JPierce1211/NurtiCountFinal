@@ -1,12 +1,12 @@
 <template>
-  <profile />
+  <create-profile />
 </template>
 
 <script>
-import Profile from '../components/Profile.vue'
+import CreateProfile from '../components/CreateProfile.vue'
 export default {
   components: { 
-      Profile 
+      CreateProfile 
       },
 
 }

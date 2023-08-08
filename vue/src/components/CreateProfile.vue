@@ -101,7 +101,7 @@ export default
                 .createProfile(formData)
                 .then(response => {
                     if (response.status === 201){
-                        this.$router.push(`/profile/${formData.userId}`);
+                        this.$router.push(`/${formData.userId}`);
                     }
                 })
                 .catch(error => {
