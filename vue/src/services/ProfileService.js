@@ -8,7 +8,7 @@ const http = axios.create({
 export default {
 
     createProfile(){
-        return http.post('/profile/')
+        return http.post('/profile/${id}')
     }
     
 }
