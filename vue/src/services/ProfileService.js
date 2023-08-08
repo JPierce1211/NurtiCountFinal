@@ -6,9 +6,7 @@ const http = axios.create({
 });
 
 export default {
-
-    createProfile(){
-        return http.post('/profile/${id}')
+    createProfile(userId, formData){
+        return http.post(`/profile/${userId}`, formData);
     }
-    
 }
