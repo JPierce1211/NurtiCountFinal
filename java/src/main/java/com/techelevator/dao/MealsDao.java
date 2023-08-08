@@ -4,10 +4,10 @@ import com.techelevator.model.Meals;
 
 import java.util.List;
 
-public interface MealsDao {
-    List<Meals> findAll();
+public interface MealsDao{
+    List<Meals> findAllById();
     Meals createMeal(Meals meals);
-    Meals getMealById(int mealId);
+    Meals getMealByProfile(int profileId);
     int deleteMealById(int mealId);
-    Meals updateMeals(Meals meals);
+    Meals updateMealsById(Meals meals);
 }
