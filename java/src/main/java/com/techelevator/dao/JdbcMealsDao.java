@@ -70,7 +70,7 @@ public class JdbcMealsDao implements MealsDao{
     @Override
     public Meals updateMealsById(Meals meals){
         Meals updateMeals = null;
-        String sql = "UPDATE meal_user m JOIN food f ON m.meal_type SET log_day = ?, meal_type = ? WHERE meal_id = ?";
+        String sql = "UPDATE meal_user SET log_day = ?, meal_type = ? WHERE meal_id = ?";
         try {
             int rowsAffected = jdbcTemplate.update(sql, meals.getMealId(), meals.getMealType(), meals.getMealDate());
             if (rowsAffected == 0) {
