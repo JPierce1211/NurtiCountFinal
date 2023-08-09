@@ -13,8 +13,6 @@ public class Profile {
 
     private double height; //Most fitness and health app measure height in meters
 
-    private String gender;
-
     private double startingWeight; //Will display as pounds
 
     private String displayName;
@@ -87,13 +85,5 @@ public class Profile {
 
     public void setProfilePicId(int profilePicId) {
         this.profilePicId = profilePicId;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 }

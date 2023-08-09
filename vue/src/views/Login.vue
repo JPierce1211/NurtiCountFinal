@@ -57,7 +57,7 @@ export default {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
 
-            //console.log(this.$store.state.profile.userId);
+            console.log(this.$store.state.profile.userId);
 
             //const userIdFromToken = getUserIdFromToken(token);
 
@@ -79,8 +79,6 @@ export default {
             this.invalidCredentials = true;
           }
         });
-
-      // MethodMan checks to see if a profile has been set up. If not, redirect to create Profile form. If so, continue to dashboard
     }
   }
 };
