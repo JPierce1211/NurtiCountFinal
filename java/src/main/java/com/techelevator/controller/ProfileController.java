@@ -48,14 +48,21 @@ public class ProfileController {
     }
 
     @PutMapping("/profile/{id}/edit")
-    public Profile update(@RequestBody Profile profile, @PathVariable int profileId, Principal principal){
-        Profile updateProfile = profileDao.updateProfile(profile);
+    public Profile update(@RequestBody Profile updatedProfile, @PathVariable int profileId){
+        updatedProfile.setProfileId(profileId);
+        Profile updateProfile = profileDao.updateProfile(updatedProfile);
         return updateProfile;
+    }
+
+    @PutMapping("/profile/edit")//Secondary endpoint & method to update the profile if the above does not work or just needs to be simplified.
+    public Profile update(@RequestBody Profile updatedProfile){
+        return profileDao.updateProfile(updatedProfile);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/profile/{id}")
-    public void delete(@PathVariable int id, Principal principal){
-        int deleteProfile = profileDao.deleteProfile(id);
+    public void delete(@PathVariable int id){
+        profileDao.deleteProfile(id);
+
     }
 }

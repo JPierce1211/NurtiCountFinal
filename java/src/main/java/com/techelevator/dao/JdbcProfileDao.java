@@ -79,7 +79,7 @@ public class JdbcProfileDao implements ProfileDao{
                 "WHERE profile_id = ?;";
         try{
             int numberOfRows = jdbcTemplate.update(sql, profile.getUserId(), profile.getBirthday(), profile.getHeight(),
-                    profile.getStartingWeight(), profile.getDisplayName(), profile.getProfilePicId());
+                    profile.getStartingWeight(), profile.getDisplayName(), profile.getProfilePicId(), profile.getProfileId());
             if(numberOfRows == 0){
                 throw new DaoException("Zero rows affected, expected at least one");
             }else{
