@@ -110,9 +110,10 @@ button
     cursor: pointer;
     font-size: 16px;
     font-weight: light;
+    font-family: 'ncFont', Arial, sans-serif;
     text-align: center;
     text-decoration: none;
-    transition: background-color 1s ease, color 1s ease, font-weight 1s ease;
+    transition: background-color 1s ease, color 1s ease, font-weight 1s ease, border 1s ease;
 }
 
 button:hover
@@ -120,6 +121,7 @@ button:hover
     background-color: white;
     color: black;
     border: 1px groove black;
+    box-sizing: border-box;
     font-weight: bold;
 }
 

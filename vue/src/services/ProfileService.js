@@ -7,7 +7,7 @@ const http = axios.create({
 
 export default {
     createProfile(userId, formData){
-        return http.post(`/profile/${userId}`, formData);
+        return http.post(`/create-profile/${userId}`, formData);
     },
 
     getHome(){
