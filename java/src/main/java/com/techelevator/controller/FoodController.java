@@ -1,13 +1,13 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.FoodDao;
+import com.techelevator.dao.MealsDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Food;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 
 @CrossOrigin
@@ -18,8 +18,11 @@ public class FoodController {
 
     private FoodDao foodDao;
 
-    public FoodController(FoodDao foodDao) {
+    private MealsDao mealsDao;
+
+    public FoodController(FoodDao foodDao, MealsDao mealsDao) {
         this.foodDao = foodDao;
+        this.mealsDao = mealsDao;
 
     }
 
