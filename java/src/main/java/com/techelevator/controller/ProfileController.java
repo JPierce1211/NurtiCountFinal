@@ -36,11 +36,11 @@ public class ProfileController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/profile/{id}")
-    public Profile create(@RequestBody Profile profile, @PathVariable int userId, Principal principal){
+    public Profile create(@RequestBody Profile profile, @PathVariable int id, Principal principal){
         Profile newProfile = null;
         User user = userDao.getUserByUsername(principal.getName());
         try {
-            if (user.getId() == userId){
+            if (user.getId() == id){
                  newProfile = profileDao.createProfile(profile);
             }
         } catch (DaoException e){
