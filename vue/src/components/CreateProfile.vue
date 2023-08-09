@@ -2,16 +2,6 @@
   <div>
     <h1>Create a Profile</h1>
     <form @submit.prevent="submitForm">
-         
-           <div class="gender-choice">
-              <label for="gender">
-                Sex:
-              </label>
-              <select id="gender" v-model="gender">
-                <option value="M"> Male </option>
-                <option value="F"> Female </option>
-              </select>
-           </div>
 
            <div class="height-choice">
               <label for="height">Height:</label>
@@ -108,7 +98,6 @@ export default
       { 
         userId: '', 
         height: '',
-        gender: '',
         displayName: '',
         birthdate: '',
         profilePicId: '',
@@ -145,7 +134,6 @@ export default
         {
           userId: this.$store.state.profile.userId, 
           height: this.profile.height,
-          gender: this.profile.gender,
           display_name: this.profile.displayName,
           birthdate: this.profile.birthdate,
           profile_pic_id: this.profile.profilePicId,
