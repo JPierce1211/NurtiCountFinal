@@ -28,27 +28,37 @@ public class ProgressController {
         this.profileDao = profileDao;
     }
 
-    @GetMapping("profile/progress")
+    @GetMapping("progress")
     public List<Progress> listAllProgress(){
         return progressDao.list();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("profile/{id}/create-process")
+    @PostMapping("create-process")
     public Progress create(@RequestBody Progress progress, @PathVariable int profileId){
         progress.setProfileId(profileId);
         try {
-            Progress newProgress = progressDao.createProgress(progress);
-            return newProgress;
+            return progressDao.createProgress(progress);
         } catch (DaoException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation not found.");
         }
+    }
+
+    @PutMapping("progress/update")
+    public Progress update(@RequestBody Progress progress){
+        return progressDao.updateProgress(progress);
+    }
+
+    @GetMapping("profile/(id}/progress")
+    public Progress getProgressByProfile(@PathVariable int profileId){
+        return progressDao.getProgressByProfileId(profileId);
 
     }
 
-    @PutMapping("profile/{id}/progress/update")
-    public Progress update(@RequestBody Progress progress){
-        return progressDao.updateProgress(progress);
+    @GetMapping("progress/{id}")
+    public Progress getProgressById(@PathVariable int progressId){
+        Progress progress = progressDao.getProgressByProgressId(progressId);
+        return progress;
     }
 
 
