@@ -62,7 +62,7 @@ public class JdbcProgressDao implements ProgressDao{
     @Override
     public List<Progress> getProgressByTimeframe(LocalDate fromDate, LocalDate toDate){ //Viewing trajectories based on timeframes
         List<Progress> progressChart = new ArrayList<>();
-        String sql = "SELECT profile_id, current_weight, desired_weight, bmi, log_day " +
+        String sql = "SELECT progress_id, profile_id, current_weight, desired_weight, bmi, log_day " +
                 "FROM progress " +
                 "WHERE log_day BETWEEN ? AND ? " +
                 "ORDER BY log_day;";
@@ -96,7 +96,7 @@ public class JdbcProgressDao implements ProgressDao{
 
     public Progress getProgressByProgressId(int progressId){ //Specific progress point
         Progress progress = null;
-        String sql = "SELECT profile_id, current_weight, desired_weight, bmi, log_day " +
+        String sql = "SELECT progress_id, profile_id, current_weight, desired_weight, bmi, log_day " +
                 "FROM progress " +
                 "WHERE progress_id = ?;";
         try{

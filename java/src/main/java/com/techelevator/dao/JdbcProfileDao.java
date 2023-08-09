@@ -98,10 +98,12 @@ public class JdbcProfileDao implements ProfileDao{
     public int deleteProfile(int id){
         int numberOfRows = 0;
         String progressSql = "DELETE FROM progress WHERE profile_id = ?;";
+        String mealUserSQL = "DELETE FROM meal_user WHERE profile_id = ?;";
         String userProfileSql = "DELETE FROM user_profile WHERE profile_id = ?;";
 
         try{
             jdbcTemplate.update(progressSql, id);
+            jdbcTemplate.update(mealUserSQL, id);
             numberOfRows = jdbcTemplate.update(userProfileSql, id);
         }catch(CannotGetJdbcConnectionException e){
             throw new DaoException("Unable to connect to server or database", e);
