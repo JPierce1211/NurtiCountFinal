@@ -9,11 +9,14 @@ import java.util.List;
 public interface FoodDao {
 
 
+    Food addNewFood(Food food);
+
     Food getFoodById(int foodId);
 
     List<Food> listFood();
 
     int deleteFoodById(int foodId);
+
 
 ////    fooName was not added. This is a placeholder for it
 //    Food deleteFoodByName();
