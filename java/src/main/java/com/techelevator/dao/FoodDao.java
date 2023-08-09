@@ -18,6 +18,6 @@ public interface FoodDao {
 ////    fooName was not added. This is a placeholder for it
 //    Food deleteFoodByName();
 
-//    Food mapRowToFood(SqlRowSet rs);
+    Food mapRowToFood(SqlRowSet rs);
 }
 

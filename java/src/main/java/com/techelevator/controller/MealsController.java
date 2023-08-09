@@ -2,10 +2,12 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.JdbcMealsDao;
 import com.techelevator.dao.JdbcProfileDao;
+import com.techelevator.dao.JdbcUserDao;
 import com.techelevator.dao.ProfileDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Meals;
 import com.techelevator.model.Profile;
+import com.techelevator.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 @Component
@@ -22,53 +25,71 @@ public class MealsController {
     private JdbcTemplate jdbcTemplate;
     private JdbcMealsDao mealsDao;
     private ProfileDao profileDao;
-    public MealsController(JdbcMealsDao mealsDao, JdbcProfileDao profileDao){
+    private JdbcUserDao userDao;
+    public MealsController(JdbcMealsDao mealsDao, JdbcProfileDao profileDao, JdbcUserDao userDao){
         this.mealsDao = mealsDao;
         this.profileDao = profileDao;
+        this.userDao = userDao;
     }
 
-    @GetMapping("/profile/{id}/meals")
-    public List<Meals> listMeals(@PathVariable int profileId){
-        Profile profile = profileDao.getProfileById(profileId);
-        if(profile != null){
-            return mealsDao.findAllById();
+    @GetMapping("/meals")
+    public List<Meals> listMeals(@PathVariable int profileId, Principal principal){
+        //Profile profile = profileDao.getProfileById(profileId);
+        User user = userDao.getUserByUsername(principal.getName());
+        if(user != null){
+            return mealsDao.findAll(user.getId());
         }else{
         }
             return null;
     }
-    @GetMapping("/profile/{id}/meals/{id}")
-    public Meals get(@PathVariable int profileId, @PathVariable int mealsId) {
-        Profile profile = profileDao.getProfileById(profileId);
+    @GetMapping("/meals/{id}")
+    public Meals get(@PathVariable int profileId, @PathVariable int mealsId, Principal principal) {
+        //Profile profile = profileDao.getProfileById(profileId);
+        User user = userDao.getUserByUsername(principal.getName());
 
-        if (profile != null) {
-            Meals meals = mealsDao.getMealByProfile(mealsId);
-            return meals;
-        } else {
-            return null;
+        if (user != null) {
+            Meals meals = mealsDao.getMealById(mealsId);
+            if (meals != null) {
+                return meals;
+            } else {
+                return null;
+            }
+        }else{
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
         }
     }
+
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/profile/{id}/create-meal")
-    public Meals createMeal(@PathVariable int profileId, @RequestBody Meals meals){
-        Profile profile = profileDao.getProfileById(profileId);
-        if(profile != null){
-            return mealsDao.createMeal(meals);
+    @PostMapping("/create-meal")
+    public Meals createMeal(@PathVariable int profileId, @RequestBody Meals meals, Principal principal) {
+        User user = userDao.getUserByUsername(principal.getName());
+        if(user != null){
+            Profile profile = profileDao.getProfileById(user.getId());
+            if(profile != null){
+                meals.setProfileId(profile.getProfileId());
+                return mealsDao.createMeal(meals);
+            }else{
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            }
         }else{
-            return null;
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
     }
 
-    @PutMapping("/profile/{id}/meals/{id}")
-    public Meals update(@PathVariable int profileId, @RequestBody Meals updatedMeal, @PathVariable int mealId){
-        Profile profile = profileDao.getProfileById(profileId);
-        if(profile != null){
-            Meals updatedMeals = mealsDao.getMealByProfile(mealId);
+    @PutMapping("/meals/{id}")
+    public Meals update(Principal principal, @RequestBody Meals updatedMeal, @PathVariable int mealId, Profile profile){
+        //Profile profile = profileDao.getProfileById(profileId);
+        User user = userDao.getUserByUsername(principal.getName());
+        if(user != null){
+             profile = profileDao.getProfileById(user.getId());
+            if(profile != null){
+            Meals updatedMeals = mealsDao.getMealById(mealId);
             if(updatedMeals != null) {
-                updatedMeal.setProfileId(profileId);
+                if(updatedMeal.getProfileId(profile.getProfileId()) == profile.getUserId());
+            }
+                updatedMeal.setProfileId(profile.getProfileId());
                 updatedMeal.setMealId(mealId);
-                updatedMeal.setMealDate(updatedMeal.getMealDate());
-                updatedMeal.setMealType(updatedMeal.getMealType());
 
                 try {
                     Meals updateMeal = mealsDao.updateMealsById(updatedMeal);
@@ -86,8 +107,8 @@ public class MealsController {
 
     //meals.setMealId(mealId);
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/profile/{id}/meals/{id}")
-    public void delete(@PathVariable int mealId, @PathVariable int profileId){
+    @DeleteMapping("/meals/{id}")
+    public void delete(@PathVariable int mealId, @PathVariable int profileId, Principal principal){
         Profile profile = profileDao.getProfileById(profileId);
         if(profile != null){
             int deleteMeal = mealsDao.deleteMealById(mealId);
