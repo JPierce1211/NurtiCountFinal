@@ -1,7 +1,9 @@
-<template class="content">
+<template>
   <div>
+    <h1>Create a Profile</h1>
     <form @submit.prevent="submitForm">
-         <div>
+         
+           <div class="gender-choice">
               <label for="gender">
                 Sex:
               </label>
@@ -9,8 +11,9 @@
                 <option value="M"> Male </option>
                 <option value="F"> Female </option>
               </select>
+           </div>
 
-
+           <div class="height-choice">
               <label for="height">Height:</label>
               <select id="height" v-model="height">
                 <option value="53">4' 5"</option>
@@ -51,15 +54,15 @@
                 <option value="88">7' 4"</option>
               </select>
       </div>
-      <div>
+      <div class="display-name-choice">
         <label for="display_name">Display Name:</label>
         <input type="text" id="display_name" v-model="displayName" />
       </div>
-      <div>
+      <div class="birth-date-choice">
         <label for="birthdate">Birthdate:</label>
         <input type="date" id="birthdate" v-model="birthdate" />
       </div>
-      <div>
+      <div class="profile-pic-choice">
         <label for="profile_pic_id">Profile Picture:</label>
 
         <label>
@@ -85,11 +88,11 @@
 
 
       </div>
-      <div>
+      <div class="starter_weight">
         <label for="starting_weight">Starting Weight:</label>
         <input type="number" id="starting_weight" v-model="startingWeight" />
       </div>
-      <button type="submit">Submit</button>
+      <button class="login-button" type="submit">Submit</button>
     </form>
   </div>
 </template>
