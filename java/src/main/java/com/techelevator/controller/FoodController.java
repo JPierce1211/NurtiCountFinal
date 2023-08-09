@@ -4,10 +4,13 @@ import com.techelevator.dao.FoodDao;
 import com.techelevator.dao.MealsDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Food;
+import com.techelevator.model.FoodDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
@@ -33,16 +36,16 @@ public class FoodController {
 
     @GetMapping("/{id}")
     public Food getFoodItem(@PathVariable int foodId) {
-        Food food;
+        Food foodItem;
         try {
-            food = foodDao.getFoodById(foodId);
+            foodItem = foodDao.getFoodById(foodId);
         } catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        if (food == null) {
+        if (foodItem == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Food item not found");
         }
-        return food;
+        return foodItem;
     }
 
     @DeleteMapping("/{id}")
@@ -57,10 +60,17 @@ public class FoodController {
         }
     }
 
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @PostMapping("")
+//    public FoodDto saveNewFood(@Valid @RequestBody FoodDto foodDto) {
+//
+//    }
+
 
 //    // foodName was not added so this is just a place holder
 //    @GetMapping("/food/food_name")
 //    public FoodDao getFoodByName(String foodName) {
-//        return null;
+//        FoodDao food;
+
 //    }
     }
