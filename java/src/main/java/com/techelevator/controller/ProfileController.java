@@ -35,16 +35,14 @@ public class ProfileController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/create-profile/{id}")
-    public Profile create(@RequestBody Profile profile, @PathVariable int id, Principal principal){
+    @PostMapping("/create-profile")
+    public Profile create(@RequestBody Profile profile, Principal principal){
         Profile newProfile = null;
         User user = userDao.getUserByUsername(principal.getName());
-        try {
-            if (user.getId() == id){
-                 newProfile = profileDao.createProfile(profile);
-            }
-        } catch (DaoException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation not found.");
+       try {
+           newProfile = profileDao.createProfile(profile);
+       } catch (DaoException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to create profile.");
         }
         return newProfile;
     }
