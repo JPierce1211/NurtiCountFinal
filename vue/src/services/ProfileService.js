@@ -7,11 +7,17 @@ const http = axios.create({
 
 export default {
     createProfile(userId, formData){
-        return http.post(`/create-profile/${userId}`, formData);
+        return http.post(`/profile/${userId}`, formData);
     },
 
     getHome(){
         return http.get(`/`)
+        //check to see why this isn't connecting after user hits create profile
     },
+
+    updateProfile(profileId, newForm){
+        return http.post(`/profile/${profileId}`, newForm);
+    },
+
 
 }
