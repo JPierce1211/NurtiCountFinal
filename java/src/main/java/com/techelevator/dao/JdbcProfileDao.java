@@ -57,7 +57,7 @@ public class JdbcProfileDao implements ProfileDao{
     @Override
     public Profile createProfile(Profile profile){
         Profile newProfile = null;
-        String sql = "INSERT INTO profile (user_id, birthday, height, starting_weight, display_name, profile_pic_id) " +
+        String sql = "INSERT INTO user_profile (user_id, birthday, height, starting_weight, display_name, profile_pic_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?) RETURNING profile_id;";
         try {
             int newProfileId = jdbcTemplate.queryForObject(sql, int.class, userDao.getUserById(profile.getUserId()), profile.getBirthday(),
@@ -75,7 +75,7 @@ public class JdbcProfileDao implements ProfileDao{
     @Override
     public Profile updateProfile(Profile profile){
         Profile updateProfile = null;
-        String sql = "UPDATE profile SET user_id = ?, birthday = ?, height = ?, starting_weight = ?, display_name = ?, profile_pic_id = ? " +
+        String sql = "UPDATE user_profile SET user_id = ?, birthday = ?, height = ?, starting_weight = ?, display_name = ?, profile_pic_id = ? " +
                 "WHERE profile_id = ?;";
         try{
             int numberOfRows = jdbcTemplate.update(sql, profile.getUserId(), profile.getBirthday(), profile.getHeight(),
