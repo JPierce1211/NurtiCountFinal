@@ -34,7 +34,7 @@ public class ProgressController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("create-process")
+    @PostMapping("create-progress")
     public Progress create(@RequestBody Progress progress, @PathVariable int profileId){
         progress.setProfileId(profileId);
         try {

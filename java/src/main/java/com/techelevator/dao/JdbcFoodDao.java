@@ -2,7 +2,6 @@ package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Food;
-import com.techelevator.model.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,6 +19,21 @@ public class JdbcFoodDao implements FoodDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
+    public Food addNewFood(Food food) {
+    Food newFood = null;
+    String sql = "INSERT INTO food (food_name, food_type, serving_size, calories) VALUES (?, ?, ?,?) RETURNING food_id";
+		try {
+        int foodId = jdbcTemplate.queryForObject(sql, int.class, food.getFoodName(), food.getFoodType(), food.getServingSize(), food.getCalories());
+       newFood = getFoodById(foodId);
+    } catch (CannotGetJdbcConnectionException e) {
+        throw new DaoException("Unable to connect to server or database", e);
+    } catch (DataIntegrityViolationException e) {
+        throw new DaoException("Data integrity violation", e);
+    }
+		return newFood;
+
+}
     @Override
     public Food getFoodById(int foodId) {
         Food food = null;
