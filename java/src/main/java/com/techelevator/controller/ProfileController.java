@@ -33,7 +33,7 @@ public class ProfileController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/create-profile/{id}")
+    @PostMapping("/profile/{id}")
     public Profile create(@RequestBody Profile profile, @PathVariable int userId, Principal principal){
         Profile newProfile = profileDao.createProfile(profile);
         return newProfile;
