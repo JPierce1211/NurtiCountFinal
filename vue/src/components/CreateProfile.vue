@@ -1,4 +1,4 @@
-<template>
+<template class="content">
   <div>
     <form @submit.prevent="submitForm">
          <div>
@@ -63,24 +63,24 @@
         <label for="profile_pic_id">Profile Picture:</label>
 
         <label>
-        <input type="radio" id="profilePics" name="profilePic" v-model="profilePicId" value="01" />
-        <img :src="imgPP01" alt="Man">
+        <input type="radio" id="profilePics01" v-model="profilePicId" value="01" />
+        <img :src="imgPP01" alt="Man" class="profilePicSelector">
       </label>
       <label>
-        <input type="radio" id="profilePics" name="profilePic" v-model="profilePicId" value="02" />
-        <img :src="imgPP02" alt="Flower">
+        <input type="radio" id="profilePics02" v-model="profilePicId" value="02" />
+        <img :src="imgPP02" alt="Flower" class="profilePicSelector">
       </label>
       <label>
-        <input type="radio" id="profilePics" name="profilePic" v-model="profilePicId" value="03" />
-        <img :src="imgPP03" alt="Runners">
+        <input type="radio" id="profilePics03" v-model="profilePicId" value="03" />
+        <img :src="imgPP03" alt="Runners" class="profilePicSelector">
       </label>
       <label>
-        <input type="radio" id="profilePics" name="profilePic" v-model="profilePicId" value="04" />
-        <img :src="imgPP04" alt="Music Note">
+        <input type="radio" id="profilePics04" v-model="profilePicId" value="04" />
+        <img :src="imgPP04" alt="Music Note" class="profilePicSelector">
       </label>
       <label>
-        <input type="radio" id="profilePics" name="profilePic" v-model="profilePicId" value="05" />
-        <img :src="imgPP05" alt="The Healthiest of Meals">
+        <input type="radio" id="profilePics05" v-model="profilePicId" value="05" />
+        <img :src="imgPP05" alt="The Healthiest of Meals" class="profilePicSelector">
       </label>
 
 
@@ -185,6 +185,9 @@ export default
 }
 </script>
 
-<style>
-
+<style scoped>
+.profilePicSelector
+{
+  width: 80px;
+}
 </style>

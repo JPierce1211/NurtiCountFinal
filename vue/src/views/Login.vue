@@ -1,22 +1,29 @@
 <template>
   <div id="login">
     <form @submit.prevent="login">
-      <h1 >Please Sign In</h1>
+      <h1 class="login-title">Please Sign In</h1>
       <div role="alert" v-if="invalidCredentials">
         Invalid username and password!
       </div>
       <div role="alert" v-if="this.$route.query.registration">
         Thank you for registering, please sign in.
       </div>
-      <div class="form-input-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" v-model="user.username" required autofocus />
-      </div>
-      <div class="form-input-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model="user.password" required />
-      </div>
-      <button type="submit">Sign in</button>
+      <div class="login-form">
+  <div class="login-labels">
+    <label for="username">Username</label>
+    <br>
+    <label for="password">Password</label>
+  </div>
+  <div class="login-input">
+    <input type="text" id="username" v-model="user.username" required autofocus />
+    <br>
+    <input type="password" id="password" v-model="user.password" required />
+    <br>
+  </div>
+  <div class="submit-button-container">
+    <button type="submit" class="login-button">Sign in</button>
+  </div>
+</div>
       <p>
       <router-link :to="{ name: 'register' }">Need an account? Sign up.</router-link></p>
     </form>
@@ -80,10 +87,15 @@ export default {
 </script>
 
 <style scoped>
-.form-input-group {
-  margin-bottom: 1rem;
-}
-label {
-  margin-right: 0.5rem;
-}
+
+  @import "../style/feel.css";
+
+  .form-input-group 
+    {
+      margin-bottom: 1rem;
+    }
+  label 
+    {
+      margin-right: 0.5rem;
+    }
 </style>
