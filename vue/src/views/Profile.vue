@@ -1,7 +1,7 @@
 
 <template>
 <!-- This v-bind makes sure the child is getting and updating information -->
-  <edit-profile v-bind:userID="parseInt($route.params.userId)" />
+  <edit-profile v-bind:profileID="parseInt($route.params.profileID)" />
 </template>
 
 <script>

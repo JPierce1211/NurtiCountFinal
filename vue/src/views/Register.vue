@@ -53,10 +53,15 @@ export default {
           {
             if (response.status == 201) 
             {
+              // delete this line later
+              console.log(this.$store.state.user.hasProfile);
+
+
+
               this.$router.push(
               {
                 path: '/login',
-                //query: { registration: 'success' },
+                query: { registration: 'success' },
               });
             }
           })

@@ -1,17 +1,24 @@
 import axios from 'axios';
 
-const http = axios.create({
-    baseURL: "http://127.0.0.1:9000"
+// const http = axios.create({
+//     baseURL: "http://127.0.0.1:9000"
 
-});
+//});
 
 export default {
-    createProfile(userId, formData){
-        return http.post(`/create-profile/${userId}`, formData);
+    createProfile(formData){
+        alert(formData.displayName);
+        return axios.post(`/createProfile`, formData);
     },
 
     getHome(){
-        return http.get(`/`)
+        return axios.get(`/`)
+        //check to see why this isn't connecting after user hits create profile
     },
+
+    updateProfile(profileId, newForm){
+        return axios.post(`/profile/${profileId}`, newForm);
+    },
+
 
 }

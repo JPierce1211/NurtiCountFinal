@@ -6,6 +6,8 @@ public interface ProfileDao {
 
     Profile getProfileById(int id);
 
+    Profile getProfileByUserId(int userId);
+
     Profile createProfile(Profile profile);
 
     Profile updateProfile(Profile profile);
