@@ -58,12 +58,13 @@ export default {
             this.$store.commit("SET_USER", response.data.user);
 
             console.log(this.$store.state.profile.userId);
+            console.log(this.$store.state.user.hasProfile);
 
             //const userIdFromToken = getUserIdFromToken(token);
 
             if (this.$store.state.user.hasProfile !== true)
             {
-              this.$router.push("/create-profile/:id");
+              this.$router.push("/create-profile/");
             }
             else
             {

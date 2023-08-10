@@ -54,7 +54,7 @@ export default {
             if (response.status == 201) 
             {
               // delete this line later
-              console.log(this.$store.state.profile.userId);
+              console.log(this.$store.state.user.hasProfile);
 
 
 

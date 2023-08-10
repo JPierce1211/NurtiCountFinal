@@ -140,7 +140,7 @@ export default
           starting_weight: this.profile.startingWeight
         };
         ProfileService
-          .createProfile(formData.userId, formData)
+          .createProfile(formData)
           .then(response => 
           {
               if (response.status === 201)
