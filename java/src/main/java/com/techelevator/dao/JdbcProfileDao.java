@@ -57,7 +57,7 @@ public class JdbcProfileDao implements ProfileDao{
     @Override
     public Profile createProfile(Profile profile){
         Profile newProfile = null;
-        String sql = "INSERT INTO profile (user_id, birthday, height, starting_weight, display_name, profile_pic_id, goals) " +
+        String sql = "INSERT INTO profile (user_id, birthday, height, current_weight, display_name, profile_pic_id, goals) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING profile_id;";
         try {
             int newProfileId = jdbcTemplate.queryForObject(sql, int.class, profile.getUserId(), profile.getBirthday(),
