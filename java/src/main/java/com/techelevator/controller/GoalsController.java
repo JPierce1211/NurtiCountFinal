@@ -50,13 +50,22 @@ public class GoalsController {
     @GetMapping("profile/(id}/goals")
     public Goals getGoalByProfile(@PathVariable int profileId){
         return goalDao.getGoalsByProfileId(profileId);
+    }
 
+    @GetMapping("goals/time")
+    public List<Goals> getProgressOverTime(@RequestBody String fromDate, @RequestBody String toDate){
+        return goalDao.getGoalsByTimeframe(fromDate, toDate);
     }
 
     @GetMapping("goals/{id}")
-    public Goals getProgressById(@PathVariable int goalId){
+    public Goals getGoalById(@PathVariable int goalId){
         Goals progress = goalDao.getGoalByGoalId(goalId);
         return progress;
+    }
+
+    @GetMapping("goals/date")
+    public List<Goals> getGoalByDate(String date){
+        return goalDao.getGoalByDate(date);
     }
 
 
