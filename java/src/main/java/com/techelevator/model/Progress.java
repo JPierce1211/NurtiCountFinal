@@ -12,11 +12,11 @@ public class Progress {
 
     private double bmi;
 
-    private LocalDate date;
+    private String date;
 
     public Progress (){};
 
-    public Progress(int progressId, int profileId, double currentWeight, double desiredWeight, double bmi, LocalDate date) {
+    public Progress(int progressId, int profileId, double currentWeight, double desiredWeight, double bmi, String date) {
         this.progressId = progressId;
         this.profileId = profileId;
         this.currentWeight = currentWeight;
@@ -65,11 +65,11 @@ public class Progress {
         this.bmi = bmi;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }
