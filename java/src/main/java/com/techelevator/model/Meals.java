@@ -9,11 +9,11 @@ public class Meals {
 
     private String mealType;
 
-    private LocalDate mealDate;
+    private String mealDate;
 
     public Meals() {};
 
-    public Meals(int mealId, String mealType, LocalDate mealDate, int profileId) {
+    public Meals(int mealId, String mealType, String mealDate, int profileId) {
         this.mealId = mealId;
         this.mealType = mealType;
         this.mealDate = mealDate;
@@ -37,11 +37,11 @@ public class Meals {
         this.mealType = mealType;
     }
 
-    public LocalDate getMealDate() {
+    public String getMealDate() {
         return mealDate;
     }
 
-    public void setMealDate(LocalDate mealDate) {
+    public void setMealDate(String mealDate) {
         this.mealDate = mealDate;
     }
 

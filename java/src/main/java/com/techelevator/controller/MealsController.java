@@ -60,7 +60,7 @@ public class MealsController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/create-meal")
+    @PostMapping("/createMeal")
     public Meals createMeal(@PathVariable int profileId, @RequestBody Meals meals, Principal principal) {
         User user = userDao.getUserByUsername(principal.getName());
         if(user != null){
@@ -100,7 +100,7 @@ public class MealsController {
 //                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found");
                 }
             }else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
                return updatedMeal;
             }

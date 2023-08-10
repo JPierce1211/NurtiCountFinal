@@ -34,7 +34,7 @@ public class JdbcMealsDao implements MealsDao{
     @Override
     public Meals createMeal(Meals meals) {
         Meals newMeal = null;
-        String sql = "INSERT INTO meal_user (meal_type, log_day) VALUES (?,?) WHERE user_id = ? Returning meal_id";
+        String sql = "INSERT INTO food (food_name, food_type, serving_size, calories, num_of_servings) VALUES (?,?,?,?) WHERE meal_id = ? Returning meal_id";
         try {
             int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getMealType(), meals.getMealDate());
             newMeal = getMealById(mealId);
@@ -100,7 +100,7 @@ public class JdbcMealsDao implements MealsDao{
         meals.setMealId(sql.getInt("meal_id"));
         meals.setProfileId(sql.getInt("user_id"));
         meals.setMealType(sql.getString("meal_type"));
-        meals.setMealDate(sql.getDate("log_day").toLocalDate());
+        meals.setMealDate(sql.getString("log_day"));
         return meals;
     }
 }
