@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
+import com.techelevator.model.Food;
 import com.techelevator.model.Meals;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -15,8 +16,10 @@ import java.util.List;
 @Component
 public class JdbcMealsDao implements MealsDao{
     private final JdbcTemplate jdbcTemplate;
-    public JdbcMealsDao(JdbcTemplate jdbcTemplate){
+    private final FoodDao foodDao;
+    public JdbcMealsDao(JdbcTemplate jdbcTemplate, FoodDao foodDao){
         this.jdbcTemplate = jdbcTemplate;
+        this.foodDao = foodDao;
     }
 
     @Override
@@ -32,11 +35,11 @@ public class JdbcMealsDao implements MealsDao{
     }
 
     @Override
-    public Meals createMeal(Meals meals) {
+    public Meals createMeal(Meals meals, List<Food> foodList) {
         Meals newMeal = null;
-        String sql = "INSERT INTO food (food_name, food_type, serving_size, calories, num_of_servings) VALUES (?,?,?,?) WHERE meal_id = ? Returning meal_id";
+        String sql = "INSERT INTO meal_user (user_id, meal_type, log_day) VALUES (?,?,?) Returning meal_id";
         try {
-            int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getMealType(), meals.getMealDate());
+            int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getMealId(), meals.getMealType(), meals.getMealDate());
             newMeal = getMealById(mealId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);

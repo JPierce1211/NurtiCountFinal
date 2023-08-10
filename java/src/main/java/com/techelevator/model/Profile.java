@@ -13,22 +13,25 @@ public class Profile {
 
     private double height; //Most fitness and health app measure height in meters
 
-    private double startingWeight; //Will display as pounds
+    private double currentWeight; //Will display as pounds
 
     private String displayName;
 
     private int profilePicId;
 
+    private int goals;
+
     public Profile() {};
 
-    public Profile(int userId, int profileId, double height, String displayName, String birthday, double startingWeight, int profilePicId){
+    public Profile(int userId, int profileId, double height, String displayName, String birthday, double startingWeight, int profilePicId, int goals){
         this.userId = userId;
         this.profileId = profileId;
         this.height = height;
         this.displayName = displayName;
         this.birthday = birthday;
-        this.startingWeight = startingWeight;
+        this.currentWeight = startingWeight;
         this.profilePicId = profilePicId;
+        this.goals = goals;
     }
 
     public int getUserId() {
@@ -71,12 +74,12 @@ public class Profile {
         this.birthday = birthday;
     }
 
-    public double getStartingWeight() {
-        return startingWeight;
+    public double getCurrentWeight() {
+        return currentWeight;
     }
 
-    public void setStartingWeight(double startingWeight) {
-        this.startingWeight = startingWeight;
+    public void setCurrentWeight(double currentWeight) {
+        this.currentWeight = currentWeight;
     }
 
     public int getProfilePicId() {
@@ -85,5 +88,13 @@ public class Profile {
 
     public void setProfilePicId(int profilePicId) {
         this.profilePicId = profilePicId;
+    }
+
+    public int getGoals() {
+        return goals;
+    }
+
+    public void setGoals(int goals) {
+        this.goals = goals;
     }
 }
