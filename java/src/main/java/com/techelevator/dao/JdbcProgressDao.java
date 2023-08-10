@@ -158,7 +158,7 @@ public class JdbcProgressDao implements ProgressDao{
         progress.setCurrentWeight(rs.getDouble("current_weight"));
         progress.setDesiredWeight(rs.getDouble("desired_weight"));
         progress.setBmi(rs.getDouble("bmi"));
-        progress.setDate(rs.getDate("log_day").toLocalDate());
+        progress.setDate(rs.getString("log_day"));
         return progress;
     }
 }

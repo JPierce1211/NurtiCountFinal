@@ -67,7 +67,7 @@ const router = new Router({
       component: createProfile,
     },
     {
-      path: "/profile/edit",
+      path: "/profile/:id/edit",
       //may have to change end point to add id or change backend 
       name: "editProfile",
       component: Profile,
