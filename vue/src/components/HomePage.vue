@@ -75,7 +75,7 @@ export default {
     padding: 50px;
     box-shadow: 3px 3px 5px #5b695d;
     grid-area: profile;
-    grid-column: 1;
+    /* grid-column: 1; */
 }
 
 .dynamic-meals
@@ -83,7 +83,7 @@ export default {
     padding: 30px;
     box-shadow: 3px 3px 5px #5b695d;
     grid-area: meals;
-    grid-column: 1;
+    /* grid-column: 1; */
 
 }
 
@@ -92,6 +92,6 @@ export default {
     padding: 30px;
     box-shadow: 3px 3px 5px #5b695d;
     grid-area: chart;
-    grid-column: 2; 
+    /* grid-column: 2;  */
 }
 </style>

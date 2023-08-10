@@ -22,8 +22,7 @@
     </nav>
     <div class="content">
       <router-view />
-    </div>
-    
+    </div>    
   </div>
 </template>
  <style scoped>
