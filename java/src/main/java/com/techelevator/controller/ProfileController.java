@@ -35,7 +35,7 @@ public class ProfileController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/create-profile")
+    @PostMapping("/createProfile")
     public Profile create(@RequestBody Profile profile, Principal principal){
         Profile newProfile = null;
         User user = userDao.getUserByUsername(principal.getName());

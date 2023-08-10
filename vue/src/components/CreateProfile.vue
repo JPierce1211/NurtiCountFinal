@@ -5,7 +5,7 @@
 
            <div class="height-choice">
               <label for="height">Height:</label>
-              <select id="height" v-model="height">
+              <select id="height" v-model="profile.height">
                 <option value="53">4' 5"</option>
                 <option value="54">4' 6"</option>
                 <option value="55">4' 7"</option>
@@ -45,45 +45,51 @@
               </select>
       </div>
       <div class="display-name-choice">
-        <label for="display_name">Display Name:</label>
-        <input type="text" id="display_name" v-model="displayName" />
+        <label for="displayName">Display Name:</label>
+        <input type="text" id="displayName" v-model="profile.displayName" />
       </div>
       <div class="birth-date-choice">
         <label for="birthdate">Birthdate:</label>
-        <input type="date" id="birthdate" v-model="birthdate" />
+        <input type="date" id="birthdate" v-model="profile.birthdate" />
       </div>
       <div class="profile-pic-choice">
         <label for="profile_pic_id">Profile Picture:</label>
 
         <label>
-        <input type="radio" id="profilePics01" v-model="profilePicId" value="01" />
+        <input type="radio" id="profilePics" v-model="profile.profilePicId" value="01" />
         <img :src="imgPP01" alt="Man" class="profilePicSelector">
       </label>
       <label>
-        <input type="radio" id="profilePics02" v-model="profilePicId" value="02" />
+        <input type="radio" id="profilePics" v-model="profile.profilePicId" value="02" />
         <img :src="imgPP02" alt="Flower" class="profilePicSelector">
       </label>
       <label>
-        <input type="radio" id="profilePics03" v-model="profilePicId" value="03" />
+        <input type="radio" id="profilePics" v-model="profile.profilePicId" value="03" />
         <img :src="imgPP03" alt="Runners" class="profilePicSelector">
       </label>
       <label>
-        <input type="radio" id="profilePics04" v-model="profilePicId" value="04" />
+        <input type="radio" id="profilePics" v-model="profile.profilePicId" value="04" />
         <img :src="imgPP04" alt="Music Note" class="profilePicSelector">
       </label>
       <label>
-        <input type="radio" id="profilePics05" v-model="profilePicId" value="05" />
+        <input type="radio" id="profilePics" v-model="profile.profilePicId" value="05" />
         <img :src="imgPP05" alt="The Healthiest of Meals" class="profilePicSelector">
       </label>
 
 
       </div>
       <div class="starter_weight">
-        <label for="starting_weight">Starting Weight:</label>
-        <input type="number" id="starting_weight" v-model="startingWeight" />
+        <label for="startingWeight">Starting Weight:</label>
+        <input type="number" id="startingWeight" v-model="profile.startingWeight" />
       </div>
       <button class="login-button" type="submit">Submit</button>
     </form>
+
+    <div>
+      {{profile.profilePicId}}
+    </div>
+  
+
   </div>
 </template>
 <script>
@@ -129,15 +135,16 @@ export default
   {
       submitForm() 
       {
+        alert(this.profile.displayName);
         //let hasProfile = true;
         const formData = 
         {
           userId: this.$store.state.profile.userId, 
           height: this.profile.height,
-          display_name: this.profile.displayName,
+          displayName: this.profile.displayName,
           birthdate: this.profile.birthdate,
-          profile_pic_id: this.profile.profilePicId,
-          starting_weight: this.profile.startingWeight
+          profilePicId: this.profile.profilePicId,
+          startingWeight: this.profile.startingWeight
         };
         ProfileService
           .createProfile(formData)
