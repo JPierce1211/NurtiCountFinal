@@ -22,8 +22,8 @@ public class JdbcProfileDao implements ProfileDao{
     public Profile getProfileById(int id){
         Profile profile = null;
         String sql = "SELECT user_id, profile_id, birthday, height, starting_weight, " +
-                "display_name, profile_pic_id " +
-                "FROM user_profile " +
+                "display_name, profile_pic_id, goals " +
+                "FROM profile " +
                 "WHERE profile_id = ?";
         try{
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
@@ -39,10 +39,10 @@ public class JdbcProfileDao implements ProfileDao{
     @Override
     public Profile getProfileByUserId(int userId){
         Profile profile = null;
-        String sql = "SELECT user_id, profile_id, birthday, height, starting_weight " +
-                "display_name, profile_pic_id " +
-                "FROM user_profile " +
-                "WHERE user_id = ?";
+        String sql = "SELECT user_id, profile_id, birthday, height, current_weight, " +
+                "display_name, profile_pic_id, goals " +
+                "FROM profile " +
+                "WHERE user_id = ?;";
         try{
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
             if (results.next()){
@@ -57,11 +57,11 @@ public class JdbcProfileDao implements ProfileDao{
     @Override
     public Profile createProfile(Profile profile){
         Profile newProfile = null;
-        String sql = "INSERT INTO user_profile (user_id, birthday, height, starting_weight, display_name, profile_pic_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?) RETURNING profile_id;";
+        String sql = "INSERT INTO profile (user_id, birthday, height, starting_weight, display_name, profile_pic_id, goals) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING profile_id;";
         try {
             int newProfileId = jdbcTemplate.queryForObject(sql, int.class, profile.getUserId(), profile.getBirthday(),
-                    profile.getHeight(), profile.getStartingWeight(), profile.getDisplayName(), profile.getProfilePicId());
+                    profile.getHeight(), profile.getCurrentWeight(), profile.getDisplayName(), profile.getProfilePicId(), profile.getGoals());
 
             newProfile = getProfileById(newProfileId);
         }catch (CannotGetJdbcConnectionException e) {
@@ -75,11 +75,11 @@ public class JdbcProfileDao implements ProfileDao{
     @Override
     public Profile updateProfile(Profile profile){
         Profile updateProfile = null;
-        String sql = "UPDATE user_profile SET user_id = ?, birthday = ?, height = ?, starting_weight = ?, display_name = ?, profile_pic_id = ? " +
+        String sql = "UPDATE profile SET user_id = ?, birthday = ?, height = ?, current_weight = ?, display_name = ?, profile_pic_id = ?, goals = ? " +
                 "WHERE profile_id = ?;";
         try{
             int numberOfRows = jdbcTemplate.update(sql, profile.getUserId(), profile.getBirthday(), profile.getHeight(),
-                    profile.getStartingWeight(), profile.getDisplayName(), profile.getProfilePicId(), profile.getProfileId());
+                    profile.getCurrentWeight(), profile.getDisplayName(), profile.getProfilePicId(), profile.getProfileId(), profile.getGoals());
             if(numberOfRows == 0){
                 throw new DaoException("Zero rows affected, expected at least one");
             }else{
@@ -97,13 +97,9 @@ public class JdbcProfileDao implements ProfileDao{
     @Override
     public int deleteProfile(int id){
         int numberOfRows = 0;
-        String progressSql = "DELETE FROM progress WHERE profile_id = ?;";
-        String mealUserSQL = "DELETE FROM meal_user WHERE profile_id = ?;";
-        String userProfileSql = "DELETE FROM user_profile WHERE profile_id = ?;";
+        String userProfileSql = "DELETE FROM profile WHERE profile_id = ?;";
 
         try{
-            jdbcTemplate.update(progressSql, id);
-            jdbcTemplate.update(mealUserSQL, id);
             numberOfRows = jdbcTemplate.update(userProfileSql, id);
         }catch(CannotGetJdbcConnectionException e){
             throw new DaoException("Unable to connect to server or database", e);
@@ -119,9 +115,10 @@ public class JdbcProfileDao implements ProfileDao{
         profile.setProfileId(rs.getInt("profile_id"));
         profile.setBirthday(rs.getString("birthday"));
         profile.setHeight(rs.getDouble("height"));
-        profile.setStartingWeight(rs.getDouble("starting_weight"));
+        profile.setCurrentWeight(rs.getDouble("current_weight"));
         profile.setDisplayName(rs.getString("display_name"));
         profile.setProfilePicId(rs.getInt("profile_pic_id"));
+        profile.setGoals(rs.getInt("goals"));
         return profile;
     }
 }
