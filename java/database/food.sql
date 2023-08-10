@@ -10,8 +10,8 @@ VALUES
 	('Ham', 'Protein', 1, 100, 1),
 	('Tuna', 'Protein', 1, 145, 1),
 	('Crab', 'Protein', 1, 86, 1),
-	('Peanut Butter', 1, 191, 1),
-	('Fish', 'Protein', 1, 100, 1);
+	--('Peanut Butter', 1, 191, 1),
+	('Fish', 'Protein', 1, 100, 1),
 
 	('Bread', 'Grains', 1, 76, 1),
 	('Cereal', 'Grains', 1, 108, 1),
@@ -19,7 +19,7 @@ VALUES
 	('Oatmeal', 'Grains', 1, 150, 1),
 	('Grits', 'Grains', 1, 154, 1),
 	('Pasta', 'Grains', 1, 287, 1),
-	('Tortilla', 'Grains', 1, 144, 1);
+	('Tortilla', 'Grains', 1, 144, 1),
 
 	('Apple', 'Fruit', 1, 95, 1),
 	('Banana', 'Fruit', 1, 110, 1),
@@ -32,7 +32,7 @@ VALUES
 	('Peach', 'Fruit', 1, 50, 1),
 	('Grapefruit', 'Fruit', 1, 52, 1),
 	('Jelly', 'Fruit', 1, 53, 1),
-	('Avocado', 'Fruit', 1, 80, 1);
+	('Avocado', 'Fruit', 1, 80, 1),
 
 	('Broccoli', 'Vegetable', 1, 13, 1),
 	('Spinach', 'Vegetable', 1, 23, 1),
@@ -43,7 +43,7 @@ VALUES
 	('Asparagus', 'Vegetable', 1, 21, 1),
 	('Onion', 'Vegetable', 1, 42, 1),
 	('Peppers', 'Vegetable', 1, 31, 1),
-	('Cauliflower', 'Vegetable', 1, 25, 1);
+	('Cauliflower', 'Vegetable', 1, 25, 1),
 
 	('Milk', 'Dairy', 1, 149, 1),
 	('Cheese', 'Dairy', 1, 120, 1),

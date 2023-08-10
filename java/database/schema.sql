@@ -1,6 +1,6 @@
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS users,goals,profile,meal_user,food,profile_img, meals;
+DROP TABLE IF EXISTS users,goals,profile,meal_user,food,profile_img, meals, meal_foods;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -29,8 +29,11 @@ CREATE TABLE profile (
 );
 
 CREATE TABLE meal_user (
-	meal_id serial,
-	user_id int   ---DONT SAVE ******* ALSO.. MAKE CONSTRAINTS!!
+	meal_id serial PRIMARY KEY,
+	user_id int,
+	--CONSTRAINT PK_meal_id PRIMARY KEY (meal_id),
+	CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
+	--CONSTRAINT FK_meal_id FOREIGN KEY (meal_id) REFERENCES meal(meal_id)
 );
 
 CREATE TABLE food (
@@ -39,12 +42,8 @@ CREATE TABLE food (
 	food_type varchar(50) NOT NULL,
 	serving_size decimal NOT NULL,
 	calories decimal NOT NULL,
-	num_of_servings decimal NOT NULL
-);
-
-CREATE TABLE profile_img (
-	profile_pic_id serial,
-	url varchar(10)
+	num_of_servings decimal NOT NULL,
+	CONSTRAINT PK_food_id PRIMARY KEY (food_id)
 );
 
 CREATE TABLE meals(
@@ -52,8 +51,24 @@ CREATE TABLE meals(
 	meal_type varchar(10) NOT NULL,
 	log_day date NOT NULL,
 	is_quick_meal boolean NOT NULL,
-	food_id int NOT NULL
+	--food_id int NULL,
+	CONSTRAINT FK_meal_user FOREIGN KEY (meal_id) REFERENCES meal_user(meal_id),
+	CONSTRAINT UQ_meal_id UNIQUE (meal_id)
+	--CONSTRAINT FK_food_id FOREIGN KEY (food_id) REFERENCES food(food_id)
 );
 
+CREATE TABLE meal_foods (
+	meal_id int NULL,
+	food_id int NULL,
+	CONSTRAINT PK_meal_foods PRIMARY KEY (meal_id, food_id),
+	CONSTRAINT FK_meal_id FOREIGN KEY (meal_id) REFERENCES meals(meal_id),
+	CONSTRAINT FK_food_id FOREIGN KEY (food_id) REFERENCES food(food_id)
+);
+
+
+CREATE TABLE profile_img (
+	profile_pic_id serial,
+	url varchar(10)
+);
 
 COMMIT TRANSACTION;
