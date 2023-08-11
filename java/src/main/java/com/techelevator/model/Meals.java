@@ -5,19 +5,21 @@ import java.time.LocalDate;
 public class Meals {
 
     private int mealId;
-    private int profileId;
 
     private String mealType;
 
-    private String mealDate;
+    private String logDay;
+
+    private boolean isQuickMeal;
 
     public Meals() {};
 
-    public Meals(int mealId, String mealType, String mealDate, int profileId) {
+    public Meals(int mealId, String mealType, String logDay, boolean isQuickMeal) {
         this.mealId = mealId;
         this.mealType = mealType;
-        this.mealDate = mealDate;
-        this.profileId = profileId;
+        this.logDay = logDay;
+        this.isQuickMeal = isQuickMeal;
+
     }
 
     public int getMealId() {
@@ -26,7 +28,6 @@ public class Meals {
 
     public void setMealId(int mealId) {
         this.mealId = mealId;
-        this.profileId = profileId;
     }
 
     public String getMealType() {
@@ -37,20 +38,20 @@ public class Meals {
         this.mealType = mealType;
     }
 
-    public String getMealDate() {
-        return mealDate;
+    public String getLogDay() {
+        return logDay;
     }
 
-    public void setMealDate(String mealDate) {
-        this.mealDate = mealDate;
+    public void setLogDay(String logDay) {
+        this.logDay = logDay;
     }
 
-    public int getProfileId(int profileId) {
-        return this.profileId;
+    public boolean isQuickMeal() {
+        return isQuickMeal;
     }
 
-    public void setProfileId(int profileId) {
-        this.profileId = profileId;
+    public void setQuickMeal(boolean quickMeal) {
+        isQuickMeal = quickMeal;
     }
 
     public void addNewFood(Food food) {
