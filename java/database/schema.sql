@@ -31,9 +31,7 @@ CREATE TABLE profile (
 CREATE TABLE meal_user (
 	meal_id serial PRIMARY KEY,
 	user_id int,
-	--CONSTRAINT PK_meal_id PRIMARY KEY (meal_id),
 	CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
-	--CONSTRAINT FK_meal_id FOREIGN KEY (meal_id) REFERENCES meal(meal_id)
 );
 
 CREATE TABLE food (
@@ -51,10 +49,8 @@ CREATE TABLE meals(
 	meal_type varchar(10) NOT NULL,
 	log_day date NOT NULL,
 	is_quick_meal boolean NOT NULL,
-	--food_id int NULL,
 	CONSTRAINT FK_meal_user FOREIGN KEY (meal_id) REFERENCES meal_user(meal_id),
 	CONSTRAINT UQ_meal_id UNIQUE (meal_id)
-	--CONSTRAINT FK_food_id FOREIGN KEY (food_id) REFERENCES food(food_id)
 );
 
 CREATE TABLE meal_foods (
