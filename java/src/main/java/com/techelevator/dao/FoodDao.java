@@ -17,10 +17,7 @@ public interface FoodDao {
 
     int deleteFoodById(int foodId);
 
-   // Food addFoodByName();
-
-//    foodName was not added. This is a placeholder for it
-//    Food deleteFoodByName();
+    Food addFoodByName(String foodName);
 
     Food mapRowToFood(SqlRowSet rs);
 }
