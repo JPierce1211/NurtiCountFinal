@@ -32,7 +32,7 @@ public class MealsController {
     }
 
     @GetMapping("/meals")
-    public List<Meals> listMeals(@PathVariable int profileId, Principal principal) {
+    public List<Meals> listMeals(Principal principal) {
         //Profile profile = profileDao.getProfileById(profileId);
         User user = userDao.getUserByUsername(principal.getName());
         if (user != null) {

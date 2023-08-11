@@ -25,11 +25,11 @@ public class JdbcMealsDao implements MealsDao{
     @Override
     public List<Meals> findAll(int userId){
         List<Meals> meals = new ArrayList<>();
-        String sql = "SELECT m.meal_id, m.meal_type, m.log_day, m.is_quick_meal, f.food_id, f.food_name, f.food_type, f.serving_size, f.calories, f.num_of_servings " +
-                        "FROM meals m " +
-                        "JOIN meal_food mf ON mu.meal_id = mf.meal_id " +
-                        "JOIN food f ON mf.food_id = f.food_id " +
-                        "WHERE m.user_id = ?";
+        String sql = "SELECT meals.meal_id, meals.user_id, meals.meal_type, meals.log_day, meals.is_quick_meal, food.food_id, food.food_name, food.food_type, food.serving_size, food.calories, food.num_of_servings " +
+                        "FROM meals " +
+                        "JOIN meal_food ON meals.meal_id = meal_food.meal_id " +
+                        "JOIN food ON meal_food.food_id = food.food_id " +
+                        "WHERE user_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         while(results.next()){
             Meals meal = mapRowToMeals(results);
@@ -64,7 +64,7 @@ public class JdbcMealsDao implements MealsDao{
 
     @Override
     public Meals getMealById(int mealId) {
-        String sql = "SELECT meals.meal_id, meals.meal_type, meals.log_day, meals.is_quick_meal, food.food_id, food.food_name, food.food_type, food.serving_size, food.calories, food.num_of_servings " +
+        String sql = "SELECT meals.meal_id, meals.user_id, meals.meal_type, meals.log_day, meals.is_quick_meal, food.food_id, food.food_name, food.food_type, food.serving_size, food.calories, food.num_of_servings " +
                 "FROM meals " +
                 "JOIN meal_food ON meals.meal_id = meal_food.meal_id " +
                 "JOIN food ON meal_food.food_id = food.food_id " +
