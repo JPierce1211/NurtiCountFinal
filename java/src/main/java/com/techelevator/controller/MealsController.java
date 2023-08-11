@@ -1,10 +1,8 @@
 package com.techelevator.controller;
 
-import com.techelevator.dao.JdbcMealsDao;
-import com.techelevator.dao.JdbcProfileDao;
-import com.techelevator.dao.JdbcUserDao;
-import com.techelevator.dao.ProfileDao;
+import com.techelevator.dao.*;
 import com.techelevator.exception.DaoException;
+import com.techelevator.model.Food;
 import com.techelevator.model.Meals;
 import com.techelevator.model.Profile;
 import com.techelevator.model.User;
@@ -24,64 +22,72 @@ import java.util.List;
 public class MealsController {
     private JdbcTemplate jdbcTemplate;
     private JdbcMealsDao mealsDao;
-    private ProfileDao profileDao;
+    private JdbcFoodDao foodDao;
     private JdbcUserDao userDao;
-    public MealsController(JdbcMealsDao mealsDao, JdbcProfileDao profileDao, JdbcUserDao userDao){
+
+    public MealsController(JdbcMealsDao mealsDao, JdbcFoodDao foodDao, JdbcUserDao userDao) {
         this.mealsDao = mealsDao;
-        this.profileDao = profileDao;
+        this.foodDao = foodDao;
         this.userDao = userDao;
     }
 
     @GetMapping("/meals")
-    public List<Meals> listMeals(@PathVariable int profileId, Principal principal){
+    public List<Meals> listMeals(@PathVariable int profileId, Principal principal) {
         //Profile profile = profileDao.getProfileById(profileId);
         User user = userDao.getUserByUsername(principal.getName());
-        if(user != null){
-            return mealsDao.findAll(user.getId());
-        }else{
-        }
-            return null;
-    }
-    @GetMapping("/meals/{id}")
-    public Meals get(@PathVariable int profileId, @PathVariable int mealsId, Principal principal) {
-        //Profile profile = profileDao.getProfileById(profileId);
-        User user = userDao.getUserByUsername(principal.getName());
-
         if (user != null) {
-            Meals meals = mealsDao.getMealById(mealsId);
+            return mealsDao.findAll(user.getId());
+        } else {
+        }
+        return null;
+    }
+
+    @GetMapping("/meals/{mealId}")
+    public Meals get(@PathVariable int mealId, Principal principal) {
+        //Profile profile = profileDao.getProfileById(profileId);
+        User user = userDao.getUserByUsername(principal.getName());
+        Meals meals = new Meals();
+        if (user != null) {
+            meals = mealsDao.getMealById(mealId);
             if (meals != null) {
                 return meals;
-            } else {
-                return null;
+
             }
-        }else{
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
         }
+        return meals;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createMeal")
-    public Meals createMeal(@PathVariable int profileId, @RequestBody Meals meals, Principal principal) {
-     return null;
+    public Meals createMeal(@RequestBody Food food, @RequestBody Meals meals, Principal principal) {
+        User user = userDao.getUserByUsername(principal.getName());
+        if(user != null){
+            return mealsDao.createMeal(meals, (List<Food>) food);
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
     }
 
-    @PutMapping("/meals/{mealId}")
-    public Meals update(Principal principal, @RequestBody Meals updatedMeal, @PathVariable int mealId){
-      return null;
+        @PutMapping("/meals/{mealId}")
+        public Meals update(Principal principal, @RequestBody Meals updatedMeal,@PathVariable int mealId){
+            Meals newMeal = mealsDao.updateMealsById(updatedMeal, mealId);
+            return newMeal;
+
+        }
+
+        @ResponseStatus(HttpStatus.NO_CONTENT)
+        @DeleteMapping("/meals/{mealId}")
+        public void delete ( @PathVariable int mealId, Principal principal){
+            User user = userDao.getUserByUsername(principal.getName());
+            if (user != null) {
+                mealsDao.deleteMealById(mealId);
+            }
+            if (mealsDao.deleteMealById(mealId) != 1) {
+                throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Meal not found");
+            }
+        }
     }
 
-    //meals.setMealId(mealId);
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/meals/{id}")
-    public void delete(@PathVariable int mealId, @PathVariable int profileId, Principal principal){
-        Profile profile = profileDao.getProfileById(profileId);
-        if(profile != null){
-            int deleteMeal = mealsDao.deleteMealById(mealId);
-        }
-        if(mealsDao.deleteMealById(mealId) != 1){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Meal not found");
-        }
-    }
-}
 
 
