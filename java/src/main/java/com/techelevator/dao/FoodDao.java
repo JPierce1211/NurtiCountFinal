@@ -1,7 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Food;
-import com.techelevator.model.User;
+import com.techelevator.model.FoodDto;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 public interface FoodDao {
 
 
-    Food addNewFood(Food food);
+    Food addNewFood(FoodDto food);
 
     Food getFoodById(int foodId);
 
@@ -17,8 +17,9 @@ public interface FoodDao {
 
     int deleteFoodById(int foodId);
 
+   // Food addFoodByName();
 
-////    fooName was not added. This is a placeholder for it
+//    foodName was not added. This is a placeholder for it
 //    Food deleteFoodByName();
 
     Food mapRowToFood(SqlRowSet rs);
