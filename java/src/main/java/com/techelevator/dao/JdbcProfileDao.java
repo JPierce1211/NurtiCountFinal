@@ -21,7 +21,7 @@ public class JdbcProfileDao implements ProfileDao{
     @Override
     public Profile getProfileById(int id){
         Profile profile = null;
-        String sql = "SELECT user_id, profile_id, birthday, height, starting_weight, " +
+        String sql = "SELECT user_id, profile_id, birthday, height, current_weight, " +
                 "display_name, profile_pic_id, goals " +
                 "FROM profile " +
                 "WHERE profile_id = ?";
