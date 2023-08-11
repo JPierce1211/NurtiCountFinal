@@ -16,6 +16,24 @@
             <tr>
                 <td>
                 <input type="date" id="logDay" v-model="meal.logDay" >
+<<<<<<< HEAD
+
+            </div>
+            <div>
+            </div>
+            <div id="mealType">
+              <label for="mealType">Meal Type:</label>
+              <select id="mealDropDown" v-model="meal.mealType">
+                <option value="breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
+                <option value="Snack">Snack</option>
+              </select>
+            </div>
+            <div>  
+                
+            </div>    
+=======
                {{format_date(meal.logDay)}}
                </td>
                <td>
@@ -63,6 +81,7 @@
                         <!-- going to need a method to turn isQuickMeal True -->
                         <input type="checkbox" v-model="meal.isQuickMeal" v-on:click.prevent="addQuickMeal">
                     <td>     
+>>>>>>> 6fa2c738004fb38de6560f4f70b5510923003716
 
                 </tr>        
             </thead>    
