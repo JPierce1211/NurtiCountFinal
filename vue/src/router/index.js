@@ -5,8 +5,9 @@ import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import store from '../store/index.js'
-import Profile from '../views/Profile.vue'
+import editProfile from '../views/EditProfile.vue'
 import createProfile from '../views/CreateProfile.vue'
+import DBWeightChart from '../components/DBWieghtChart.vue'
 import meal from '../views/Meal.vue'
 
 Vue.use(Router)
@@ -56,14 +57,16 @@ const router = new Router({
         requiresAuth: false
       }
     },
+
     {
-      path: "/profile/:id",
-      name: "profile",
-      component: Profile,
+      path: "/meals/:id",
+      name: "meals",
+      component: meal,
 
     },
+
     {
-      path: "/create-profile/",
+      path: "/createProfile/",
       name: "createProfile",
       component: createProfile,
     },
@@ -71,7 +74,12 @@ const router = new Router({
       path: "/profile/:id/edit",
       //may have to change end point to add id or change backend 
       name: "editProfile",
-      component: Profile,
+      component: editProfile,
+    },
+    {
+      path: '/progress/:profile-id',
+      name: 'lineGraphDB',
+      component: DBWeightChart,
     },
     {
       path: "/meal",
