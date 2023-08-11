@@ -35,7 +35,7 @@ public class JdbcMealsDao implements MealsDao{
         while(results.next()){
             Meals meal = mapRowToMeals(results);
             if(results.getInt("food_id") != 0){
-                Food food = mapRowToFood(results);
+                Food food = foodDao.mapRowToFood(results);
                 meal.addNewFood(food);
             }
             meals.add(meal);
@@ -75,7 +75,7 @@ public class JdbcMealsDao implements MealsDao{
             Meals meal = mapRowToMeals(results);
 
             if (results.getInt("food_id") != 0) {
-                Food food = mapRowToFood(results);
+                Food food = foodDao.mapRowToFood(results);
                 meal.addNewFood(food);
         }
             return meal;
@@ -136,15 +136,15 @@ public class JdbcMealsDao implements MealsDao{
         return meals;
     }
 
-    public Food mapRowToFood(SqlRowSet rs) {
-        Food food = new Food();
-        food.setFoodId(rs.getInt("id"));
-        food.setMealId(rs.getInt("meal_id"));
-        food.setFoodName(rs.getString("food_name"));
-        food.setFoodType(rs.getString("food_type"));
-        food.setServingSize(rs.getInt("serving_size"));
-        food.setCalories(rs.getDouble("calories"));
-        food.setNumOfServings(rs.getInt("number_of_servings"));
-        return food;
-    }
+//    public Food mapRowToFood(SqlRowSet rs) {
+//        Food food = new Food();
+//        food.setFoodId(rs.getInt("id"));
+//        food.setMealId(rs.getInt("meal_id"));
+//        food.setFoodName(rs.getString("food_name"));
+//        food.setFoodType(rs.getString("food_type"));
+//        food.setServingSize(rs.getInt("serving_size"));
+//        food.setCalories(rs.getDouble("calories"));
+//        food.setNumOfServings(rs.getInt("number_of_servings"));
+//        return food;
+//    }
 }

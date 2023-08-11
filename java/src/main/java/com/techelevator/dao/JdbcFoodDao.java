@@ -38,7 +38,7 @@ public class JdbcFoodDao implements FoodDao {
     @Override
     public Food getFoodById(int foodId) {
         Food food = null;
-        String sql = "SELECT id, meal_id, food_name, food_type, serving_size, calories, number_of_servings FROM food WHERE id = ?";
+        String sql = "SELECT food_id, food_name, food_type, serving_size, calories, num_of_servings FROM food WHERE food_id = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, foodId);
             if (results.next()) {
@@ -53,7 +53,7 @@ public class JdbcFoodDao implements FoodDao {
     @Override
     public List<Food> listFood() {
         List<Food> foodList = new ArrayList<>();
-        String sql = "SELECT id, meal_id, food_name, food_type, serving_size, calories, number_of_servings";
+        String sql = "SELECT food_id, food_name, food_type, serving_size, calories, num_of_servings FROM food";
             try {
                 SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
                 while (results.next()) {
@@ -68,7 +68,7 @@ public class JdbcFoodDao implements FoodDao {
     @Override
     public int deleteFoodById(int foodId) {
             int numberOfRows = 0;
-            String sql = "DELETE FROM food WHERE id = ?";
+            String sql = "DELETE FROM food WHERE food_id = ?";
             try {
                 numberOfRows = jdbcTemplate.update(sql, foodId);
             } catch (CannotGetJdbcConnectionException e) {
@@ -93,23 +93,30 @@ public class JdbcFoodDao implements FoodDao {
 //                return numberOfRows;
 //    }
 
-//    @Override
-//    public Food getFoodByName(){
-//        Food foodName = null;
-//        String sql = "SELECT from food WHERE food_name = ?";
-//            try {
-//
-//    }
+    @Override
+    public Food addFoodByName(String foodName){
+        Food foodItem = null;
+        String sql = "SELECT food_id, food_type, serving_size, calories, num_of_servings FROM food WHERE food_name = ?";
+            try {
+                SqlRowSet results = jdbcTemplate.queryForRowSet(sql, foodName);
+                if (results.next()) {
+                    foodItem = mapRowToFood(results);
+                }
+            } catch (CannotGetJdbcConnectionException e) {
+                throw new DaoException("Unable to connect to server or database", e);
+            }
+        return foodItem;
+
+    }
 
     public Food mapRowToFood(SqlRowSet rs) {
         Food fd = new Food();
-        fd.setFoodId(rs.getInt("id"));
-        fd.setMealId(rs.getInt("meal_id"));
+        fd.setFoodId(rs.getInt("food_id"));
         fd.setFoodName(rs.getString("food_name"));
         fd.setFoodType(rs.getString("food_type"));
         fd.setServingSize(rs.getInt("serving_size"));
         fd.setCalories(rs.getDouble("calories"));
-        fd.setNumOfServings(rs.getInt("number_of_servings"));
+        fd.setNumOfServings(rs.getInt("num_of_servings"));
         return fd;
     }
 }

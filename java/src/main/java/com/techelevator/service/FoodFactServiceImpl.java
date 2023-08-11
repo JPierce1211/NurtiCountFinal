@@ -1,11 +1,20 @@
 package com.techelevator.service;
 
+import com.techelevator.exception.DaoException;
 import com.techelevator.model.Food;
+import com.techelevator.model.FoodDto;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Component
+@Service
 public class FoodFactServiceImpl {
 
     // Ninja Calories API Key = ZTiKebEmbGDPgIwUgnV3XQ==biRhU7uo94M8dOUL
@@ -15,10 +24,26 @@ public class FoodFactServiceImpl {
     // private static final String API_URL = "https://platform.fatsecret.com/rest/server.api";
     // private static final String API_URL = "https://api.api-ninjas.com/v1/nutrition?query=";
 
-    private static final String API_URL ="";
+    private static final String API_URL ="https://api.api-ninjas.com/v1/nutrition?query=";
     private RestTemplate restTemplate = new RestTemplate();
-    public Food getFacts() throws RestClientResponseException{
-        Food foodFact = restTemplate.getForObject(API_URL, Food.class);
+
+//    public FoodFactServiceImpl(RestTemplate restTemplate) {
+//        this.restTemplate = restTemplate;
+//    }
+
+
+
+
+        public FoodDto getFacts() throws RestClientResponseException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-API-KEY", "ZTiKebEmbGDPgIwUgnV3XQ==biRhU7uo94M8dOUL");
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        ResponseEntity<FoodDto> response =  restTemplate.exchange(API_URL, HttpMethod.GET,entity, FoodDto.class);
+        FoodDto foodFact = response.getBody();
         return foodFact;
     }
+
+
+
+
 }
