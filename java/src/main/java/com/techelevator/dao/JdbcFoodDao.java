@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Food;
+import com.techelevator.model.FoodDto;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,7 +21,7 @@ public class JdbcFoodDao implements FoodDao {
     }
 
     @Override
-    public Food addNewFood(Food food) {
+    public Food addNewFood(FoodDto food) {
     Food newFood = null;
     String sql = "INSERT INTO food (food_name, food_type, serving_size, calories) VALUES (?, ?, ?,?) RETURNING food_id";
 		try {
@@ -79,9 +80,25 @@ public class JdbcFoodDao implements FoodDao {
     }
 
 //    // We did not add foodName so this is a placeholder for it
+//    public int deleteFoodByName(String foodName) {
+//          int numberOfRows = 0;
+//        String sql = "DELETE from food WHERE food_name = ?";
+//            try{
+//                numberOfRows = jdbcTemplate.update(sql, foodName);
+//            } catch (CannotGetJdbcConnectionException e) {
+//                throw new DaoException("Unable to connect to server or database");
+//            } catch (DataIntegrityViolationException e) {
+//                throw new DaoException("Data Integrity violation", e);
+//            }
+//                return numberOfRows;
+//    }
+
 //    @Override
-//    public Food deleteFoodByName() {
-//        return null;
+//    public Food getFoodByName(){
+//        Food foodName = null;
+//        String sql = "SELECT from food WHERE food_name = ?";
+//            try {
+//
 //    }
 
     public Food mapRowToFood(SqlRowSet rs) {
