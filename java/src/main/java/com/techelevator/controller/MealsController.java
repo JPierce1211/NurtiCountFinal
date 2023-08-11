@@ -34,7 +34,7 @@ public class MealsController {
     }
 
     @GetMapping("/meals")
-    public List<Meals> listMeals(@PathVariable int profileId, Principal principal){
+    public List<Meals> listMeals(Principal principal){
         //Profile profile = profileDao.getProfileById(profileId);
         User user = userDao.getUserByUsername(principal.getName());
         if(user != null){
@@ -43,8 +43,8 @@ public class MealsController {
         }
             return null;
     }
-    @GetMapping("/meals/{id}")
-    public Meals get(@PathVariable int profileId, @PathVariable int mealsId, Principal principal) {
+    @GetMapping("/mealsId")
+    public Meals get(@PathVariable int mealsId, Principal principal) {
         //Profile profile = profileDao.getProfileById(profileId);
         User user = userDao.getUserByUsername(principal.getName());
 
@@ -62,7 +62,7 @@ public class MealsController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createMeal")
-    public Meals createMeal(@PathVariable int profileId, @RequestBody Meals meals, @RequestBody Food food, Principal principal) {
+    public Meals createMeal(@RequestBody Meals meals, @RequestBody Food food, Principal principal) {
         User user = userDao.getUserByUsername(principal.getName());
         if(user != null){
             Profile profile = profileDao.getProfileById(user.getId());
@@ -78,7 +78,7 @@ public class MealsController {
 
     }
 
-    @PutMapping("/meals/{id}")
+    @PutMapping("/mealsId")
     public Meals update(Principal principal, @RequestBody Meals updatedMeal, @PathVariable int mealId, Profile profile){
         //Profile profile = profileDao.getProfileById(profileId);
         User user = userDao.getUserByUsername(principal.getName());
@@ -108,10 +108,11 @@ public class MealsController {
 
     //meals.setMealId(mealId);
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/meals/{id}")
-    public void delete(@PathVariable int mealId, @PathVariable int profileId, Principal principal){
-        Profile profile = profileDao.getProfileById(profileId);
-        if(profile != null){
+    @DeleteMapping("/mealsId}")
+    public void delete(@PathVariable int mealId, Principal principal){
+        //Profile profile = profileDao.getProfileById(profileId);
+        User user = userDao.getUserByUsername(principal.getName());
+        if(user != null){
             int deleteMeal = mealsDao.deleteMealById(mealId);
         }
         if(mealsDao.deleteMealById(mealId) != 1){

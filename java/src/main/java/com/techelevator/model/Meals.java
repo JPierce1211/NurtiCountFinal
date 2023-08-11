@@ -52,4 +52,8 @@ public class Meals {
     public void setProfileId(int profileId) {
         this.profileId = profileId;
     }
+
+    public void addNewFood(Food food) {
+    }
+
 }
