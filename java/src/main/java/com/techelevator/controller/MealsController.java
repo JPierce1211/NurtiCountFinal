@@ -60,50 +60,15 @@ public class MealsController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/create-meal")
+    @PostMapping("/createMeal")
     public Meals createMeal(@PathVariable int profileId, @RequestBody Meals meals, Principal principal) {
-        User user = userDao.getUserByUsername(principal.getName());
-        if(user != null){
-            Profile profile = profileDao.getProfileById(user.getId());
-            if(profile != null){
-                meals.setProfileId(profile.getProfileId());
-                return mealsDao.createMeal(meals);
-            }else{
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-            }
-        }else{
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
-
+     return null;
     }
 
-    @PutMapping("/meals/{id}")
-    public Meals update(Principal principal, @RequestBody Meals updatedMeal, @PathVariable int mealId, Profile profile){
-        //Profile profile = profileDao.getProfileById(profileId);
-        User user = userDao.getUserByUsername(principal.getName());
-        if(user != null){
-             profile = profileDao.getProfileById(user.getId());
-            if(profile != null){
-            Meals updatedMeals = mealsDao.getMealById(mealId);
-            if(updatedMeals != null) {
-                if(updatedMeal.getProfileId(profile.getProfileId()) == profile.getUserId());
-            }
-                updatedMeal.setProfileId(profile.getProfileId());
-                updatedMeal.setMealId(mealId);
-
-                try {
-                    Meals updateMeal = mealsDao.updateMealsById(updatedMeal);
-                    return updateMeal;
-                } catch (DaoException e) {
-                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to update meal");
-                }
-//                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found");
-                }
-            }else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found");
-        }
-               return updatedMeal;
-            }
+    @PutMapping("/meals/{mealId}")
+    public Meals update(Principal principal, @RequestBody Meals updatedMeal, @PathVariable int mealId){
+      return null;
+    }
 
     //meals.setMealId(mealId);
     @ResponseStatus(HttpStatus.NO_CONTENT)
