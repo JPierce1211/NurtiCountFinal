@@ -20,5 +20,8 @@ export default {
         return axios.post(`/profile/${profileId}`, newForm);
     },
 
+    const getProfileInfo =() => {
+            return axios.get('')
+        }
 
 }

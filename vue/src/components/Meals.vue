@@ -5,7 +5,7 @@
             <div id="date">
                 <label for="logDay">Date:</label>
                 <input type="date" id="logDay" v-model="meal.logDay" >
-               {{format_date(meal.logDay)}}
+
             </div>
             <div>
             </div>
@@ -16,6 +16,7 @@
                 <option value="Lunch">Lunch</option>
                 <option value="Dinner">Dinner</option>
                 <option value="Snack">Snack</option>
+              </select>
             </div>
             <div>  
                 
