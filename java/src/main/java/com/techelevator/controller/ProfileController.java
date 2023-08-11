@@ -28,9 +28,9 @@ public class ProfileController {
     }
 
     @GetMapping("/profile/{id}")
-    public Profile get(@PathVariable int profileId, Principal principal){
+    public Profile get(@PathVariable int id, Principal principal){
 //        User user = userDao.getUserByUsername(principal.getName());
-        Profile profile = profileDao.getProfileById(profileId);
+        Profile profile = profileDao.getProfileById(id);
         return profile;
     }
 
@@ -48,8 +48,8 @@ public class ProfileController {
     }
 
     @PutMapping("/profile/{id}/edit")
-    public Profile update(@RequestBody Profile updatedProfile, @PathVariable int profileId){
-        updatedProfile.setProfileId(profileId);
+    public Profile update(@RequestBody Profile updatedProfile, @PathVariable int id){
+        updatedProfile.setProfileId(id);
         Profile updateProfile = profileDao.updateProfile(updatedProfile);
         return updateProfile;
     }
