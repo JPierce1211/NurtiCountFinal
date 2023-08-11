@@ -7,7 +7,7 @@ import axios from 'axios';
 
 export default {
     createProfile(formData){
-        alert(formData.displayName);
+        alert(formData);
         return axios.post(`/createProfile`, formData);
     },
 

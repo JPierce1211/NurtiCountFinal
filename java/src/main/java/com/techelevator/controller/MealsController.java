@@ -44,12 +44,12 @@ public class MealsController {
             return null;
     }
     @GetMapping("/meals/{id}")
-    public Meals get(@PathVariable int profileId, @PathVariable int mealsId, Principal principal) {
+    public Meals get(@PathVariable int id, Principal principal) {
         //Profile profile = profileDao.getProfileById(profileId);
         User user = userDao.getUserByUsername(principal.getName());
 
         if (user != null) {
-            Meals meals = mealsDao.getMealById(mealsId);
+            Meals meals = mealsDao.getMealById(id);
             if (meals != null) {
                 return meals;
             } else {

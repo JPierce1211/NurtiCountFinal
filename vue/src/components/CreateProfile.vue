@@ -5,7 +5,7 @@
 
            <div class="height-choice">
               <label for="height">Height:</label>
-              <select id="height" v-model="profile.height">
+              <select id="height" v-model="profile.height" class="text-box">
                 <option value="53">4' 5"</option>
                 <option value="54">4' 6"</option>
                 <option value="55">4' 7"</option>
@@ -46,12 +46,18 @@
       </div>
       <div class="display-name-choice">
         <label for="displayName">Display Name:</label>
-        <input type="text" id="displayName" v-model="profile.displayName" />
+        <input type="text" id="displayName" v-model="profile.displayName" class="text-box"/>
       </div>
-      <div class="birth-date-choice">
-        <label for="birthdate">Birthdate:</label>
-        <input type="date" id="birthdate" v-model="profile.birthdate" />
-      </div>
+
+      
+      <div class="birth-date-input">
+        <label for="birthDay"> When is your birthday? </label>
+        <input type="date" id="birthDay" class="text-box" v-model="profile.birthDay">       
+      </div> 
+
+
+
+      
       <div class="profile-pic-choice">
         <label for="profile_pic_id">Profile Picture:</label>
 
@@ -78,16 +84,16 @@
 
 
       </div>
-      <div class="starter_weight">
-        <label for="startingWeight">Starting Weight:</label>
-        <input type="number" id="startingWeight" v-model="profile.startingWeight" />
+      <div class="current_weight">
+        <label for="currentWeight">Starting Weight:</label>
+        <input type="number" id="currentWeight" v-model="profile.currentWeight" class="text-box" />
+      </div>
+      <div class="goal_weight">
+        <label for="goals">Desired Weight:</label>
+        <input type="number" id="goals" v-model="profile.goals" class="text-box" />
       </div>
       <button class="login-button" type="submit">Submit</button>
     </form>
-
-    <div>
-      {{profile.profilePicId}}
-    </div>
   
 
   </div>
@@ -105,9 +111,10 @@ export default
         userId: '', 
         height: '',
         displayName: '',
-        birthdate: '',
+        birthDay: '',
         profilePicId: '',
-        startingWeight: ''
+        currentWeight: '',
+        goals: ''
       }
     }; 
   },
@@ -133,33 +140,50 @@ export default
  
   methods: 
   {
-      submitForm() 
+
+    formatDateForSQL(date) 
       {
-        alert(this.profile.displayName);
-        //let hasProfile = true;
+        const d = new Date(date);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      },
+
+    submitForm() 
+      {        
+        const fullBirthday = this.formatDateForSQL(this.profile.birthDay);
+
         const formData = 
-        {
-          userId: this.$store.state.profile.userId, 
-          height: this.profile.height,
-          displayName: this.profile.displayName,
-          birthdate: this.profile.birthdate,
-          profilePicId: this.profile.profilePicId,
-          startingWeight: this.profile.startingWeight
-        };
+          {
+            userId: this.$store.state.profile.userId, 
+            height: this.profile.height,
+            displayName: this.profile.displayName,
+            birthday: fullBirthday,
+            profilePicId: this.profile.profilePicId,
+            currentWeight: this.profile.currentWeight,
+            goals: this.profile.goals
+          };
+
+          console.log(fullBirthday);
+
+        alert(fullBirthday);
+
+        
         ProfileService
           .createProfile(formData)
           .then(response => 
-          {
+            {
               if (response.status === 201)
-              {      
-                this.$store.state.user.hasProfile = true; //This could create errors later down the line. 
-                this.$router.push(`/`);                     
-              }
-          })
+                {      
+                  this.$store.state.user.hasProfile = true; //This could create errors later down the line. 
+                  this.$router.push(`/`);                     
+                }
+            })
           .catch(error => 
-          {
-              this.handleErrorResponse(error, "updating");
-          });
+            {
+                this.handleErrorResponse(error, "updating");
+            });
 
  
 
