@@ -8,7 +8,7 @@ import store from '../store/index.js'
 import editProfile from '../views/EditProfile.vue'
 import createProfile from '../views/CreateProfile.vue'
 import DBWeightChart from '../components/DBWieghtChart.vue'
-import Meals from '../components/Meals.vue'
+import meal from '../views/Meal.vue'
 
 Vue.use(Router)
 
@@ -61,7 +61,7 @@ const router = new Router({
     {
       path: "/meals/:id",
       name: "meals",
-      component: Meals,
+      component: meal,
 
     },
 
@@ -81,6 +81,11 @@ const router = new Router({
       name: 'lineGraphDB',
       component: DBWeightChart,
     },
+    {
+      path: "/meal",
+      name:"meal",
+      component: meal,
+    }
   ]
 })
 
