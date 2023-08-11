@@ -30,7 +30,7 @@ public class ProfileController {
     @GetMapping("/profile/{id}")
     public Profile get(@PathVariable int id, Principal principal){
 //        User user = userDao.getUserByUsername(principal.getName());
-        Profile profile = profileDao.getProfileById(id);
+        Profile profile = profileDao.getProfileByUserId(id);
         return profile;
     }
 
@@ -47,14 +47,14 @@ public class ProfileController {
         return newProfile;
     }
 
-    @PutMapping("/profile/{id}/edit")
-    public Profile update(@RequestBody Profile updatedProfile, @PathVariable int id){
-        updatedProfile.setProfileId(id);
-        Profile updateProfile = profileDao.updateProfile(updatedProfile);
-        return updateProfile;
-    }
+//    @PutMapping("/profile/{id}")
+//    public Profile update(@RequestBody Profile updatedProfile, @PathVariable int id){
+//        updatedProfile.setProfileId(id);
+//        Profile updateProfile = profileDao.updateProfile(updatedProfile);
+//        return updateProfile;
+//    }
 
-    @PutMapping("/profile/edit")//Secondary endpoint & method to update the profile if the above does not work or just needs to be simplified.
+    @PutMapping("/profile/{id}")//Secondary endpoint & method to update the profile if the above does not work or just needs to be simplified.
     public Profile update(@RequestBody Profile updatedProfile){
         return profileDao.updateProfile(updatedProfile);
     }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @CrossOrigin
@@ -22,7 +23,7 @@ public class FoodController {
 
     private FoodDao foodDao;
 
-//    private FoodFactService foodFactService;
+    private FoodFactService foodFactService;
 
     public FoodController(FoodDao foodDao) {
         this.foodDao = foodDao;
@@ -39,8 +40,8 @@ public class FoodController {
         }
     }
 
-    @GetMapping("/{id}")
-    public Food getFoodItem(@PathVariable int foodId) {
+    @GetMapping("/{foodId}")
+    public Food getFoodById(@PathVariable int foodId) {
         Food foodItem;
         try {
             foodItem = foodDao.getFoodById(foodId);
@@ -53,7 +54,7 @@ public class FoodController {
         return foodItem;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{foodId}")
     public void deleteFoodById(@PathVariable int foodId) {
         try {
             int foodDeleted = foodDao.deleteFoodById(foodId);
@@ -76,10 +77,19 @@ public class FoodController {
     }
 
 
-//    // foodName was not added so this is just a place holder
-//    @GetMapping("/food_name")
-//    public FoodDao getFoodByName(String foodName) {
-//        FoodDao food;
+    @GetMapping("/name")
+    public Food getFoodByName(@PathVariable String foodName) {
+        Food food;
+        try {
+            food = foodDao.addFoodByName(foodName);
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (food == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Food item not found");
+        }
+        return food;
 
-//    }
     }
+
+}
