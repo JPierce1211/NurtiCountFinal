@@ -3,7 +3,11 @@
         <h1 id="title">My Meals</h1>
         <div class="main">
             <div id="date">
-                {{format_date(meal.logDay)}}
+                <label for="logDay">Date:</label>
+                <input type="date" id="logDay" v-model="meal.logDay" >
+               {{format_date(meal.logDay)}}
+            </div>
+            <div>
             </div>
             <div id="mealType">
               <label for="mealType">Meal Type:</label>
@@ -27,11 +31,21 @@ import moment from 'moment'
 export default {
     data(){
         return{
+            selectedFood: [],
+
             meal:{
                 mealId: '',
                 mealType:'',
                 logDay:'',
                 isQuickMeal:'',
+            },
+            food:{
+                foodId:'',
+                foodName:'',
+                foodType:'',
+                servingSize:'',
+                calories:'',
+                numOfServings: '',
             }
         }
     },
