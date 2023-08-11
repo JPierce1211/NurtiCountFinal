@@ -26,11 +26,10 @@ public class JdbcMealsDao implements MealsDao{
     public List<Meals> findAll(int userId){
         List<Meals> meals = new ArrayList<>();
         String sql = "SELECT m.meal_id, m.meal_type, m.log_day, m.is_quick_meal, f.food_id, f.food_name, f.food_type, f.serving_size, f.calories, f.num_of_servings " +
-                        "FROM meal_user mu " +
-                        "JOIN meals m ON mu.meal_id = m.meal_id " +
-                        "JOIN meal_foods mf ON m.meal_id = mf.meal_id " +
+                        "FROM meals m " +
+                        "JOIN meal_food mf ON mu.meal_id = mf.meal_id " +
                         "JOIN food f ON mf.food_id = f.food_id " +
-                        "WHERE mu.user_id = ?";
+                        "WHERE m.user_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         while(results.next()){
             Meals meal = mapRowToMeals(results);
@@ -46,14 +45,14 @@ public class JdbcMealsDao implements MealsDao{
     @Override
     public Meals createMeal(Meals meals, List<Food> foodList) {
         Meals newMeal = null;
-        String sql = "INSERT INTO meal_user (user_id) VALUES (?) RETURNING meal_id";
+        String sql = "INSERT INTO meals (user_id,meal_type, log_day, is_quick_meal) VALUES (?, ?, ?, ?) RETURNING meal_id";
         try {
-            int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getMealId());
+            int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getUserId(), meals.getMealType(), meals.getLogDay(), meals.isQuickMeal());
             newMeal = getMealById(mealId);
 
-            String fSql = "INSERT INTO meal_foods (meal_id, food_id) VALUES (?, ?)";
+            String fSql = "INSERT INTO meal_food (meal_id, food_id) VALUES (?, ?)";
             for(Food food : foodList){
-                jdbcTemplate.update(sql, mealId, food.getFoodId());
+                jdbcTemplate.update(fSql, mealId, food.getFoodId());
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -67,8 +66,8 @@ public class JdbcMealsDao implements MealsDao{
     public Meals getMealById(int mealId) {
         String sql = "SELECT meals.meal_id, meals.meal_type, meals.log_day, meals.is_quick_meal, food.food_id, food.food_name, food.food_type, food.serving_size, food.calories, food.num_of_servings " +
                 "FROM meals " +
-                "JOIN meal_foods ON meals.meal_id = meal_foods.meal_id " +
-                "JOIN food ON meal_foods.food_id = food.food_id " +
+                "JOIN meal_food ON meals.meal_id = meal_food.meal_id " +
+                "JOIN food ON meal_food.food_id = food.food_id " +
                 "WHERE meals.meal_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, mealId);
         if (results.next()) {
@@ -86,13 +85,11 @@ public class JdbcMealsDao implements MealsDao{
     @Override
     public int deleteMealById(int mealId){
         int numberOfRows = 0;
-        String fSql = "DELETE FROM meal_foods WHERE meal_id = ?";
+        String fSql = "DELETE FROM meal_food WHERE meal_id = ?";
         String mSql = "DELETE FROM meals WHERE meal_id = ?";
-        String muSql = "DELETE FROM meal_user WHERE meal_id = ?";
         try{
             jdbcTemplate.update(fSql, mealId);
             jdbcTemplate.update(mSql, mealId);
-            jdbcTemplate.update(muSql, mealId);
         }catch (CannotGetJdbcConnectionException e){
             throw new DaoException("Unable to connect to server or database", e);
         }catch (DataIntegrityViolationException e){
@@ -130,6 +127,7 @@ public class JdbcMealsDao implements MealsDao{
     private Meals mapRowToMeals(SqlRowSet sql){
         Meals meals = new Meals();
         meals.setMealId(sql.getInt("meal_id"));
+        meals.setUserId(sql.getInt("user_id"));
         meals.setMealType(sql.getString("meal_type"));
         meals.setLogDay(sql.getString("log_day"));
         meals.setQuickMeal(sql.getBoolean("is_quick_meal"));
