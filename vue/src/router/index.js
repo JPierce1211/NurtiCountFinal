@@ -7,6 +7,7 @@ import Register from '../views/Register.vue'
 import store from '../store/index.js'
 import Profile from '../views/Profile.vue'
 import createProfile from '../views/CreateProfile.vue'
+import meal from '../views/Meal.vue'
 
 Vue.use(Router)
 
@@ -72,6 +73,11 @@ const router = new Router({
       name: "editProfile",
       component: Profile,
     },
+    {
+      path: "/meal",
+      name:"meal",
+      component: meal,
+    }
   ]
 })
 
