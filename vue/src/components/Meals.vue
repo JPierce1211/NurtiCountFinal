@@ -7,15 +7,15 @@
                 <tr>
                     <th>Date</th>
                     <th>Meal Type</th>
-                    <th>Number Of Servings</th>
                     <th>Food Search</th>
+                    <th>Number Of Servings</th>
                     <th>Quick Meal</th>
                 </tr>   
             </thead>    
             <tbody>
             <tr>
                 <td>
-                <input type="date" id="logDay" v-model="meal.logDay" >
+                <input type="date" id="logDay" v-model="meal.logDay" />
                {{format_date(meal.logDay)}}
                </td>
                <td>
@@ -32,19 +32,19 @@
                <td>
                    <input type="text" id="foodFilter" v-model="search.foodName"/>
                </td>  
-               <td>
+               <!-- <td>
                    <select id="quickMealFilter" v-model="search.isQuickMeal"/>
                         <option value="false">Show All</option>
                         <option value="true">Quick Meal</option>
-               </td>
+               </td> -->
                <td>
                    <!-- when this button is hit then it should be add to the meal's array/table -->
-                   <button v-on:click = "showTable =! showTable">Add Food To Meal</button>
+                   <button v-on:click = "showTable =! showTable">Search Food</button>
                </td>             
             </tr> 
         </table>   
         <!-- create a show method -->
-        <table v-show="showTable" v-on:submit.prevent="addFood" id="tblMeal">
+        <table v-show="showTable" v-on:submit.prevent="addFood" id="tblFoodResults">
             <thead>
                 <tr>
                     <th>Food Name</th>
@@ -52,7 +52,7 @@
                     <th>Serving Size</th>
                     <th>Calories</th>
                     <th>Quick Meal?</th>
-                    <th>Add Meal</th>
+                    <th>Add food</th>
                 </tr>
                 <tr>
                     <td>{{food.foodName}}</td>
