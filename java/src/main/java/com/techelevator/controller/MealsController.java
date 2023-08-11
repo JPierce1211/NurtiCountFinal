@@ -5,7 +5,6 @@ import com.techelevator.dao.JdbcProfileDao;
 import com.techelevator.dao.JdbcUserDao;
 import com.techelevator.dao.ProfileDao;
 import com.techelevator.exception.DaoException;
-import com.techelevator.model.Food;
 import com.techelevator.model.Meals;
 import com.techelevator.model.Profile;
 import com.techelevator.model.User;
@@ -61,14 +60,14 @@ public class MealsController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/createMeal")
-    public Meals createMeal(@PathVariable int profileId, @RequestBody Meals meals, @RequestBody Food food, Principal principal) {
+    @PostMapping("/create-meal")
+    public Meals createMeal(@PathVariable int profileId, @RequestBody Meals meals, Principal principal) {
         User user = userDao.getUserByUsername(principal.getName());
         if(user != null){
             Profile profile = profileDao.getProfileById(user.getId());
             if(profile != null){
                 meals.setProfileId(profile.getProfileId());
-                return mealsDao.createMeal(meals, (List<Food>) food);
+                return mealsDao.createMeal(meals);
             }else{
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
@@ -101,7 +100,7 @@ public class MealsController {
 //                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found");
                 }
             }else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found");
         }
                return updatedMeal;
             }

@@ -46,7 +46,7 @@ public class JdbcMealsDao implements MealsDao{
     @Override
     public Meals createMeal(Meals meals, List<Food> foodList) {
         Meals newMeal = null;
-        String sql = "INSERT INTO meal_user (user_id) VALUES (?) Returning meal_id";
+        String sql = "INSERT INTO meal_user (user_id) VALUES (?) RETURNING meal_id";
         try {
             int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getMealId());
             newMeal = getMealById(mealId);
@@ -65,11 +65,11 @@ public class JdbcMealsDao implements MealsDao{
 
     @Override
     public Meals getMealById(int mealId) {
-        String sql = "SELECT m.meal_id, m.meal_type, m.log_day, m.is_quick_meal, f.food_id, f.food_name, f.food_type, f.serving_size, f.calories, f.num_of_servings " +
-                "FROM meals m " +
-                "JOIN meal_foods mf ON m.meal_id = mf.meal_id " +
-                "JOIN food f ON mf.food_id = f.food_id " +
-                "WHERE m.meal_id = ?";
+        String sql = "SELECT meals.meal_id, meals.meal_type, meals.log_day, meals.is_quick_meal, food.food_id, food.food_name, food.food_type, food.serving_size, food.calories, food.num_of_servings " +
+                "FROM meals " +
+                "JOIN meal_foods ON meals.meal_id = meal_foods.meal_id " +
+                "JOIN food ON meal_foods.food_id = food.food_id " +
+                "WHERE meals.meal_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, mealId);
         if (results.next()) {
             Meals meal = mapRowToMeals(results);
@@ -101,11 +101,11 @@ public class JdbcMealsDao implements MealsDao{
         return numberOfRows;
     }
     @Override
-    public Meals updateMealsById(Meals meals){
+    public Meals updateMealsById(Meals meals, int id){
         Meals updateMeals = null;
-        String sql = "UPDATE meals SET meal_type = ?, log_day = ? WHERE meal_id = ?";
+        String sql = "UPDATE meals SET meal_type = ?, log_day = ?, is_quick_meal = ? WHERE meal_id = ?";
         try {
-            int rowsAffected = jdbcTemplate.update(sql,meals.getMealType(), meals.getMealDate());
+            int rowsAffected = jdbcTemplate.update(sql, meals.getMealType(), meals.getLogDay(), meals.isQuickMeal(), id);
             if (rowsAffected == 0) {
                 throw new DaoException("Zero rows affected, expected at least one");
             }
@@ -130,9 +130,9 @@ public class JdbcMealsDao implements MealsDao{
     private Meals mapRowToMeals(SqlRowSet sql){
         Meals meals = new Meals();
         meals.setMealId(sql.getInt("meal_id"));
-        meals.setProfileId(sql.getInt("user_id"));
         meals.setMealType(sql.getString("meal_type"));
-        meals.setMealDate(sql.getString("log_day"));
+        meals.setLogDay(sql.getString("log_day"));
+        meals.setQuickMeal(sql.getBoolean("is_quick_meal"));
         return meals;
     }
 
