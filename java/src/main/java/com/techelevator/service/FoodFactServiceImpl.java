@@ -20,7 +20,7 @@ public class FoodFactServiceImpl {
 
     private static final String API_URL ="https://api.api-ninjas.com/v1/nutrition?query=";
     private RestTemplate restTemplate = new RestTemplate();
-    private String X_API_KEY = null;
+    private String X_API_KEY = "ZTiKebEmbGDPgIwUgnV3XQ==biRhU7uo94M8dOUL";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -34,13 +34,13 @@ public class FoodFactServiceImpl {
 
         public FoodDto getFacts() throws RestClientResponseException {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("X-API-KEY", "ZTiKebEmbGDPgIwUgnV3XQ==biRhU7uo94M8dOUL");
-        HttpEntity<Void> entity = new HttpEntity<>(headers);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<FoodDto> response =  restTemplate.exchange(API_URL, HttpMethod.GET,entity, FoodDto.class);
         FoodDto foodFact = response.getBody();
         return foodFact;
     }
-
 
 
 
