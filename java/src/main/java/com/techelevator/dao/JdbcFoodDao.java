@@ -94,13 +94,13 @@ public class JdbcFoodDao implements FoodDao {
 //    }
 
     @Override
-    public Food addFoodByName(String foodName){
-        Food foodItem = null;
+    public List<Food> addFoodByName(String foodName){
+        List<Food> foodItem = new ArrayList<>();
         String sql = "SELECT food_id, food_type, serving_size, calories, num_of_servings FROM food WHERE food_name = ?";
             try {
                 SqlRowSet results = jdbcTemplate.queryForRowSet(sql, foodName);
                 if (results.next()) {
-                    foodItem = mapRowToFood(results);
+                    foodItem = (List<Food>) mapRowToFood(results);
                 }
             } catch (CannotGetJdbcConnectionException e) {
                 throw new DaoException("Unable to connect to server or database", e);
