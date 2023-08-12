@@ -32,7 +32,7 @@ public class MealsController {
     }
 
     @GetMapping("/meals")
-    public List<Meals> listMeals(@PathVariable int profileId, Principal principal) {
+    public List<Meals> listMeals(Principal principal) {
         //Profile profile = profileDao.getProfileById(profileId);
         User user = userDao.getUserByUsername(principal.getName());
         if (user != null) {
@@ -59,15 +59,25 @@ public class MealsController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createMeal")
-    public Meals createMeal(@RequestBody Food food, @RequestBody Meals meals, Principal principal) {
+    public Meals createMeal(@RequestBody Meals meals, Principal principal) {
         User user = userDao.getUserByUsername(principal.getName());
         if(user != null){
-            return mealsDao.createMeal(meals, (List<Food>) food);
+            return mealsDao.createMeal(meals);
         }else{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
     }
+
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @PostMapping("/createMeal")
+//    public Meals createMeal(@RequestBody Meals meals, List<Food> foodInMeal) {
+//        Meals newMeal = null;
+//        try {
+//            newMeal = mealsDao.createMeal(meals, List<Food> foodInMeal);
+//        }
+//
+//    }
 
         @PutMapping("/meals/{mealId}")
         public Meals update(Principal principal, @RequestBody Meals updatedMeal,@PathVariable int mealId){

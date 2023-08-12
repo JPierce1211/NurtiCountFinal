@@ -6,6 +6,8 @@ public class ProfilePic {
 
     private String url;
 
+    public ProfilePic(){}
+
     public ProfilePic(int profilePicId, String url) {
         this.profilePicId = profilePicId;
         this.url = url;

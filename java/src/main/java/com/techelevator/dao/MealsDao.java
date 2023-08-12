@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface MealsDao{
     List<Meals> findAll(int userId);
-    Meals createMeal(Meals meals, List<Food> foodList);
-    Meals getMealById(int mealId);
+    Meals createMeal(Meals meals);
+    Meals getMealById(int userId);
     int deleteMealById(int mealId);
     Meals updateMealsById(Meals meals, int id);
     Meals getMealDate(String date);

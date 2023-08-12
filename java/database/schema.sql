@@ -14,7 +14,7 @@ CREATE TABLE goals (
 	goal_id serial,
 	desired_weight decimal NOT NULL,
 	bmi decimal NOT NULL,
-	log_day date NOT NULL
+	log_day varchar(10) NOT NULL
 );
 
 CREATE TABLE profile (
@@ -32,7 +32,7 @@ CREATE TABLE meals(
 	meal_id int PRIMARY KEY,
 	user_id int REFERENCES users(user_id),
 	meal_type varchar(10) NOT NULL,
-	log_day date NOT NULL,
+	log_day varchar(10) NOT NULL,
 	is_quick_meal boolean NOT NULL
 
 );
