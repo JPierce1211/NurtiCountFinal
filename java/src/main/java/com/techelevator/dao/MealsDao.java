@@ -11,6 +11,6 @@ public interface MealsDao{
     Meals createMeal(Meals meals, List<Food> foodList);
     Meals getMealById(int mealId);
     int deleteMealById(int mealId);
-    Meals updateMealsById(Meals meals);
+    Meals updateMealsById(Meals meals, int id);
     Meals getMealDate(String date);
 }

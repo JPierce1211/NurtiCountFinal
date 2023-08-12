@@ -76,7 +76,7 @@ public class JdbcProfileDao implements ProfileDao{
     public Profile updateProfile(Profile profile){
         Profile updateProfile = null;
         String sql = "UPDATE profile SET user_id = ?, birthday = ?, height = ?, current_weight = ?, display_name = ?, profile_pic_id = ?, goals = ? " +
-                "WHERE profile_id = ?;";
+                "WHERE user_id = ?;";
         try{
             int numberOfRows = jdbcTemplate.update(sql, profile.getUserId(), profile.getBirthday(), profile.getHeight(),
                     profile.getCurrentWeight(), profile.getDisplayName(), profile.getProfilePicId(), profile.getProfileId(), profile.getGoals());

@@ -1,9 +1,6 @@
 package com.techelevator.controller;
 
-import com.techelevator.dao.JdbcMealsDao;
-import com.techelevator.dao.JdbcProfileDao;
-import com.techelevator.dao.JdbcUserDao;
-import com.techelevator.dao.ProfileDao;
+import com.techelevator.dao.*;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Food;
 import com.techelevator.model.Meals;
@@ -25,100 +22,82 @@ import java.util.List;
 public class MealsController {
     private JdbcTemplate jdbcTemplate;
     private JdbcMealsDao mealsDao;
-    private ProfileDao profileDao;
+    private JdbcFoodDao foodDao;
     private JdbcUserDao userDao;
-    public MealsController(JdbcMealsDao mealsDao, JdbcProfileDao profileDao, JdbcUserDao userDao){
+
+    public MealsController(JdbcMealsDao mealsDao, JdbcFoodDao foodDao, JdbcUserDao userDao) {
         this.mealsDao = mealsDao;
-        this.profileDao = profileDao;
+        this.foodDao = foodDao;
         this.userDao = userDao;
     }
 
     @GetMapping("/meals")
-    public List<Meals> listMeals(Principal principal){
+    public List<Meals> listMeals(Principal principal) {
         //Profile profile = profileDao.getProfileById(profileId);
         User user = userDao.getUserByUsername(principal.getName());
-        if(user != null){
-            return mealsDao.findAll(user.getId());
-        }else{
-        }
-            return null;
-    }
-    @GetMapping("/mealsId")
-    public Meals get(@PathVariable int mealsId, Principal principal) {
-        //Profile profile = profileDao.getProfileById(profileId);
-        User user = userDao.getUserByUsername(principal.getName());
-
         if (user != null) {
-            Meals meals = mealsDao.getMealById(mealsId);
+            return mealsDao.findAll(user.getId());
+        } else {
+        }
+        return null;
+    }
+
+    @GetMapping("/meals/{mealId}")
+    public Meals get(@PathVariable int mealId, Principal principal) {
+        //Profile profile = profileDao.getProfileById(profileId);
+        User user = userDao.getUserByUsername(principal.getName());
+        Meals meals = new Meals();
+        if (user != null) {
+            meals = mealsDao.getMealById(mealId);
             if (meals != null) {
                 return meals;
-            } else {
-                return null;
+
             }
-        }else{
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
         }
+        return meals;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createMeal")
-    public Meals createMeal(@RequestBody Meals meals, @RequestBody Food food, Principal principal) {
+    public Meals createMeal(@RequestBody Food food, @RequestBody Meals meals, Principal principal) {
         User user = userDao.getUserByUsername(principal.getName());
         if(user != null){
-            Profile profile = profileDao.getProfileById(user.getId());
-            if(profile != null){
-                meals.setProfileId(profile.getProfileId());
-                return mealsDao.createMeal(meals, (List<Food>) food);
-            }else{
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-            }
+            return mealsDao.createMeal(meals, (List<Food>) food);
         }else{
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
-
-    }
-
-    @PutMapping("/mealsId")
-    public Meals update(Principal principal, @RequestBody Meals updatedMeal, @PathVariable int mealId, Profile profile){
-        //Profile profile = profileDao.getProfileById(profileId);
-        User user = userDao.getUserByUsername(principal.getName());
-        if(user != null){
-             profile = profileDao.getProfileById(user.getId());
-            if(profile != null){
-            Meals updatedMeals = mealsDao.getMealById(mealId);
-            if(updatedMeals != null) {
-                if(updatedMeal.getProfileId(profile.getProfileId()) == profile.getUserId());
-            }
-                updatedMeal.setProfileId(profile.getProfileId());
-                updatedMeal.setMealId(mealId);
-
-                try {
-                    Meals updateMeal = mealsDao.updateMealsById(updatedMeal);
-                    return updateMeal;
-                } catch (DaoException e) {
-                    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to update meal");
-                }
-//                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meal not found");
-                }
-            }else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-               return updatedMeal;
-            }
 
-    //meals.setMealId(mealId);
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/mealsId}")
-    public void delete(@PathVariable int mealId, Principal principal){
-        //Profile profile = profileDao.getProfileById(profileId);
-        User user = userDao.getUserByUsername(principal.getName());
-        if(user != null){
-            int deleteMeal = mealsDao.deleteMealById(mealId);
+    }
+
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @PostMapping("/createMeal")
+//    public Meals createMeal(@RequestBody Meals meals, List<Food> foodInMeal) {
+//        Meals newMeal = null;
+//        try {
+//            newMeal = mealsDao.createMeal(meals, List<Food> foodInMeal);
+//        }
+//
+//    }
+
+        @PutMapping("/meals/{mealId}")
+        public Meals update(Principal principal, @RequestBody Meals updatedMeal,@PathVariable int mealId){
+            Meals newMeal = mealsDao.updateMealsById(updatedMeal, mealId);
+            return newMeal;
+
         }
-        if(mealsDao.deleteMealById(mealId) != 1){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Meal not found");
+
+        @ResponseStatus(HttpStatus.NO_CONTENT)
+        @DeleteMapping("/meals/{mealId}")
+        public void delete ( @PathVariable int mealId, Principal principal){
+            User user = userDao.getUserByUsername(principal.getName());
+            if (user != null) {
+                mealsDao.deleteMealById(mealId);
+            }
+            if (mealsDao.deleteMealById(mealId) != 1) {
+                throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Meal not found");
+            }
         }
     }
-}
+
 
 

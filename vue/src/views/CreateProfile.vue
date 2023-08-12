@@ -4,12 +4,14 @@
 
 <script>
 import CreateProfile from '../components/CreateProfile.vue'
-export default {
-  components: { 
-      CreateProfile 
+export default 
+  {
+    components: 
+      { 
+        CreateProfile 
       },
-
-}
+  }
+  
 </script>
 
 <style>
