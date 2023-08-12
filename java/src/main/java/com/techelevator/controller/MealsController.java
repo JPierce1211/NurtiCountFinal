@@ -47,12 +47,13 @@ public class MealsController {
         //Profile profile = profileDao.getProfileById(profileId);
         User user = userDao.getUserByUsername(principal.getName());
         Meals meals = new Meals();
-        if (user != null) {
+        if (user != null)
+        {
             meals = mealsDao.getMealById(mealId);
-            if (meals != null) {
-                return meals;
-
-            }
+            if (meals != null)
+                {
+                    return meals;
+                }
         }
         return meals;
     }
