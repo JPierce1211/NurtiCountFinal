@@ -23,34 +23,30 @@ public class JdbcMealsDao implements MealsDao {
     @Override
     public List<Meals> findAll(int userId) {
         List<Meals> meals = new ArrayList<>();
-        String sql = "SELECT meals.meal_id, meals.user_id, meals.meal_type, meals.log_day, meals.is_quick_meal, food.food_id, food.food_name, food.food_type, food.serving_size, food.calories, food.num_of_servings " +
-                "FROM meals " +
-                "JOIN meal_food ON meals.meal_id = meal_food.meal_id " +
-                "JOIN food ON meal_food.food_id = food.food_id " +
-                "WHERE user_id = ?";
+        String sql = "SELECT * FROM meals WHERE user_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         while (results.next()) {
             Meals meal = mapRowToMeals(results);
-            if (results.getInt("food_id") != 0) {
-                Food food = foodDao.mapRowToFood(results);
-                meal.addNewFood(food);
-            }
+//            if (results.getInt("food_id") != 0) {
+//                Food food = foodDao.mapRowToFood(results);
+//                meal.addNewFood(food);
+//            }
             meals.add(meal);
         }
         return meals;
     }
 
     @Override
-    public Meals createMeal(Meals meals, List<Food> foodList) {
+    public Meals createMeal(Meals meals) {
         Meals newMeal = null;
-        String sql = "INSERT INTO meals (user_id,meal_type, log_day, is_quick_meal) VALUES (?, ?, ?, ?) RETURNING meal_id";
+        String sql = "INSERT INTO meals (meal_id, user_id,meal_type, log_day, is_quick_meal) VALUES (?, ?, ?, ?, ?) RETURNING meal_id";
         try {
-            int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getUserId(), meals.getMealType(), meals.getLogDay(), meals.isQuickMeal());
+            int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getMealId(), meals.getUserId(), meals.getMealType(), meals.getLogDay(), meals.isQuickMeal());
             newMeal = getMealById(mealId);
-            String fSql = "INSERT INTO meal_food (meal_id, food_id) VALUES (?, ?)";
-            for (Food food : foodList) {
-                jdbcTemplate.update(fSql, mealId, food.getFoodId());
-            }
+//            String fSql = "INSERT INTO meal_food (meal_id, food_id) VALUES (?, ?)";
+//            for (Food food : foodList) {
+//                jdbcTemplate.update(fSql, mealId, food.getFoodId());
+//            }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
@@ -61,21 +57,17 @@ public class JdbcMealsDao implements MealsDao {
 
     @Override
     public Meals getMealById(int mealId) {
-        String sql = "SELECT meals.meal_id, meals.user_id, meals.meal_type, meals.log_day, meals.is_quick_meal, food.food_id, food.food_name, food.food_type, food.serving_size, food.calories, food.num_of_servings " +
-                "FROM meals " +
-                "JOIN meal_food ON meals.meal_id = meal_food.meal_id " +
-                "JOIN food ON meal_food.food_id = food.food_id " +
-                "WHERE meals.meal_id = ?";
+        String sql = "SELECT * FROM meals WHERE meal_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, mealId);
         if (results.next()) {
             Meals meal = mapRowToMeals(results);
-            if (results.getInt("food_id") != 0) {
-                Food food = foodDao.mapRowToFood(results);
-                meal.addNewFood(food);
-            }
+//            if (results.getInt("food_id") != 0) {
+//                Food food = foodDao.mapRowToFood(results);
+//                meal.addNewFood(food);
+//            }
             return meal;
         }
-        throw new DaoException("meal_user" + mealId + "was not found");
+        throw new DaoException("meal_id" + mealId + "was not found");
     }
 
     @Override

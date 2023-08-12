@@ -123,7 +123,8 @@ export default {
     };
   },
 
-  methods: {
+  methods: 
+  {
     formatDateForSQL(date) {
       const d = new Date(date);
       const year = d.getFullYear();
@@ -132,9 +133,13 @@ export default {
       return `${year}-${month}-${day}`;
     },
 
-    submitForm() {
+    submitForm() 
+    {
       const fullBirthday = this.formatDateForSQL(this.profile.birthDay);
+      
 
+      alert('Profile ID # ' + this.profileId)
+      console.log(ProfileService.getProfileInfo(this.$store.state.profile.userId));
       const formData = {
         userId: this.$store.state.profile.userId,
         height: this.profile.height,
@@ -145,15 +150,63 @@ export default {
         goals: this.profile.goals,
       };
 
+
+      // if (this.profileId === 0)
+      // {
+      //   ProfileService.createProfile(formData)
+      //       .then(response => 
+      //       {
+      //         if (response.status === 201) 
+      //         {
+                  
+      //             alert('Profile ID # ' + this.profileId)  // delete this later
+
+      //             this.$router.push(`/`);
+      //         }
+      //           else
+      //         {
+      //           alert('Unable to create a new profile'); 
+      //         }
+      //       })
+      //       .catch(error => {
+      //         this.handleErrorResponse(error, "creating");
+      //   });
+      // }
+      //   else
+      // {
+      //   ProfileService.updateProfile(formData.userId, formData)
+      //         .then(response => 
+      //       {
+      //         if (response.status === 200) 
+      //         {
+                  
+      //             alert('Profile ID # ' + this.profileId);  // delete this later
+
+      //             this.$router.push(`/`);
+      //         }
+      //           else
+      //         {
+      //           alert('Unable to update profile'); 
+      //         }
+      //       })
+
+
+////////// Above I attempted to rewrite the code below in a manner consistent with our KanBan lecture excercise material.
+
+
+
+
       ProfileService.getProfileInfo(this.$store.state.profile.userId)
         .then(response => {
           if (response.data) 
           {
-            // console.log(response.data);
+            console.log(response.data);
+            alert('getProfileInfo() searched and returned an existing profile for this user. Proceeding to update profile')
             this.updateProfile(response.data, formData);
           } 
           else 
           {
+            alert('getProfileInfo() searched and returned no existing profile for this user. Proceeding to create profile')
             this.createProfile(formData);
           }
         })
@@ -166,7 +219,10 @@ export default {
       ProfileService.createProfile(formData)
         .then(response => {
           if (response.status === 201) {
-            this.$store.state.user.hasProfile = true;
+            //this.$store.state.user.hasProfile = true;
+
+                  alert('Profile ID #  from createProfile() method: ' + this.profileId)  // delete this later
+
             this.$router.push(`/`);
           }
           else
@@ -180,7 +236,7 @@ export default {
     },
 
     updateProfile(existingProfile, formData) {
-      ProfileService.updateProfile(existingProfile.profile_id, formData)
+      ProfileService.updateProfile(existingProfile.userId, formData)
         .then(response => {
           if (response.status === 200) {
             this.$router.push(`/`);
@@ -188,6 +244,7 @@ export default {
         })
         .catch(error => {
           console.error('Error updating profile:', error);
+          alert('Error Creating Profile: ' + error);
         });
     },
 
@@ -207,6 +264,7 @@ export default {
     },
   },
 };
+
 </script>
 
 <style scoped>

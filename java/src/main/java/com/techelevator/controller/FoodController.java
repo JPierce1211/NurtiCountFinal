@@ -77,9 +77,9 @@ public class FoodController {
     }
 
 
-    @GetMapping("/name")
-    public Food getFoodByName(@PathVariable String foodName) {
-        Food food;
+    @GetMapping("/foodName")
+    public List<Food> getFoodByName(@PathVariable String foodName) {
+        List<Food> food;
         try {
             food = foodDao.addFoodByName(foodName);
         } catch (DaoException e) {

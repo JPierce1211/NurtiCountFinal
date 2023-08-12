@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const api = {
     createProfile(formData) {
-        alert('Create Profile...');
-        alert(formData.userId);
+        alert('Creating Profile...');
+        alert('User ID # retrieved from Create method' + formData.userId);
         return axios.post('/createProfile', formData);
     },
 
@@ -15,17 +15,17 @@ const api = {
     updateProfile(userId, formData) 
     {
         alert('Updating Profile...');
-        alert(formData.displayName);
-        alert(formData.userId);
+        alert('Display Name from Update Method: ' + formData.displayName);
+        alert('User ID # from UpdateProfile() method: ' + userId);
         return axios.post(`/profile/${userId}`, formData);
     },
 
     getProfileInfo(userId) 
     {   
-        alert(userId);
+        alert('User ID # retrieved from getProfileInfo() : ' + userId);
 
         const url = `/profile/${userId}`;
-        alert(url);
+        alert('URL output: ' + url);
         return axios.get(url);
 
         // return axios.get(`/profile/${userId}`);

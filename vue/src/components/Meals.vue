@@ -1,4 +1,6 @@
-<template>
+<!-- Change the componenet to meal search -->
+<!-- this component will be where they seach for meals and then be taken to another component to see all the meals they've chosen -->
+<template> 
   <div>
     <h1 id="title">My Meals</h1>
     <div class="main">
@@ -7,8 +9,9 @@
           <tr>
             <th>Date</th>
             <th>Meal Type</th>
-            <th>Food Search</th>
             <th>Number Of Servings</th>
+            <!-- test if our database can search multiple strings  -->
+            <th>Food Search</th>
             <th>Quick Meal</th>
           </tr>
         </thead>
@@ -31,10 +34,12 @@
                 type="text"
                 id="numOfServings"
                 v-model="food.numOfServings"
+                min="1"
               />
             </td>
             <td>
-              <input type="text" id="foodFilter" v-model="search.foodName" />
+              <label for="foodFilter">Enter a specific food name, including cooking style:</label>
+              <input type="text" id="foodFilter" v-model="search.foodName" placeholder="e.g Grilled Chicken Breast"/>
             </td>
             <!-- <td>
                    <select id="quickMealFilter" v-model="search.isQuickMeal"/>
@@ -43,11 +48,13 @@
                </td> -->
             <td>
               <!-- when this button is hit then it should be add to the meal's array/table -->
-              <button v-on:click="showTable = !showTable">Search Food</button>
+              <!-- need a is loading method might take this out -->
+              <button v-on:click="showTable = !showTable" :disabled="isLoading">Search Food</button>
             </td>
           </tr>
         </tbody>
-      </table>
+      </table> 
+      <!-- add button to move to see all meals for the day -->
       <!-- create a show method -->
       <table
         v-show="showTable"
@@ -66,6 +73,7 @@
         </thead>
         <tbody>
           <tr>
+            <!-- will need a v-for to show multiple results if going down that route -->
             <td>{{ food.foodName }}</td>
             <td>{{ food.foodType }}</td>
             <td>{{ food.servingSize }}</td>
@@ -78,15 +86,26 @@
                 v-on:click.prevent="addQuickMeal"
               />
             </td>
+            <td>
+              <!-- button should be disabled if there is no foods selected -->
+              <!-- the meal method should save meals to an array-->
+              <button v-bind:disabled="!selectedFood.length" v-on:click ="addMeal()"> Add Meal</button>
+            </td> 
           </tr>
         </tbody>
       </table>
     </div>
-  </div>
+    <div class="butn-ShowMeals">  
+      <!-- this button will save the foods into a meal and transfer it to the next componenet -->
+      <button @click="$router.push('component/showMeals.vue')">Show Meals</button>
+      <button v-on:click="newSearch"> New Search </button>
+    </div> 
+  </div>  
 </template>
 
 <script>
 import moment from "moment";
+import profileService from "../services/ProfileService"
 export default {
   data() {
     return {
@@ -120,6 +139,41 @@ export default {
         return moment(value).format("YYYYMMDD");
       }
     },
+
+    // triggers the food search
+    searchFood(){
+      let searchName = this.search.foodName;
+      //this method needs to get made in service to a Get method
+      profileService.getSearchedMeals(searchName)
+      .then(response => {
+        this.selectedFood = response.data;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    },
+
+    // Adds the selected food item to selectedFood array
+    addFood(){
+
+    },
+
+    // toggles the quick meal option for the selected food or meal
+    addQuickMeal(){
+
+    },
+
+    //takes selected food items and puts it in a meal object
+    addMeal(){
+
+    },
+
+    //Resets the search input
+    newSearch(){
+
+    },
+
+
   },
 };
 </script>
