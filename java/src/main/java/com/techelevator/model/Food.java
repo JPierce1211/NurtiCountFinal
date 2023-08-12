@@ -7,13 +7,13 @@ public class Food {
 
     private String foodType;
 
-    private int servingSize;
+    private double servingSize;
 
     private double calories;
 
-    private int numOfServings;
+    private double numOfServings;
 
-    public Food(int foodId, String foodName, String foodType, int servingSize, double calories, int numOfServings) {
+    public Food(int foodId, String foodName, String foodType, double servingSize, double calories, double numOfServings) {
         this.foodId = foodId;
         this.foodName = foodName;
         this.foodType = foodType;
@@ -51,7 +51,7 @@ public class Food {
         this.foodType = foodType;
     }
 
-    public int getServingSize() {
+    public double getServingSize() {
         return servingSize;
     }
 
@@ -67,7 +67,7 @@ public class Food {
         this.calories = calories;
     }
 
-    public int getNumOfServings() {
+    public double getNumOfServings() {
         return numOfServings;
     }
 
