@@ -125,7 +125,8 @@ export default {
 
   methods: 
   {
-    formatDateForSQL(date) {
+    formatDateForSQL(date) 
+    {
       const d = new Date(date);
       const year = d.getFullYear();
       const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -140,7 +141,8 @@ export default {
 
       alert('Profile ID # ' + this.profileId)
       console.log(ProfileService.getProfileInfo(this.$store.state.profile.userId));
-      const formData = {
+      const formData = 
+      {
         userId: this.$store.state.profile.userId,
         height: this.profile.height,
         displayName: this.profile.displayName,

@@ -1,9 +1,13 @@
 <template>
     <div>
-        <!-- Things go here -->
+        <p>Stars go here</p>
+        
+
     </div>
 </template>
 
 <script>
+
+    
 
 </script>
