@@ -59,10 +59,10 @@ public class MealsController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createMeal")
-    public Meals createMeal(@RequestBody Food food, @RequestBody Meals meals, Principal principal) {
+    public Meals createMeal(@RequestBody Meals meals, Principal principal) {
         User user = userDao.getUserByUsername(principal.getName());
         if(user != null){
-            return mealsDao.createMeal(meals, (List<Food>) food);
+            return mealsDao.createMeal(meals);
         }else{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
