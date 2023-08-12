@@ -17,7 +17,7 @@ public interface FoodDao {
 
     int deleteFoodById(int foodId);
 
-    Food addFoodByName(String foodName);
+    List<Food> addFoodByName(String foodName);
 
     Food mapRowToFood(SqlRowSet rs);
 }
