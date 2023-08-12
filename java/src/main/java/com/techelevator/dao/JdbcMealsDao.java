@@ -129,7 +129,6 @@ public class JdbcMealsDao implements MealsDao{
 
     private Meals mapRowToMeals(SqlRowSet sql){
         Meals meals = new Meals();
-        meals.setMealId(sql.getInt("meal_id"));
         meals.setProfileId(sql.getInt("user_id"));
         meals.setMealType(sql.getString("meal_type"));
         meals.setMealDate(sql.getString("log_day"));
@@ -139,7 +138,6 @@ public class JdbcMealsDao implements MealsDao{
     public Food mapRowToFood(SqlRowSet rs) {
         Food food = new Food();
         food.setFoodId(rs.getInt("id"));
-        food.setMealId(rs.getInt("meal_id"));
         food.setFoodName(rs.getString("food_name"));
         food.setFoodType(rs.getString("food_type"));
         food.setServingSize(rs.getInt("serving_size"));
