@@ -1,9 +1,11 @@
 package com.techelevator.controller;
 
+import com.techelevator.dao.PicDao;
 import com.techelevator.dao.ProfileDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Profile;
+import com.techelevator.model.ProfilePic;
 import com.techelevator.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,9 +22,10 @@ import java.security.Principal;
 public class ProfileController {
 
     private ProfileDao profileDao;
+    private PicDao picDao;
     private UserDao userDao;
 
-    public ProfileController(ProfileDao profileDao, UserDao userDao) {
+    public ProfileController(ProfileDao profileDao, UserDao userDao, PicDao picDao) {
         this.profileDao = profileDao;
         this.userDao = userDao;
     }
@@ -32,6 +35,11 @@ public class ProfileController {
 //        User user = userDao.getUserByUsername(principal.getName());
         Profile profile = profileDao.getProfileByUserId(id);
         return profile;
+    }
+
+    @GetMapping("/profile/{picId}")
+    public ProfilePic getPic(@PathVariable int picId){
+        return picDao.getPicById(picId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

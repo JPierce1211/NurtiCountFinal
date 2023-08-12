@@ -45,7 +45,7 @@ public class JdbcMealsDao implements MealsDao{
     @Override
     public Meals createMeal(Meals meals, List<Food> foodList) {
         Meals newMeal = null;
-        String sql = "INSERT INTO meals (user_id,meal_type, log_day, is_quick_meal) VALUES (?, ?, ?, ?) RETURNING meal_id";
+        String sql = "INSERT INTO meals (user_id, meal_type, log_day, is_quick_meal) VALUES (?, ?, ?, ?) RETURNING meal_id";
         try {
             int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getUserId(), meals.getMealType(), meals.getLogDay(), meals.isQuickMeal());
             newMeal = getMealById(mealId);
@@ -80,7 +80,7 @@ public class JdbcMealsDao implements MealsDao{
             return meal;
         }
 
-        throw new DaoException("meal_user" + mealId + "was not found");
+        throw new DaoException("Meal " + mealId + " was not found");
     }
     @Override
     public int deleteMealById(int mealId){

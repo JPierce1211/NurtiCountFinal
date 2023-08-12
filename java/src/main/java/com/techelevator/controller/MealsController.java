@@ -69,6 +69,16 @@ public class MealsController {
 
     }
 
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @PostMapping("/createMeal")
+//    public Meals createMeal(@RequestBody Meals meals, List<Food> foodInMeal) {
+//        Meals newMeal = null;
+//        try {
+//            newMeal = mealsDao.createMeal(meals, List<Food> foodInMeal);
+//        }
+//
+//    }
+
         @PutMapping("/meals/{mealId}")
         public Meals update(Principal principal, @RequestBody Meals updatedMeal,@PathVariable int mealId){
             Meals newMeal = mealsDao.updateMealsById(updatedMeal, mealId);
