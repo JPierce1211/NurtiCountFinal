@@ -28,6 +28,7 @@ public class ProfileController {
     public ProfileController(ProfileDao profileDao, UserDao userDao, PicDao picDao) {
         this.profileDao = profileDao;
         this.userDao = userDao;
+        this.picDao = picDao;
     }
 
     @GetMapping("/profile/{id}")
@@ -37,9 +38,14 @@ public class ProfileController {
         return profile;
     }
 
-    @GetMapping("/profile/{picId}")
-    public ProfilePic getPic(@PathVariable int picId){
+    @GetMapping("/profilePic/{picId}") //Returns pic object
+    public ProfilePic getPicByPicId(@PathVariable int picId){
         return picDao.getPicById(picId);
+    }
+
+    @GetMapping("/profilePic/url/{picId}") //Should return URL of pic
+    public ProfilePic getPicUrl(@PathVariable int picId){
+        return picDao.getPicUrl(picId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
