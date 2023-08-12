@@ -30,6 +30,11 @@ const api = {
 
         // return axios.get(`/profile/${userId}`);
     },
+
+    getFoodByName(searchName)
+    {
+        
+    }
 };
 
 export default api;

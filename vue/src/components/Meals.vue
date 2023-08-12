@@ -155,7 +155,7 @@ export default {
 
     // Adds the selected food item to selectedFood array
     addFood(){
-
+      
     },
 
     // toggles the quick meal option for the selected food or meal
