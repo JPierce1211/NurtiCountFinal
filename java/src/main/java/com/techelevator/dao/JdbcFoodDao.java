@@ -65,6 +65,23 @@ public class JdbcFoodDao implements FoodDao {
             }
                 return foodList;
     }
+
+    @Override
+    public List<Food> getFoodByName(String foodName){
+        List<Food> allFoodName = new ArrayList<>();
+        String sql = "SELECT food_id, food_name, food_type, serving_size, calories, num_of_servings FROM food WHERE food_name ILIKE ?";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, "%" + foodName + "%");
+            while (results.next()) {
+                Food getFoodName = mapRowToFood(results);
+                allFoodName.add(getFoodName);
+            }
+        }catch (NumberFormatException e){
+            System.out.println("Not a number");
+        }catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } return allFoodName;
+    }
     @Override
     public int deleteFoodById(int foodId) {
             int numberOfRows = 0;
@@ -94,13 +111,13 @@ public class JdbcFoodDao implements FoodDao {
 //    }
 
     @Override
-    public Food addFoodByName(String foodName){
-        Food foodItem = null;
+    public List<Food> addFoodByName(String foodName){
+        List<Food> foodItem = new ArrayList<>();
         String sql = "SELECT food_id, food_type, serving_size, calories, num_of_servings FROM food WHERE food_name = ?";
             try {
                 SqlRowSet results = jdbcTemplate.queryForRowSet(sql, foodName);
                 if (results.next()) {
-                    foodItem = mapRowToFood(results);
+                    foodItem = (List<Food>) mapRowToFood(results);
                 }
             } catch (CannotGetJdbcConnectionException e) {
                 throw new DaoException("Unable to connect to server or database", e);
@@ -108,6 +125,11 @@ public class JdbcFoodDao implements FoodDao {
         return foodItem;
 
     }
+
+//    @Override
+//    public List<Food> getFoodName(String foodName) {
+//        return null;
+//    }
 
     public Food mapRowToFood(SqlRowSet rs) {
         Food fd = new Food();

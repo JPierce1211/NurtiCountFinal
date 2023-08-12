@@ -77,9 +77,9 @@ public class FoodController {
     }
 
 
-    @GetMapping("/name")
-    public Food getFoodByName(@PathVariable String foodName) {
-        Food food;
+    @GetMapping("/foodName")
+    public List<Food> getFoodByName(@PathVariable String foodName) {
+        List<Food> food;
         try {
             food = foodDao.addFoodByName(foodName);
         } catch (DaoException e) {
@@ -90,6 +90,19 @@ public class FoodController {
         }
         return food;
 
+    }
+
+    @GetMapping("/foodByName")
+    public List<Food> getSpecificFood(@PathVariable String foodByName){
+        List<Food> foodList;
+        try{
+            foodList = foodDao.getFoodByName(foodByName);
+        }catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (foodList == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Food item not found");
+        } return foodList;
     }
 
 }
