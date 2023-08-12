@@ -23,7 +23,7 @@ CREATE TABLE profile (
 	birthday varchar(10) NOT NULL,
 	height decimal NOT NULL,
 	current_weight decimal NOT NULL,
-	display_name varchar(12) NOT NULL,
+	display_name varchar(100) NOT NULL,
 	profile_pic_id int NOT NULL,
 	goals int
 );

@@ -123,7 +123,8 @@ export default {
     };
   },
 
-  methods: {
+  methods: 
+  {
     formatDateForSQL(date) {
       const d = new Date(date);
       const year = d.getFullYear();
@@ -132,7 +133,8 @@ export default {
       return `${year}-${month}-${day}`;
     },
 
-    submitForm() {
+    submitForm() 
+    {
       const fullBirthday = this.formatDateForSQL(this.profile.birthDay);
       
 
@@ -154,15 +156,44 @@ export default {
       //   ProfileService.createProfile(formData)
       //       .then(response => 
       //       {
-      //         if (response.status === 201) {
-      //           this
+      //         if (response.status === 201) 
+      //         {
+                  
+      //             alert('Profile ID # ' + this.profileId)  // delete this later
+
+      //             this.$router.push(`/`);
+      //         }
+      //           else
+      //         {
+      //           alert('Unable to create a new profile'); 
       //         }
       //       })
+      //       .catch(error => {
+      //         this.handleErrorResponse(error, "creating");
+      //   });
       // }
+      //   else
+      // {
+      //   ProfileService.updateProfile(formData.userId, formData)
+      //         .then(response => 
+      //       {
+      //         if (response.status === 200) 
+      //         {
+                  
+      //             alert('Profile ID # ' + this.profileId);  // delete this later
 
+      //             this.$router.push(`/`);
+      //         }
+      //           else
+      //         {
+      //           alert('Unable to update profile'); 
+      //         }
+      //       })
 
 
 ////////// Above I attempted to rewrite the code below in a manner consistent with our KanBan lecture excercise material.
+
+
 
 
       ProfileService.getProfileInfo(this.$store.state.profile.userId)
@@ -190,7 +221,7 @@ export default {
           if (response.status === 201) {
             //this.$store.state.user.hasProfile = true;
 
-                  alert('Profile ID # ' + this.profileId)  // delete this later
+                  alert('Profile ID #  from createProfile() method: ' + this.profileId)  // delete this later
 
             this.$router.push(`/`);
           }
@@ -205,7 +236,7 @@ export default {
     },
 
     updateProfile(existingProfile, formData) {
-      ProfileService.updateProfile(existingProfile.profile_id, formData)
+      ProfileService.updateProfile(existingProfile.userId, formData)
         .then(response => {
           if (response.status === 200) {
             this.$router.push(`/`);
@@ -213,6 +244,7 @@ export default {
         })
         .catch(error => {
           console.error('Error updating profile:', error);
+          alert('Error Creating Profile: ' + error);
         });
     },
 
@@ -232,6 +264,7 @@ export default {
     },
   },
 };
+
 </script>
 
 <style scoped>
