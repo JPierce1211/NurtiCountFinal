@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const api = {
     createProfile(formData) {
-        alert('Creating Profile...');
-        alert('User ID # retrieved from Create method' + formData.userId);
+        alert('Create Profile...');
+        alert(formData.userId);
         return axios.post('/createProfile', formData);
     },
 
@@ -15,17 +15,17 @@ const api = {
     updateProfile(userId, formData) 
     {
         alert('Updating Profile...');
-        alert('Display Name from Update Method: ' + formData.displayName);
-        alert('User ID # from UpdateProfile() method: ' + userId);
+        alert(formData.displayName);
+        alert(formData.userId);
         return axios.post(`/profile/${userId}`, formData);
     },
 
     getProfileInfo(userId) 
     {   
-        alert('User ID # retrieved from getProfileInfo() : ' + userId);
+        alert(userId);
 
         const url = `/profile/${userId}`;
-        alert('URL output: ' + url);
+        alert(url);
         return axios.get(url);
 
         // return axios.get(`/profile/${userId}`);
@@ -33,8 +33,18 @@ const api = {
 
     getFoodByName(searchName)
     {
-        
-    }
+       const url = `/foodByName/${searchName}`;
+       return axios.get(url)
+       .then(response =>{
+           return response.data;
+       })
+       .catch(error =>{
+           console.error(error);
+           throw error;
+       });
+    },
 };
 
 export default api;
+
+
