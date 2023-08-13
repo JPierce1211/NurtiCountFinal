@@ -77,26 +77,31 @@ public class FoodController {
     }
 
 
-    @GetMapping("/foodName")
-    public List<Food> getFoodByName(@PathVariable String foodName) {
-        List<Food> food;
-        try {
-            food = foodDao.addFoodByName(foodName);
-        } catch (DaoException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        if (food == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Food item not found");
-        }
-        return food;
+//    @GetMapping("/foodName")
+//    public List<Food> getFoodByName(@PathVariable String foodName) {
+//        List<Food> food;
+//        try {
+//            food = foodDao.addFoodByName(foodName);
+//        } catch (DaoException e) {
+//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//        if (food == null) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Food item not found");
+//        }
+//        return food;
+//
+//    }
 
-    }
 
-    @GetMapping("/{foodByName}")
-    public List<Food> getSpecificFood(@PathVariable String foodByName){
+    @GetMapping("/foodByName")
+    public List<Food> getSpecificFood(@RequestParam(required = false) String foodByName, boolean useWildCard){
         List<Food> foodList;
+
+//       if(useWildCard){
+//           foodByName = "%" + foodByName + "%";
+//        }
         try{
-            foodList = foodDao.getFoodByName(foodByName);
+            foodList = foodDao.getFoodByName(foodByName,useWildCard);
         }catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }

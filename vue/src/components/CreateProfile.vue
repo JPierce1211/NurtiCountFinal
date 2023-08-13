@@ -193,7 +193,7 @@ export default {
       //       })
 
 
-////////// Above I attempted to rewrite the code below in a manner consistent with our KanBan lecture excercise material.
+ ////////// Above I attempted to rewrite the code below in a manner consistent with our KanBan lecture excercise material.
 
 
 
