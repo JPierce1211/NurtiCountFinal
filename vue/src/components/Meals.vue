@@ -113,22 +113,22 @@ export default {
   data() {
     return {
       selectedFood: [
-         {
-         foodId: "1",
-        foodName: "Grilled Chicken Breast",
-         foodType: "Protein",
-         servingSize: "150g",
-         calories: "165",
-         numOfServings: "1",
-       },
-       {
-          foodId: "2",
-         foodName: "BBQ Chicken",
-         foodType: "Protein",
-        servingSize: "150g",
-        calories: "165",
-        numOfServings: "1",
-      }
+      //    {
+      //    foodId: "1",
+      //   foodName: "Grilled Chicken Breast",
+      //    foodType: "Protein",
+      //    servingSize: "150g",
+      //    calories: "165",
+      //    numOfServings: "1",
+      //  },
+      //  {
+      //     foodId: "2",
+      //    foodName: "BBQ Chicken",
+      //    foodType: "Protein",
+      //   servingSize: "150g",
+      //   calories: "165",
+      //   numOfServings: "1",
+      // }
       ],
       //change to false if not hardcoding
       showTable: false,
@@ -188,8 +188,8 @@ export default {
         this.showTable = true;
       })
       .catch(error => {
-        if (error.response.status === 404){
-          this.searchError = "No Restults found for this search.";
+        if (error.status === 404){
+          this.searchError = "No Results found for this search.";
         } else {
           this.searchError = "An error happen while searching. Please try again.";
         }
