@@ -92,7 +92,7 @@ public class FoodController {
 
     }
 
-    @GetMapping("/foodByName")
+    @GetMapping("/{foodByName}")
     public List<Food> getSpecificFood(@PathVariable String foodByName){
         List<Food> foodList;
         try{
