@@ -49,13 +49,16 @@
             <td>
               <!-- when this button is hit then it should be add to the meal's array/table -->
               <!-- need a is loading method might take this out -->
-              <button v-on:click="showTable = !showTable" :disabled="!isTableFilled">Search Food</button>
+              <p class="tblfill-error">{{tableFilledError}}</p>
+              <!-- :disabled="!isTableFilled" -->
+              <button v-on:click="searchFood" >Search Food</button>
             </td>
           </tr>
         </tbody>
       </table> 
       <!-- add button to move to see all meals for the day -->
       <!-- create a show method -->
+      <p class="search-error"> {{ searchError}}</p>
       <table
         v-show="showTable"
         v-on:submit.prevent="addFood"
@@ -72,12 +75,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr v-for="foodItem in selectedFood" :key="foodItem.foodId">
             <!-- will need a v-for to show multiple results if going down that route -->
-            <td>{{ food.foodName }}</td>
-            <td>{{ food.foodType }}</td>
-            <td>{{ food.servingSize }}</td>
-            <td>{{ food.calories }}</td>
+            <td>{{ foodItem.foodName }}</td>
+            <td>{{ foodItem.foodType }}</td>
+            <td>{{ foodItem.servingSize }}</td>
+            <td>{{ foodItem.calories }}</td>
             <td>
               <!-- going to need a method to turn isQuickMeal True -->
               <input
@@ -98,22 +101,41 @@
     <div class="butn-ShowMeals">  
       <!-- this button will save the foods into a meal and transfer it to the next componenet -->
       <button @click="$router.push('component/showMeals.vue')">Show Meals</button>
-      <button v-on:click="newSearch"> New Search </button>
+      <button v-on:click="searchFood"> New Search </button>
     </div> 
   </div>  
 </template>
 
 <script>
 import moment from "moment";
-import profileService from "../services/ProfileService"
+import foodService from "../services/FoodService"
 export default {
   data() {
     return {
-      selectedFood: [],
-
+      selectedFood: [
+         {
+         foodId: "1",
+        foodName: "Grilled Chicken Breast",
+         foodType: "Protein",
+         servingSize: "150g",
+         calories: "165",
+         numOfServings: "1",
+       },
+       {
+          foodId: "2",
+         foodName: "BBQ Chicken",
+         foodType: "Protein",
+        servingSize: "150g",
+        calories: "165",
+        numOfServings: "1",
+      }
+      ],
+      //change to false if not hardcoding
       showTable: false,
 
       tableFilledError: "",
+
+      searchError: "",
 
       meal: {
         mealId: "",
@@ -147,26 +169,40 @@ export default {
     // triggers the food search
     searchFood(){
       let searchName = this.search.foodName;
-      //this method needs to get made in service to a Get method
-      if (!this.checkingTable()){
-          return;
-      }
-      profileService.getSearchedMeals(searchName)
+    // let tableForm= this.checkingTableForm();
+      //this is making sure all input is filled out
+      // if (!tableForm){
+      //     return;
+      // } 
+
+      this.searchError ="";
+
+      foodService.getFoodByName(searchName)
       .then(response => {
+        //this checks if there is no response
+        if (response.data.length === 0){
+          this.searchError = "No Results found for this search";
+          return;
+        }
         this.selectedFood = response.data;
         this.showTable = true;
       })
       .catch(error => {
+        if (error.response.status === 404){
+          this.searchError = "No Restults found for this search.";
+        } else {
+          this.searchError = "An error happen while searching. Please try again.";
+        }
         console.error(error);
       });
     },
-
-    checkingTable(){
-      if (!this.meal.logDay|| !this.food.numOfServings || !this.search.foodName) {
+    //this error is not working 
+    checkingTableForm(){
+      if (!this.meal.logDay|| !this.meal.mealType || !this.food.numOfServings || !this.search.foodName) {
         this.tableFilledError = "All fields must be filled out.";
         return false;
       }
-        this.formError = "";
+        this.tableFilledError = "";
         return true;
     },
 
@@ -195,7 +231,7 @@ export default {
 
   computed: {
   isTableFilled(){
-    return this.search.foodName && this.meal.logDay && this.food.numOfServings;
+    return this.search.foodName && this.meal.logDay && this.food.numOfServings && this.meal.mealType;
   }
 
 }
