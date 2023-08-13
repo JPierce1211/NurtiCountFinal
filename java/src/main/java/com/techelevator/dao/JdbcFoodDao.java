@@ -67,8 +67,11 @@ public class JdbcFoodDao implements FoodDao {
     }
 
     @Override
-    public List<Food> getFoodByName(String foodName){
+    public List<Food> getFoodByName(String foodName, boolean useWildCard){
         List<Food> allFoodName = new ArrayList<>();
+        if(useWildCard){
+            foodName = "%" + foodName + "%";
+        }
         String sql = "SELECT food_id, food_name, food_type, serving_size, calories, num_of_servings FROM food WHERE food_name ILIKE ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, "%" + foodName + "%");
