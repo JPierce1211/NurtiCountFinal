@@ -30,19 +30,6 @@ const api = {
 
         // return axios.get(`/profile/${userId}`);
     },
-
-    getFoodByName(searchName)
-    {
-       const url = `/foodByName/${searchName}`;
-       return axios.get(url)
-       .then(response =>{
-           return response.data;
-       })
-       .catch(error =>{
-           console.error(error);
-           throw error;
-       });
-    },
 };
 
 export default api;
