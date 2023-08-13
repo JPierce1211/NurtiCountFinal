@@ -5,14 +5,14 @@
     <h1 id="title">My Meals</h1>
     <div class="main">
       <table id="tblFood">
-        <thead>
+        <thead id="tblhead">
           <tr>
             <th>Date</th>
             <th>Meal Type</th>
             <th>Number Of Servings</th>
             <!-- test if our database can search multiple strings  -->
             <th>Food Search</th>
-            <th>Quick Meal</th>
+            <th>Search Food</th>
           </tr>
         </thead>
         <tbody>
@@ -49,7 +49,7 @@
             <td>
               <!-- when this button is hit then it should be add to the meal's array/table -->
               <!-- need a is loading method might take this out -->
-              <button v-on:click="showTable = !showTable" :disabled="isLoading">Search Food</button>
+              <button v-on:click="showTable = !showTable" :disabled="!isTableFilled">Search Food</button>
             </td>
           </tr>
         </tbody>
@@ -68,7 +68,7 @@
             <th>Serving Size</th>
             <th>Calories</th>
             <th>Quick Meal?</th>
-            <th>Add food</th>
+            <th>Add Food to Meal</th>
           </tr>
         </thead>
         <tbody>
@@ -111,6 +111,10 @@ export default {
     return {
       selectedFood: [],
 
+      showTable: false,
+
+      tableFilledError: "",
+
       meal: {
         mealId: "",
         mealType: "",
@@ -144,13 +148,26 @@ export default {
     searchFood(){
       let searchName = this.search.foodName;
       //this method needs to get made in service to a Get method
+      if (!this.checkingTable()){
+          return;
+      }
       profileService.getSearchedMeals(searchName)
       .then(response => {
         this.selectedFood = response.data;
+        this.showTable = true;
       })
       .catch(error => {
         console.error(error);
       });
+    },
+
+    checkingTable(){
+      if (!this.meal.logDay|| !this.food.numOfServings || !this.search.foodName) {
+        this.tableFilledError = "All fields must be filled out.";
+        return false;
+      }
+        this.formError = "";
+        return true;
     },
 
     // Adds the selected food item to selectedFood array
@@ -175,7 +192,16 @@ export default {
 
 
   },
+
+  computed: {
+  isTableFilled(){
+    return this.search.foodName && this.meal.logDay && this.food.numOfServings;
+  }
+
+}
 };
+
+
 </script>
 
 <style>
