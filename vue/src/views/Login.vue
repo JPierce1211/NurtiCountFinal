@@ -32,6 +32,7 @@
 
 <script>
 import authService from "../services/AuthService";
+import ProfileService from "../services/ProfileService";
 
 export default {
   name: "login",
@@ -46,37 +47,42 @@ export default {
     };
   },
   methods: {
-
     login() {
       authService
         .login(this.user)
         .then(response => {
-          if (response.status == 200) {
-
-
+          if (response.status === 200) 
+          { 
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
 
-            console.log(this.$store.state.profile.userId);
-            console.log(this.$store.state.user.hasProfile);
-
-            //const userIdFromToken = getUserIdFromToken(token);
-
-            if (this.$store.state.user.hasProfile !== true)
-            {
-              this.$router.push("/createProfile/");
-            }
-            else
-            {
-
-            this.$router.push("/");
-            }
+            ProfileService.getProfileInfo(response.data.user.id)
+              .then(profileResponse => 
+              { 
+                if (profileResponse.status === 200) 
+                { 
+                  if (profileResponse.data.profileId === null || profileResponse.data.profileId === undefined) 
+                  { 
+                    this.$router.push("/createProfile/");
+                  } 
+                  else 
+                  {
+                    this.$router.push("/");
+                  }
+                }
+              }) 
+              .catch(profileError => 
+              { 
+                console.error("Profile info request error:", profileError);
+              });
           }
-        })
-        .catch(error => {
+        }) 
+        .catch(error => 
+        { 
           const response = error.response;
 
-          if (response.status === 401) {
+          if (response.status === 401) 
+          { 
             this.invalidCredentials = true;
           }
         });
@@ -84,6 +90,8 @@ export default {
   }
 };
 </script>
+
+
 
 <style scoped>
 

@@ -1,11 +1,11 @@
 <template>
     <div>
-        <h3>{{ displayName }}</h3>
+        <h3>{{ this.$tore.state.profile.displayName }}</h3>
         <div class="db-profile-pic">
             <img :src="proPicURL" alt="Profile Image" />
         </div>
         <div class="db-profile-stars">
-            <p> 5 Star User!! </p>
+            
         </div>
     </div>
 </template>
