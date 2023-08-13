@@ -55,6 +55,7 @@ export default {
           { 
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
+            this.$store.commit("SET_USER_ID", response.data.user.id); 
 
             ProfileService.getProfileInfo(response.data.user.id)
               .then(profileResponse => 
@@ -63,10 +64,12 @@ export default {
                 { 
                   if (profileResponse.data.profileId === null || profileResponse.data.profileId === undefined) 
                   { 
+
                     this.$router.push("/createProfile/");
                   } 
                   else 
                   {
+                    this.$store.commit("SET_PROFILE_ID", profileResponse.data.profileId); 
                     this.$router.push("/");
                   }
                 }
