@@ -44,7 +44,7 @@ public class ProfileController {
     }
 
     @GetMapping("/profilePic/url/{picId}") //Should return URL of pic
-    public ProfilePic getPicUrl(@PathVariable int picId){
+    public String getPicUrl(@PathVariable int picId){
         return picDao.getPicUrl(picId);
     }
 

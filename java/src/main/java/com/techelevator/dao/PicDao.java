@@ -6,5 +6,5 @@ public interface PicDao {
 
     ProfilePic getPicById(int picId);
 
-    ProfilePic getPicUrl(int picId);
+    String getPicUrl(int picId);
 }
