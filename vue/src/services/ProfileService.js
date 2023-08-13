@@ -22,14 +22,18 @@ const api = {
 
     getProfileInfo(userId) 
     {   
-        alert(userId);
 
-        const url = `/profile/${userId}`;
-        alert(url);
-        return axios.get(url);
-
-        // return axios.get(`/profile/${userId}`);
+        alert(userId + ' is being passed into the getProfileInfo() as a parameter'); // delete later
+        return axios.get(`/profile/${userId}`);
     },
+    getPicUrl(picId)
+    {   
+
+        
+
+        alert(picId + ' is being passed thru the getPicURL method as a parameter'); // delete later
+        return axios.get(`profilePic/${picId}`);
+    }
 };
 
 export default api;
