@@ -82,8 +82,8 @@ const router = new Router({
       component: DBWeightChart,
     },
     {
-      path: "/meal",
-      name:"meal",
+      path: "/myMeal",
+      name:"myMeal",
       component: meal,
     }
   ]
