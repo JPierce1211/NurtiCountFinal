@@ -20,7 +20,10 @@ export default new Vuex.Store({
   state: {
     token: currentToken || '',
     user: currentUser || {},
-    profile: {
+    userId: null,
+    profileId: null,
+    profile: 
+    {
       id:'',
       userId:'',
       height:'',
@@ -47,6 +50,12 @@ export default new Vuex.Store({
       state.token = '';
       state.user = {};
       axios.defaults.headers.common = {};
-    }
+    },
+    SET_PROFILE_ID(state, profileId) {
+      state.profileId = profileId;
+    },
+    SET_USER_ID(state, userId) {
+      state.userId = userId;
+    },
   }
 })
