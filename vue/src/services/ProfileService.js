@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const api = {
     createProfile(formData) {
-        alert('Create Profile...');
-        alert(formData.userId);
+        // alert('Create Profile...');
+        // alert(formData.userId);
         return axios.post('/createProfile', formData);
     },
 
@@ -14,22 +14,32 @@ const api = {
 
     updateProfile(userId, formData) 
     {
-        alert('Updating Profile...');
-        alert(formData.displayName);
-        alert(formData.userId);
+        // alert('Updating Profile...');
+        // alert(formData.displayName);
+        // alert(formData.userId);
         return axios.post(`/profile/${userId}`, formData);
     },
 
     getProfileInfo(userId) 
     {   
-        alert(userId);
-
-        const url = `/profile/${userId}`;
-        alert(url);
-        return axios.get(url);
-
-        // return axios.get(`/profile/${userId}`);
+        return axios.get(`/profile/${userId}`);
     },
+    getPicUrl(picId) 
+    {   
+        return axios.get(`profilePic/${picId}`)
+            .then(response => 
+            {
+                const url = response.data.url; 
+                // alert(url + ' is being returned from the getPicURL method');
+                return url;
+            })
+            .catch(error => 
+            {
+                console.error('Error fetching profile picture URL:', error);
+                return ''; 
+            });
+    },
+    
 };
 
 export default api;

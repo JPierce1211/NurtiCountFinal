@@ -222,10 +222,10 @@ export default {
         .then(response => {
           if (response.status === 201) {
             //this.$store.state.user.hasProfile = true;
-
-                  alert('Profile ID #  from createProfile() method: ' + this.profileId)  // delete this later
-
+ 
+            this.$store.commit("SET_PROFILE_ID", response.data.profileId); 
             this.$router.push(`/`);
+            
           }
           else
           {

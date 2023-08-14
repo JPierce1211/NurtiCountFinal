@@ -9,7 +9,7 @@
 
           <!-- Insert Dynamic content (Profile Pic and # of stars) that leads to the profile endpoint -->
 
-          <profileStars />
+          
 
         </div>
 
@@ -41,7 +41,7 @@
 import DBMeals from './DBMeals.vue';
 import DBProfile from './DBProfile.vue';
 import DBWieghtChart from './DBWieghtChart.vue';
-import profileStars from './ProfileStars.vue';
+
 
 export default {
     name: 'Home',
@@ -51,7 +51,7 @@ export default {
       DBProfile,
       DBMeals,
       DBWieghtChart,
-      profileStars,
+
     }
 }
 

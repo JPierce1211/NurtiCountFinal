@@ -6,6 +6,7 @@ import com.techelevator.exception.DaoException;
 import com.techelevator.model.Food;
 import com.techelevator.model.FoodDto;
 import com.techelevator.service.FoodFactService;
+import com.techelevator.service.FoodFactServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -22,15 +23,16 @@ import java.util.List;
 public class FoodController {
 
     private FoodDao foodDao;
+    private FoodDto foodDto;
+    private FoodFactServiceImpl foodFactService;
 
-    private FoodFactService foodFactService;
-
-    public FoodController(FoodDao foodDao) {
+    public FoodController(FoodDao foodDao, FoodFactServiceImpl foodFactService) {
         this.foodDao = foodDao;
+        this.foodFactService = foodFactService;
 
     }
 
-
+    
     @GetMapping("")
     public List<Food> listAllFood() {
         try {
@@ -76,6 +78,14 @@ public class FoodController {
           }
     }
 
+    @GetMapping("/supersearch") //supersearch?foodByName=
+    public FoodDto[] getFacts(@RequestParam(required = false) String foodByName, boolean userWildCard) {
+        try {
+            return foodFactService.getFacts(foodByName, userWildCard);
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 //    @GetMapping("/foodName")
 //    public List<Food> getFoodByName(@PathVariable String foodName) {
@@ -93,7 +103,7 @@ public class FoodController {
 //    }
 
 
-    @GetMapping("/foodByName")
+    @GetMapping("/foodByName") //foodByName?foodByName=
     public List<Food> getSpecificFood(@RequestParam(required = false) String foodByName, boolean useWildCard){
         List<Food> foodList;
 

@@ -18,6 +18,11 @@ body
     font-family: 'ncFont', Arial, sans-serif;
 }
 
+.text-font
+{
+    font-family: 'ncFont', Arial, sans-serif;    
+}
+
 .center-text
 {
     text-align: center;
@@ -30,11 +35,6 @@ body
     justify-content: flex-start;
     align-items: center;
     height: 100vh;
-}
-
-.logo
-{
-    margin-top: 20px;
 }
 
 .banner
