@@ -23,7 +23,7 @@ public class JdbcFoodDao implements FoodDao {
     @Override
     public Food addNewFood(FoodDto food) {
     Food newFood = null;
-    String sql = "INSERT INTO food (food_name, food_type, serving_size, calories) VALUES (?, ?, ?,?) RETURNING food_id";
+    String sql = "INSERT INTO food (food_name, food_type, serving_size, calories) VALUES (?, ?, ?, ?) RETURNING food_id";
 		try {
         int foodId = jdbcTemplate.queryForObject(sql, int.class, food.getFoodName(), food.getFoodType(), food.getServingSize(), food.getCalories());
        newFood = getFoodById(foodId);
@@ -38,7 +38,7 @@ public class JdbcFoodDao implements FoodDao {
     @Override
     public Food getFoodById(int foodId) {
         Food food = null;
-        String sql = "SELECT food_id, food_name, food_type, serving_size, calories, num_of_servings FROM food WHERE food_id = ?";
+        String sql = "SELECT food_id, food_name, food_type, serving_size, calories, num_of_servings, is_quick_food FROM food WHERE food_id = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, foodId);
             if (results.next()) {
@@ -53,7 +53,7 @@ public class JdbcFoodDao implements FoodDao {
     @Override
     public List<Food> listFood() {
         List<Food> foodList = new ArrayList<>();
-        String sql = "SELECT food_id, food_name, food_type, serving_size, calories, num_of_servings FROM food";
+        String sql = "SELECT food_id, food_name, food_type, serving_size, calories, num_of_servings, is_quick_food FROM food";
             try {
                 SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
                 while (results.next()) {
@@ -72,7 +72,7 @@ public class JdbcFoodDao implements FoodDao {
         if(useWildCard){
             foodName = "%" + foodName + "%";
         }
-        String sql = "SELECT food_id, food_name, food_type, serving_size, calories, num_of_servings FROM food WHERE food_name ILIKE ?";
+        String sql = "SELECT food_id, food_name, food_type, serving_size, calories, num_of_servings, is_quick_food FROM food WHERE food_name ILIKE ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, "%" + foodName + "%");
             while (results.next()) {
@@ -116,7 +116,7 @@ public class JdbcFoodDao implements FoodDao {
     @Override
     public List<Food> addFoodByName(String foodName){
         List<Food> foodItem = new ArrayList<>();
-        String sql = "SELECT food_id, food_type, serving_size, calories, num_of_servings FROM food WHERE food_name = ?";
+        String sql = "SELECT food_id, food_type, serving_size, calories, num_of_servings, is_quick_food FROM food WHERE food_name = ?";
             try {
                 SqlRowSet results = jdbcTemplate.queryForRowSet(sql, foodName);
                 if (results.next()) {
@@ -142,6 +142,7 @@ public class JdbcFoodDao implements FoodDao {
         fd.setServingSize(rs.getInt("serving_size"));
         fd.setCalories(rs.getDouble("calories"));
         fd.setNumOfServings(rs.getInt("num_of_servings"));
+        fd.setQuickFood(rs.getBoolean("is_quick_food"));
         return fd;
     }
 }

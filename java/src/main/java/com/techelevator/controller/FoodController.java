@@ -93,7 +93,7 @@ public class FoodController {
 //    }
 
 
-    @GetMapping("/foodByName")
+    @GetMapping("/foodByName") //foodByName?foodByName=
     public List<Food> getSpecificFood(@RequestParam(required = false) String foodByName, boolean useWildCard){
         List<Food> foodList;
 

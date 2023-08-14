@@ -41,10 +41,11 @@ CREATE TABLE food (
 	food_id serial PRIMARY KEY,
 	meal_id int REFERENCES meals(meal_id),
 	food_name varchar(100) NOT NULL,
-	food_type varchar(50) NOT NULL,
+	food_type varchar(50) NULL,
 	serving_size decimal NOT NULL,
 	calories decimal NOT NULL,
-	num_of_servings decimal NOT NULL
+	num_of_servings decimal NOT NULL,
+	is_quick_food boolean NOT NULL
 );
 
 CREATE TABLE meal_food(

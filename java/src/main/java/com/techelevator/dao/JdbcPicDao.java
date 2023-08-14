@@ -36,17 +36,16 @@ public class JdbcPicDao implements PicDao {
     }
 
     @Override
-    public ProfilePic getPicUrl(int picId){
-        ProfilePic url = null;
-        String sql = "SELECT url " +
-                "FROM profile_img " +
-                "WHERE profile_pic_id = ?;";
-        try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, picId);
-            if (results.next()){
-                url = mapRowToProfilePic(results);
-            }
-        }catch (CannotGetJdbcConnectionException e){
+    public String getPicUrl(int picId)
+    {
+        String url = null;
+        String sql = "SELECT url FROM profile_img WHERE profile_pic_id = ?;";
+        try
+        {
+            url = jdbcTemplate.queryForObject(sql, String.class, picId);
+        }
+        catch (CannotGetJdbcConnectionException e)
+        {
             throw new DaoException("Unable to connect to server or database", e);
         }
         return url;
