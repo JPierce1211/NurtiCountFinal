@@ -27,13 +27,13 @@ public class GoalsController {
         this.profileDao = profileDao;
     }
 
-    @GetMapping("goals")
+    @GetMapping("/goals")
     public List<Goals> listAllGoals(){
         return goalDao.list();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("createGoals")
+    @PostMapping("/createGoals")
     public Goals create(@RequestBody Goals goal){
         try {
             return goalDao.createGoal(goal);
@@ -42,30 +42,30 @@ public class GoalsController {
         }
     }
 
-    @PutMapping("goals/update")
+    @PutMapping("/goals/update")
     public Goals update(@RequestBody Goals goal){
         return goalDao.updateGoal(goal);
     }
 
-    @GetMapping("profile/(id}/goals")
-    public Goals getGoalByProfile(@PathVariable int profileId){
-        return goalDao.getGoalsByProfileId(profileId);
+    @GetMapping("/goals/{userId}")
+    public Goals getGoalByUser(@PathVariable int userId){
+        return goalDao.getGoalsByUserId(userId);
     }
 
-    @GetMapping("goals/time")
+    @GetMapping("/goals/time")
     public List<Goals> getProgressOverTime(@RequestBody String fromDate, @RequestBody String toDate){
         return goalDao.getGoalsByTimeframe(fromDate, toDate);
     }
 
-    @GetMapping("goals/{id}")
+    @GetMapping("/goals/{goalId}")
     public Goals getGoalById(@PathVariable int goalId){
         Goals progress = goalDao.getGoalByGoalId(goalId);
         return progress;
     }
 
-    @GetMapping("goals/date")
-    public List<Goals> getGoalByDate(String date){
-        return goalDao.getGoalByDate(date);
+    @GetMapping("/goals/date")
+    public List<Goals> getGoalsByDate(String date){
+        return goalDao.getGoalsByDate(date);
     }
 
 

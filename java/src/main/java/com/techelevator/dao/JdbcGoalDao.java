@@ -26,7 +26,7 @@ public class JdbcGoalDao implements GoalDao {
     @Override
     public List<Goals> list(){ //List all progress in one place
         List<Goals> goalCheckPoints = new ArrayList<>();
-        String sql = "SELECT goal_id, desired_weight, bmi, log_day FROM goals;";
+        String sql = "SELECT goal_id, user_id, desired_weight, bmi, log_day FROM goals;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()){
@@ -40,9 +40,9 @@ public class JdbcGoalDao implements GoalDao {
     }
 
     @Override
-    public List<Goals> getGoalByDate(String date){ //Retrieve a specific progress log by a certain date
+    public List<Goals> getGoalsByDate(String date){ //Retrieve a specific progress log by a certain date
         List<Goals> goalDate = new ArrayList<>();
-        String sql = "SELECT goal_id, desired_weight, bmi, log_day " +
+        String sql = "SELECT goal_id, user_id, desired_weight, bmi, log_day " +
                 "FROM goals " +
                 "WHERE log_day = ?;";
         try {
@@ -61,7 +61,7 @@ public class JdbcGoalDao implements GoalDao {
     @Override
     public List<Goals> getGoalsByTimeframe(String fromDate, String toDate){ //Viewing trajectories based on timeframes
         List<Goals> progressChart = new ArrayList<>();
-        String sql = "SELECT goal_id, desired_weight, bmi, log_day " +
+        String sql = "SELECT goal_id, user_id, desired_weight, bmi, log_day " +
                 "FROM goals " +
                 "WHERE log_day BETWEEN ? AND ? " +
                 "ORDER BY log_day;";
@@ -77,13 +77,13 @@ public class JdbcGoalDao implements GoalDao {
     }
 
     @Override
-    public Goals getGoalsByProfileId(int profileId){ //Get all progress by the profile to be ready to display
+    public Goals getGoalsByUserId(int userId){ //Get all progress by the profile to be ready to display
         Goals goals = null;
-        String sql = "SELECT goal_id, desired_weight, bmi, log_day " +
+        String sql = "SELECT goal_id, user_id, desired_weight, bmi, log_day " +
                 "FROM goals " +
-                "WHERE profile_id = ?;";
+                "WHERE user_id = ?;";
         try{
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, profileId);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
             if (results.next()){
                 goals = mapRowToGoals(results);
             }
@@ -95,7 +95,7 @@ public class JdbcGoalDao implements GoalDao {
 
     public Goals getGoalByGoalId(int goalId){ //Specific progress point
         Goals goals = null;
-        String sql = "SELECT goal_id, desired_weight, bmi, log_day " +
+        String sql = "SELECT goal_id, user_id, desired_weight, bmi, log_day " +
                 "FROM goals " +
                 "WHERE goal_id = ?;";
         try{
@@ -112,11 +112,11 @@ public class JdbcGoalDao implements GoalDao {
     @Override
     public Goals createGoal(Goals goal){ //Allows user to log a new progress point
         Goals newGoal = null;
-        String sql = "INSERT INTO goals (desired_weight, bmi, log_day) " +
+        String sql = "INSERT INTO goals (user_id, desired_weight, bmi, log_day) " +
                 "VALUES (?, ?, ?) RETURNING goal_id;";
         try{
             //The profileDao.getProfileById(progress.getProfileById) may be redundant
-            int newGoalId = jdbcTemplate.queryForObject(sql, int.class, goal.getDesiredWeight(), goal.getBmi(), goal.getDate());
+            int newGoalId = jdbcTemplate.queryForObject(sql, int.class, goal.getUserId(), goal.getDesiredWeight(), goal.getBmi(), goal.getDate());
 
             newGoal = getGoalByGoalId(newGoalId);
         }catch (CannotGetJdbcConnectionException e) {
@@ -130,10 +130,10 @@ public class JdbcGoalDao implements GoalDao {
     @Override
     public Goals updateGoal(Goals goal){ //Allows user to update current progress
         Goals updateGoal = null;
-        String sql = "UPDATE goals SET desired_weight = ?, bmi  = ?, log_day = ? " +
+        String sql = "UPDATE goals SET user_id = ?, desired_weight = ?, bmi  = ?, log_day = ? " +
                 "WHERE goal_id = ?;";
         try{
-            int numberOfRows = jdbcTemplate.update(sql, goal.getDesiredWeight(), goal.getBmi(), goal.getDate());
+            int numberOfRows = jdbcTemplate.update(sql, goal.getUserId(), goal.getDesiredWeight(), goal.getBmi(), goal.getDate());
             if(numberOfRows == 0){
                 throw new DaoException("Zero rows affected, expected at least one");
             }else{
@@ -151,6 +151,7 @@ public class JdbcGoalDao implements GoalDao {
     private Goals mapRowToGoals(SqlRowSet rs){
         Goals goals = new Goals();
         goals.setGoalId(rs.getInt("goal_id"));
+        goals.setUserId(rs.getInt("user_id"));
         goals.setDesiredWeight(rs.getDouble("desired_weight"));
         goals.setBmi(rs.getDouble("bmi"));
         goals.setDate(rs.getString("log_day"));

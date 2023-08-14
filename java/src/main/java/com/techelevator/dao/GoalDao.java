@@ -9,11 +9,11 @@ public interface GoalDao {
 
     List<Goals> list();
 
-    List<Goals> getGoalByDate(String date);
+    List<Goals> getGoalsByDate(String date);
 
     List<Goals> getGoalsByTimeframe(String fromDate, String toDate);
 
-    Goals getGoalsByProfileId(int profileId);
+    Goals getGoalsByUserId(int userId);
 
     Goals getGoalByGoalId(int goalId);
 
