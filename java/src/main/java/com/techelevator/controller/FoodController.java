@@ -70,7 +70,7 @@ public class FoodController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public Food saveNewFood(Food food) {// Change it back to FoodDto
+    public Food saveNewFood(FoodDto food) {
           try {
               return foodDao.addNewFood(food);
           } catch (DaoException e) {

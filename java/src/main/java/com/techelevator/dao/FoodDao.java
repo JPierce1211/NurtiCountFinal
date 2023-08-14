@@ -9,7 +9,7 @@ import java.util.List;
 public interface FoodDao {
 
 
-    Food addNewFood(Food food);
+    Food addNewFood(FoodDto food);
 
     Food getFoodById(int foodId);
 
