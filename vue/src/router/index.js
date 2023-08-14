@@ -66,7 +66,7 @@ const router = new Router({
       component: meal,
 
     },
-
+    
     {
       path: "/createProfile/",
       name: "createProfile",
