@@ -6,6 +6,7 @@ import com.techelevator.exception.DaoException;
 import com.techelevator.model.Food;
 import com.techelevator.model.FoodDto;
 import com.techelevator.service.FoodFactService;
+import com.techelevator.service.FoodFactServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +24,11 @@ public class FoodController {
 
     private FoodDao foodDao;
     private FoodDto foodDto;
-    private FoodFactService foodFactService;
+    private FoodFactServiceImpl foodFactService;
 
-    public FoodController(FoodDao foodDao) {
+    public FoodController(FoodDao foodDao, FoodFactServiceImpl foodFactService) {
         this.foodDao = foodDao;
+        this.foodFactService = foodFactService;
 
     }
 
@@ -76,6 +78,14 @@ public class FoodController {
           }
     }
 
+    @GetMapping("/supersearch")
+    public FoodDto getFacts() {
+        try {
+            return foodFactService.getFacts();
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 //    @GetMapping("/foodName")
 //    public List<Food> getFoodByName(@PathVariable String foodName) {
