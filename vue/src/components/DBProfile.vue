@@ -35,7 +35,7 @@ export default
     {
         await this.getProfileData();
         await this.getProfilePicUrl(this.picId);
-        await alert(this.proPicURL + ' is the URL for your profile picture');
+        //await alert(this.proPicURL + ' is the URL for your profile picture');
     },
 
     methods: 
@@ -52,9 +52,7 @@ export default
                     this.picId = response.data.profilePicId;
                     this.picFileName = ProfileService.getPicUrl(this.picId);
 
-                     // I dont know why this keeps returning an object when postman returns a string from the same endpoint
 
-                    //this.proPicURL = require(`@/imgs/pngs/` + this.picFileName);
 
                 } 
             catch (error) 
@@ -65,27 +63,7 @@ export default
 
         async getProfilePicUrl(picId)
         {
-            if (picId === 1)
-                {
-                    this.proPicURL = require(`@/imgs/pngs/0` + picId + `.png`);
-                }
-            if (picId === 2)
-                {
-                    this.proPicURL = require(`@/imgs/pngs/0` + picId + `.png`);
-                }
-            if (picId === 3)
-                {
-                    this.proPicURL = require(`@/imgs/pngs/0` + picId + `.png`);
-                }
-            if (picId === 4)
-                {
-                    this.proPicURL = require(`@/imgs/pngs/0` + picId + `.png`);
-                }
-            if (picId === 5)
-                {
-                    this.proPicURL = require(`@/imgs/pngs/0` + picId + `.png`);
-                }
-            if (picId === 6)
+            if (picId > 0 || picId < 10)
                 {
                     this.proPicURL = require(`@/imgs/pngs/0` + picId + `.png`);
                 }
