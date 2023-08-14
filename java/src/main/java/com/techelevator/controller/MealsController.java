@@ -58,6 +58,14 @@ public class MealsController {
         return meals;
     }
 
+    @GetMapping("/meals/{mealId}/calories")
+    public int calTotal(@PathVariable int mealId, Principal principal, Meals meals){
+        User user = userDao.getUserByUsername(principal.getName());
+        meals.setUserId(user.getId());
+        int meal = mealsDao.getTotalCalories(mealId);
+        return meal;
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createMeal")
     public Meals createMeal(@RequestBody Meals meals, Principal principal) {

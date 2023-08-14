@@ -7,6 +7,8 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +55,23 @@ public class JdbcMealsDao implements MealsDao {
             throw new DaoException("Data integrity violation", e);
         }
         return newMeal;
+    }
+
+    @Override
+    public int getTotalCalories(int mealId){
+        Meals meals = new Meals();
+        String sql = "SELECT SUM(f.calories * f.num_of_servings) AS total_calories " +
+                "FROM meal_food mf " +
+                "JOIN food f ON mf.food_id = f.food_id " +
+                "JOIN meals m ON mf.meal_id = m.meal_id " +
+                "WHERE mf.meal_id = ? " +
+                "GROUP BY mf.meal_id, m.log_day;";
+        try{
+            int calories = jdbcTemplate.queryForObject(sql, int.class, mealId);
+            meals.setTotalCalories(calories);
+        }catch(Exception e){
+            throw new DaoException("Error retrieving total calories", e);
+        } return meals.getTotalCalories();
     }
 
     @Override
