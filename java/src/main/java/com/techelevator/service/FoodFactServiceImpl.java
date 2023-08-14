@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +21,8 @@ public class FoodFactServiceImpl {
     // private static final String API_URL = "https://api.api-ninjas.com/v1/nutrition?query=";
 
     private static final String API_URL ="https://api.api-ninjas.com/v1/nutrition?query=";
+    private static final String API_NINJA_KEY = "X-Api-Key";
+    private static final String API_NINJA_VALUE = "ZTiKebEmbGDPgIwUgnV3XQ==biRhU7uo94M8dOUL";
     private RestTemplate restTemplate = new RestTemplate();
 //    private String X_API_KEY = "ZTiKebEmbGDPgIwUgnV3XQ==biRhU7uo94M8dOUL";
 
@@ -30,30 +33,55 @@ public class FoodFactServiceImpl {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private HttpEntity<FoodDto> makeAuthEntity() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(API_NINJA_KEY, API_NINJA_VALUE);
+//        headers.set(API_NINJA_KEY, API_NINJA_VALUE);
+        return new HttpEntity<>(headers);
+    }
 
-
-        public FoodDto getFacts() throws RestClientResponseException {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.set("X-API-KEY", "ZTiKebEmbGDPgIwUgnV3XQ==biRhU7uo94M8dOUL");
-            HttpEntity<String> entity = new HttpEntity<>(headers);
-            ResponseEntity<FoodDto> response = restTemplate.exchange(API_URL, HttpMethod.GET, entity, FoodDto.class);
-            FoodDto foodFact = response.getBody();
-            if (foodFact != null) {
-
-                String sql = "INSERT INTO  food (food_name, food_type, serving_size, calories) VALUES(?, ?, ?, ?)";
-                jdbcTemplate.update(sql, foodFact.getFoodName(), foodFact.getFoodType(), foodFact.getServingSize(), foodFact.getCalories());
-
-            }
-            return foodFact;
+    public FoodDto[] getFacts(String name, boolean useWildCard){
+        FoodDto[] foods = null;
+        if(useWildCard){
+            name = "%" + name + "%";
         }
+
+        ResponseEntity<FoodDto[]> response =
+                restTemplate.exchange(API_URL + name, HttpMethod.GET,
+                        makeAuthEntity(), FoodDto[].class);
+        foods = response.getBody();
+
+        return foods;
+    }
+
+
+
+//    public FoodDto getFacts() throws RestClientResponseException {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        headers.set("X-API-KEY", "ZTiKebEmbGDPgIwUgnV3XQ==biRhU7uo94M8dOUL");
+//        HttpEntity<String> entity = new HttpEntity<>(headers);
+//        ResponseEntity<FoodDto> response = restTemplate.exchange(API_URL, HttpMethod.GET, entity, FoodDto.class);
+//        FoodDto foodFact = response.getBody();
+//        if (foodFact != null) {
+//
+//            String sql = "INSERT INTO  food (food_name, food_type, serving_size, calories) VALUES(?, ?, ?, ?)";
+//            jdbcTemplate.update(sql, foodFact.getFoodName(), foodFact.getFoodType(), foodFact.getServingSize(), foodFact.getCalories());
+//
+//        }
+//        return foodFact;
+//    }
+
+
+
+
 
 
     private FoodDto saveFoodToDatabase(SqlRowSet fd) {
         FoodDto foodDto = new FoodDto();
-        foodDto.setFoodId(fd.getInt("food_id"));
+//        foodDto.setFoodId(fd.getInt("food_id"));
         foodDto.setFoodName(fd.getString("food_name"));
-        foodDto.setFoodType(fd.getString("food_type"));
+//        foodDto.setFoodType(fd.getString("food_type"));
         foodDto.setServingSize(fd.getInt("serving_size"));
         foodDto.setCalories(fd.getDouble("calories"));
             return foodDto;

@@ -21,7 +21,7 @@ public class JdbcFoodDao implements FoodDao {
     }
 
     @Override
-    public Food addNewFood(FoodDto food) {
+    public Food addNewFood(Food food) {//Change it back to FoodDto
     Food newFood = null;
     String sql = "INSERT INTO food (food_name, food_type, serving_size, calories) VALUES (?, ?, ?, ?) RETURNING food_id";
 		try {
