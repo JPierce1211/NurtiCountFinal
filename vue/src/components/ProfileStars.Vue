@@ -2,7 +2,7 @@
   <div>
     <!-- Stars go here -->
 
-    <p>Number of Stars: {{ numOfStars }}</p>
+    <!-- <p>Number of Stars: {{ numOfStars }}</p> -->
     <div class="stars-container">
       <!-- <img
         v-if="numOfStars <= 5"

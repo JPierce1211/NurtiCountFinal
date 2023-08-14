@@ -9,6 +9,8 @@ import editProfile from '../views/EditProfile.vue'
 import createProfile from '../views/CreateProfile.vue'
 import DBWeightChart from '../components/DBWieghtChart.vue'
 import meal from '../views/Meal.vue'
+//import showMeals from '../components/ShowMeals.vue'
+import Meals from '../components/Meals.vue'
 
 Vue.use(Router)
 
@@ -83,8 +85,13 @@ const router = new Router({
     },
     {
       path: "/myMeal",
-      name:"myMeal",
+      name:"showMeals",
       component: meal,
+    },
+    {
+      path:"/myMeal/myFood",
+      name:"addFood",
+      component: Meals
     }
   ]
 })

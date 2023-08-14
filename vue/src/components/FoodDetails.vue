@@ -58,7 +58,7 @@
       </table> 
       <!-- add button to move to see all meals for the day -->
       <!-- create a show method -->
-      <p class="search-error"> {{ searchError}}</p>
+      <p class="error"> {{ searchError}}</p>
       <table
         v-show="showTable"
         v-on:submit.prevent="addFood"
@@ -70,7 +70,7 @@
             <th>Food Type</th>
             <th>Serving Size</th>
             <th>Calories</th>
-            <th>Quick Meal?</th>
+            <th>Quick Food?</th>
             <th>Add Food to Meal</th>
           </tr>
         </thead>
@@ -82,17 +82,15 @@
             <td>{{ foodItem.servingSize }}</td>
             <td>{{ foodItem.calories }}</td>
             <td>
+              <p class="error">{{isDuplicateError}}</p>
               <!-- going to need a method to turn isQuickMeal True -->
-              <input
-                type="checkbox"
-                v-model="meal.isQuickMeal"
-                v-on:click.prevent="addQuickMeal"
-              />
+              <button v-on:click="addToQuickFoods(foodItem)"> Add to Quick Foods</button>
             </td>
             <td>
               <!-- button should be disabled if there is no foods selected -->
               <!-- the meal method should save meals to an array-->
-              <button v-bind:disabled="!selectedFood.length" v-on:click ="addMeal()"> Add Meal</button>
+              <!-- v-bind:disabled="!selectedFood.length" -->
+              <button v-on:click ="addtoFoods(foodItem)"> Add Food to Meal</button>
             </td> 
           </tr>
         </tbody>
@@ -101,7 +99,7 @@
     <div class="butn-ShowMeals">  
       <!-- this button will save the foods into a meal and transfer it to the next componenet -->
       <button @click="$router.push('component/showMeals.vue')">Show Meals</button>
-      <button v-on:click="searchFood"> New Search </button>
+      <button v-on:click="newSearch"> New Search </button>
     </div> 
   </div>  
 </template>
@@ -137,7 +135,12 @@ export default {
 
       searchError: "",
 
+      isDuplicateError: "",
+
+      quickFood: [],
+
       meal: {
+        foods: [],
         mealId: "",
         mealType: "",
         logDay: "",
@@ -150,11 +153,22 @@ export default {
         servingSize: "",
         calories: "",
         numOfServings: "",
+        isQuickFood: "false",
       },
       search: {
         foodName: "",
-        isQuickMeal: "false",
+        //isQuickMeal: "false",
       },
+
+      //  updatedFood: {
+      //   foodId: "",
+      //   foodName: "",
+      //   foodType: "",
+      //   servingSize: "",
+      //   calories: "",
+      //   numOfServings: "",
+      //   isQuickFood: "false",
+      // },
     };
   },
 
@@ -169,11 +183,11 @@ export default {
     // triggers the food search
     searchFood(){
       let searchName = this.search.foodName;
-    // let tableForm= this.checkingTableForm();
+    let tableForm= this.checkingTableForm();
       //this is making sure all input is filled out
-      // if (!tableForm){
-      //     return;
-      // } 
+      if (!tableForm){
+          return;
+      } 
 
       this.searchError ="";
 
@@ -207,34 +221,52 @@ export default {
     },
 
     // Adds the selected food item to selectedFood array
-    addFood(){
-      
-    },
+    //method not working
+    addToQuickFoods(foodItem){
+      //Checks the food id to see if its already saved
+      let isDuplicate = false;
+        for(let i = 0; i < this.quickFood.length; i++) {
+          if (this.quickFood[i].foodId === foodItem.foodId){
+            isDuplicate = true;
+            break;
+            //need a break to exit out the lopp if it finds true
+          }
+      }
 
-    // toggles the quick meal option for the selected food or meal
-    addQuickMeal(){
+      if (!isDuplicate){
 
-    },
+      this.quickFood.push(foodItem);
+      } else {
+        this.isDuplicateError = "ERROR: Already added to Quick Foods. Please Make Another Selection.";
+      }
+    }, 
 
     //takes selected food items and puts it in a meal object
-    addMeal(){
-
+    addToFoodMeals(foodItem){
+      this.updatedFood.push(foodItem);
     },
 
     //Resets the search input
     newSearch(){
-
+        this.search.foodName = "";
+        this.meal.logDay = "";
+        this.meal.mealType = "";
+        this.food.numOfServings = "";
+        this.searchError = "";
+        this.tableFilledError = "";
+        this.showTable = false;
     },
 
 
   },
 
   computed: {
-  isTableFilled(){
-    return this.search.foodName && this.meal.logDay && this.food.numOfServings && this.meal.mealType;
-  }
+    isTableFilled(){
+      return this.search.foodName && this.meal.logDay && this.food.numOfServings && this.meal.mealType;
+    }
 
-}
+  },
+
 };
 
 

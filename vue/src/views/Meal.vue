@@ -1,14 +1,17 @@
 <template>
   <div>
-    <meals />
+    <showMeals />
+    <!-- <meals /> -->
   </div>   
 </template>
 
 <script>
-import meals from '../components/Meals.vue'
+// import meals from '../components/Meals.vue'
+import showMeals from '../components/ShowMeals.vue'
 export default {
   components: { 
-    meals },
+    // meals,
+    showMeals },
 
 }
 </script>
