@@ -44,7 +44,7 @@
                         <td>{{meal.description}}</td>
                         <td>
                             <button @click="editMeal(meal)">Edit Meal</button>
-                            <button @click="$router.push('addFood')"> Add Food to Meal </button>
+                            <button @click="addFood()"> Add Food to Meal </button>
                         </td>    
                     </tr>        
                 </tbody>     
@@ -78,19 +78,19 @@ export default {
 
     methods: {
         createMealForm(){
-           let mealArray = this.meal = {
+           this.meal = {
                 name: '',
                 mealType: '',
                 logDay: '',
                 description: '',
             };
 
-            this.meal.push(mealArray);
+            this.meal.push(this.meal);
         },
 
         // editMeal(meal){
 
-        // }
+        //  }
     }
 
 }
