@@ -1,6 +1,6 @@
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS users,goals,profile, meal_food, food,meals, profile_img;
+DROP TABLE IF EXISTS users,goals,profile,meal_user,meal_food, food,meals, profile_img;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -12,6 +12,7 @@ CREATE TABLE users (
 
 CREATE TABLE goals (
 	goal_id serial,
+	user_id int NOT NULL,  -- Foreign key refer to users tbl
 	desired_weight decimal NOT NULL,
 	bmi decimal NOT NULL,
 	log_day varchar(10) NOT NULL
@@ -32,8 +33,6 @@ CREATE TABLE meals(
 	meal_id int PRIMARY KEY,
 	user_id int REFERENCES users(user_id),
 	meal_type varchar(10) NOT NULL,
-	meal_name varchar(1000) NULL,
-	meal_description varchar(1000) NULL,
 	log_day varchar(10) NOT NULL,
 	is_quick_meal boolean NOT NULL
 
@@ -43,17 +42,15 @@ CREATE TABLE food (
 	food_id serial PRIMARY KEY,
 	meal_id int REFERENCES meals(meal_id),
 	food_name varchar(100) NOT NULL,
-	food_type varchar(50) NULL,
+	food_type varchar(50) NOT NULL,
 	serving_size decimal NOT NULL,
 	calories decimal NOT NULL,
-	num_of_servings decimal NOT NULL,
-	is_quick_food boolean NOT NULL
+	num_of_servings decimal NOT NULL
 );
 
 CREATE TABLE meal_food(
 	meal_id int REFERENCES meals(meal_id),
 	food_id int REFERENCES food(food_id),
-	log_day varchar(10) NOT NULL,
 	CONSTRAINT PK_meal_foods PRIMARY KEY (meal_id, food_id)
 );
 
