@@ -22,7 +22,7 @@ import java.util.List;
 public class FoodController {
 
     private FoodDao foodDao;
-
+    private FoodDto foodDto;
     private FoodFactService foodFactService;
 
     public FoodController(FoodDao foodDao) {
@@ -30,7 +30,7 @@ public class FoodController {
 
     }
 
-
+    
     @GetMapping("")
     public List<Food> listAllFood() {
         try {
