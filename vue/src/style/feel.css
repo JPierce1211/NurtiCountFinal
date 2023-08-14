@@ -18,6 +18,11 @@ body
     font-family: 'ncFont', Arial, sans-serif;
 }
 
+.text-font
+{
+    font-family: 'ncFont', Arial, sans-serif;    
+}
+
 .center-text
 {
     text-align: center;

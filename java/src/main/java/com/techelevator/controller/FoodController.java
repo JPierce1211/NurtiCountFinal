@@ -78,10 +78,10 @@ public class FoodController {
           }
     }
 
-    @GetMapping("/supersearch")
-    public FoodDto getFacts() {
+    @GetMapping("/supersearch") //supersearch?foodByName=
+    public FoodDto[] getFacts(@RequestParam(required = false) String foodByName, boolean userWildCard) {
         try {
-            return foodFactService.getFacts();
+            return foodFactService.getFacts(foodByName, userWildCard);
         } catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
