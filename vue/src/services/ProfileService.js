@@ -12,13 +12,13 @@ const api = {
         return axios.get('/');
     },
 
-    updateProfile(userId, formData) 
+    updateProfile(formData) 
     {
         // alert('Updating Profile...');
         // alert(formData.displayName);
         // alert(formData.userId);
         
-        return axios.put(`/profile/${userId}`, formData);
+        return axios.put(`/profile/edit`, formData);
     },
 
     getProfileInfo(userId) 

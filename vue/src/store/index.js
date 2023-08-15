@@ -51,8 +51,8 @@ export default new Vuex.Store({
       state.user = {};
       axios.defaults.headers.common = {};
     },
-    SET_PROFILE_ID(state, profileId) {
-      state.profileId = profileId;
+    SET_PROFILE(state, profile) {
+      state.profile = profile;
     },
     SET_USER_ID(state, userId) {
       state.userId = userId;

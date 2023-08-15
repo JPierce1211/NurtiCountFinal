@@ -1,118 +1,83 @@
 <template>
-    <div class="profile-page">
+  <div class="profile-page">
+    <DBProfile />
 
-        <DBProfile />
-
-        <div class="profile-info">
-        <br>    
-            <h4>
-                {{profile.displayName}}'s Height:
-            </h4>
-            <p>
-                {{profile.height}}
-            </p>
-        <br>
-            <h4>
-                {{profile.displayName}}'s Weight:
-            </h4>
-            <p>
-                {{profile.currentWeight}}
-            </p>
-        <br>
-            <h4>
-                {{profile.displayName}}'s Goal Weight:
-            </h4>
-            <p>
-                {{profile.goals}}
-            </p>            
-        <br>
-            <h4>
-                {{profile.displayName}}'s Birthday:
-            </h4>
-            <p>
-                {{profile.birthDay}}
-            </p>
-        <br>
-        <br>
-        </div>
-
-        <router-link class="nav-item" v-bind:to="{ name: 'createProfile' }"> Edit Profile </router-link>
-
+    <div class="profile-info">
+      <br />
+      <h4>{{ $store.state.profile.displayName }}'s Height:</h4>
+      <p>
+        {{ $store.state.profile.height }}
+      </p>
+      <br />
+      <h4>{{ $store.state.profile.displayName }}'s Weight:</h4>
+      <p>
+        {{ $store.state.profile.currentWeight }}
+      </p>
+      <br />
+      <h4>{{ $store.state.profile.displayName }}'s Goal Weight:</h4>
+      <p>
+        {{ $store.state.profile.goals }}
+      </p>
+      <br />
+      <h4>{{ $store.state.profile.displayName }}'s Birthday:</h4>
+      <p>
+        {{ formatDate(this.$store.state.profile.birthday) }}
+      </p>
+      <br />
+      <br />
     </div>
+
+    <router-link class="nav-item" v-bind:to="{ name: 'createProfile' }">
+      Edit Profile
+    </router-link>
+  </div>
 </template>
 
 <script>
+import DBProfile from "./DBProfile.vue";
 
-import DBProfile from './DBProfile.vue';
+export default 
+{
+  components: 
+  {
+    DBProfile,
+  },
+      /// Might need to delete method below
 
-export default {
-
-    components: 
+  methods: 
     {
-      DBProfile,
-
-    },
-
-    data()
-    {
-        return {
-            profile: 
-            {
-                userId: '',
-                height: '',
-                displayName: '',
-                birthDay: '',
-                profilePicId: '',
-                currentWeight: '',
-                goals: '',
-            }
-        }
-    },
-
-    async mounted()
-    {
-        await this.getProfileInfo();
-        await this.getProfilePicUrl(this.picId);
-    },
-
-    methods:
-    {
-        async getProfileInfo()
+      formatDate(dateString) 
         {
-            this.profile = await DBProfile.getProfileData(this.$store.state.userId);
+          const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
+          return new Date(dateString).toLocaleDateString(undefined, options);
         }
     }
 
-}
 
+};
 </script>
 
 
 
 <style scoped>
-
-.profile-page
-{
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    justify-content: space-around;
-    padding: 50px;
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  justify-content: space-around;
+  padding: 50px;
 }
 
-div.profile-info > h4
-{
-    font-size: 16pt;
+div.profile-info > h4 {
+  font-size: 20pt;
 }
 
-div.profile-info > p
-{
-    font-size: 12pt;
+div.profile-info > p {
+  font-size: 16pt;
+  font-style: italic;
 }
 
-.profile-info
-{
-    text-align: center;
+.profile-info {
+  text-align: center;
 }
-
 </style>
