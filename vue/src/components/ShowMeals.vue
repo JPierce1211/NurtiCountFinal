@@ -99,14 +99,14 @@ export default {
           console.error("Error creating the meal:", error);
         });
     },
-  },
 
-  editMeal() {
-    // this.$router.push({name:"mealDetails", params: {mealId: meal.mealId}})
-  },
+      editMeal(meal) {
+    this.$router.push({name:"mealDetails", params: {mealId: meal.mealId}})
+    },
 
-  addFood() {
+    addFood() {
     this.$router.push({ name: "foodDetails" });
+    },
   },
 };
 </script>

@@ -102,7 +102,7 @@ const router = new Router({
       component: progress,
     },
     {
-      path: "/myMeal/meal-detail",
+      path: "/myMeal/meal-detail:mealId",
       name:"mealDetails",
       component:MealsDetails
     }

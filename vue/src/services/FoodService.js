@@ -10,5 +10,9 @@ export default {
 
     createMeal(meal){
         return axios.post('/createMeal',meal);
+    },
+
+    getMealDetails(mealId){
+        return axios.get('/meals/' + mealId);
     }
 }
