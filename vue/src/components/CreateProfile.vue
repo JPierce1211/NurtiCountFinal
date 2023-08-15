@@ -202,7 +202,7 @@ export default {
         .then(response => {
           if (response.data) 
           {
-            console.log(response.data);
+            //alert('response DOT data DOT userid = ' + response.data.userId);
             alert('getProfileInfo() searched and returned an existing profile for this user. Proceeding to update profile')
             this.updateProfile(response.data, formData);
           } 
@@ -246,7 +246,7 @@ export default {
         })
         .catch(error => {
           console.error('Error updating profile:', error);
-          alert('Error Creating Profile: ' + error);
+          alert('Error updating profile: ' + error);
         });
     },
 
