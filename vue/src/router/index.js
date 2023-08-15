@@ -97,12 +97,12 @@ const router = new Router({
       component: FoodDetails
     },
     {
-      path: "/progress",
+      path: "/progress/",
       name: "progress",
       component: progress,
     },
     {
-      path: "/myMeal/meal-detail",
+      path: "/myMeal/meal-detail:mealId",
       name:"mealDetails",
       component:MealsDetails
     }

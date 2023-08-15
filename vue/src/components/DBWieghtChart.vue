@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="db-weight-chart">
-      <line-graph :profile-id="profileId"></line-graph>
+          <Progress />
     </div>
     <div class="db-weight-log">
       <!-- Button to take you to the progress page and quickly input most recent weight info -->
@@ -11,17 +11,15 @@
 </template>
 
 <script>
-import LineGraph from './LineGraph.vue';
-
-export default {
-  components: {
-    LineGraph,
-  },
-  data() {
-    return {
-      profileId: 3,
-    };
-  },
+import Progress from '../components/Progress.vue'
+export default 
+{
+  name: "progress",
+  
+  components: 
+  {
+      Progress
+  }
 };
 </script>
 
