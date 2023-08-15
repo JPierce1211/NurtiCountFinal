@@ -5,6 +5,7 @@ import com.techelevator.dao.MealsDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Food;
 import com.techelevator.model.FoodDto;
+import com.techelevator.model.Meals;
 import com.techelevator.service.FoodFactService;
 import com.techelevator.service.FoodFactServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -121,10 +122,10 @@ public class FoodController {
         } return foodList;
     }
 
-//    @PostMapping("/{foodId}/addyourfood")
-//    public FoodDto addFoodToMeal(@RequestParam int mealId, int foodId, String logDay) {
+//    @PostMapping("/{mealId}/addfood")
+//    public Food addFoodToMeal(@RequestParam int mealId, int foodId, String logDay) {
 //        try {
-//            mealsDao.createMeal()
+//             createdMeal = mealsDao.createMeal(mealId);
 //        }
 //
 //    }
