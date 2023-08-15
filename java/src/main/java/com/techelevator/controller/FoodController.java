@@ -121,12 +121,12 @@ public class FoodController {
         } return foodList;
     }
 
-    @PostMapping("/addyourfood")
-    public FoodDto addFoodToMeal(@RequestParam int mealId, int foodId, String logDay) {
-        try {
-            mealsDao.createMeal(addFoodToMeal(foodFactService.getFacts()));
-        }
-
-    }
+//    @PostMapping("/addyourfood")
+//    public FoodDto addFoodToMeal(@RequestParam int mealId, int foodId, String logDay) {
+//        try {
+//            mealsDao.createMeal(addFoodToMeal(foodFactService.getFacts()));
+//        }
+//
+//    }
 
 }
