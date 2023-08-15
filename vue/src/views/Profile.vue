@@ -8,7 +8,8 @@ import Profile from '../components/Profile.vue'
 export default {
   name: "profile",
   
-  components: {
+  components: 
+  {
     Profile
   }
 };

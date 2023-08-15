@@ -95,9 +95,9 @@ const router = new Router({
       path:"/myMeal/food-details",
       name:"foodDetails",
       component: FoodDetails
-    },
+    },cc
     {
-      path: "/progress",
+      path: "/progress/",
       name: "progress",
       component: progress,
     },

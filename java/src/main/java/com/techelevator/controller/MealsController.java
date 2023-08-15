@@ -16,11 +16,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
-
-@CrossOrigin
+@CrossOrigin()
 @PreAuthorize("isAuthenticated()")
 @RestController
 public class MealsController {
+    private JdbcTemplate jdbcTemplate;
     private MealsDao mealsDao;
     private FoodDao foodDao;
     private UserDao userDao;
@@ -41,7 +41,7 @@ public class MealsController {
         }
         return null;
     }
-    
+
 
     @GetMapping("/meals/{mealId}")
     public Meals get(@PathVariable int mealId, Principal principal) {
@@ -52,9 +52,9 @@ public class MealsController {
         {
             meals = mealsDao.getMealById(mealId);
             if (meals != null)
-                {
-                    return meals;
-                }
+            {
+                return meals;
+            }
         }
         return meals;
     }
@@ -90,25 +90,25 @@ public class MealsController {
 //
 //    }
 
-        @PutMapping("/meals/{mealId}")
-        public Meals update(Principal principal, @RequestBody Meals updatedMeal,@PathVariable int mealId){
-            Meals newMeal = mealsDao.updateMealsById(updatedMeal, mealId);
-            return newMeal;
+    @PutMapping("/meals/{mealId}")
+    public Meals update(Principal principal, @RequestBody Meals updatedMeal,@PathVariable int mealId){
+        Meals newMeal = mealsDao.updateMealsById(updatedMeal, mealId);
+        return newMeal;
 
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/meals/{mealId}")
+    public void delete ( @PathVariable int mealId, Principal principal){
+        User user = userDao.getUserByUsername(principal.getName());
+        if (user != null) {
+            mealsDao.deleteMealById(mealId);
         }
-
-        @ResponseStatus(HttpStatus.NO_CONTENT)
-        @DeleteMapping("/meals/{mealId}")
-        public void delete ( @PathVariable int mealId, Principal principal){
-            User user = userDao.getUserByUsername(principal.getName());
-            if (user != null) {
-                mealsDao.deleteMealById(mealId);
-            }
-            if (mealsDao.deleteMealById(mealId) != 1) {
-                throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Meal not found");
-            }
+        if (mealsDao.deleteMealById(mealId) != 1) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Meal not found");
         }
     }
+}
 
 
 
