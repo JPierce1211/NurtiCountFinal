@@ -33,6 +33,8 @@ CREATE TABLE meals(
 	meal_id int PRIMARY KEY,
 	user_id int REFERENCES users(user_id),
 	meal_type varchar(10) NOT NULL,
+	meal_name varchar(1000) NULL,
+	meal_description varchar(1000) NULL,
 	log_day varchar(10) NOT NULL,
 	is_quick_meal boolean NOT NULL
 
@@ -45,12 +47,14 @@ CREATE TABLE food (
 	food_type varchar(50) NOT NULL,
 	serving_size decimal NOT NULL,
 	calories decimal NOT NULL,
-	num_of_servings decimal NOT NULL
+	num_of_servings decimal NOT NULL,
+	is_quick_food boolean NOT NULL
 );
 
 CREATE TABLE meal_food(
 	meal_id int REFERENCES meals(meal_id),
 	food_id int REFERENCES food(food_id),
+	log_day varchar(10) NOT NULL,
 	CONSTRAINT PK_meal_foods PRIMARY KEY (meal_id, food_id)
 );
 

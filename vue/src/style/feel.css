@@ -28,6 +28,13 @@ body
     text-align: center;
 }
 
+.content 
+{
+    width: 768px;
+    background-color: white;
+
+}
+
 .container 
 {
     display: flex;
@@ -62,7 +69,7 @@ body
     border: none;
     border-radius: 0px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: light;
     font-family: 'ncFont', Arial, sans-serif;
     text-align: center;
@@ -84,15 +91,9 @@ body
     justify-content: stretch;
     width: 768px;
     height: 35px;
-
 }
 
-.content 
-{
-    width: 768px;
-    background-color: white;
 
-}
 
 .login-form 
 {
@@ -131,8 +132,7 @@ button, .text-box
     width: 200px;
     height: 35px;
     border: none;
-    border-radius: 0px;
-    
+    border-radius: 0px;    
     font-size: 16px;
     font-weight: light;
     font-family: 'ncFont', Arial, sans-serif;
