@@ -1,11 +1,11 @@
 <template>
   <div>
       <div class="Meal-details">
-        <h1 class="title"> Meal Details </h1>
-        <p class="meal-name"> Meal Name: {{mealDetails.mealName}}</p>
-        <p class="meal-type"> Meal Type: {{mealDetails.mealType}} </p>
-        <p class="meal-date"> Date: {{mealDetails.logDay}} </p>
-        <p class="meal-description"> Description: {{mealDetails.mealDescription}} </p>
+        <h1 id="title"> Meal Details </h1>
+        <p id="meal-name"> Meal Name: {{mealDetails.mealName}}</p>
+        <p id="meal-type"> Meal Type: {{mealDetails.mealType}} </p>
+        <p id="meal-date"> Date: {{mealDetails.logDay}} </p>
+        <p id="meal-description"> Description: {{mealDetails.mealDescription}} </p>
       </div>
       <div class="food-details">
           <h2 class="food-title">Foods</h2>
@@ -14,8 +14,13 @@
                 <p class="food-type"> Food Type: {{food.type}} </p>
                 <p class="food-servingSize"> Serving Size: {{food.servingSize}} </p>
                 <p class="food-numOfCalories"> Number Of Calories: {{food.calories}} </p>
+                <button @click="deleteFood(food.id)"> Delete Food </button>
           </div>
-      </div>    
+          <div class="meal-actions">
+              <button @click="deleteMeal">Delete Meal</button>
+              <button @click="showAllMeals"> Show All Meals </button> 
+          </div>   
+      </div> 
   </div>    
 </template>
 
@@ -51,6 +56,10 @@ export default {
         // getFoodsDetails(mealId){
 
         // }
+
+        deleteMeal(){
+            
+        }
     }
 }
 </script>
