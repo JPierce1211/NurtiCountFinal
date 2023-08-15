@@ -1,4 +1,4 @@
-<!-- Change the componenet to meal search -->
+<!-- Change the component to meal search -->
 <!-- this component will be where they seach for meals and then be taken to another component to see all the meals they've chosen -->
 <template> 
   <div>
@@ -98,7 +98,7 @@
     </div>
     <div class="butn-ShowMeals">  
       <!-- this button will save the foods into a meal and transfer it to the next componenet -->
-      <button @click="$router.push('component/showMeals.vue')">Show Meals</button>
+      <button @click="showMeal()">Show Meals</button>
       <button v-on:click="newSearch"> New Search </button>
     </div> 
   </div>  
@@ -183,7 +183,7 @@ export default {
     // triggers the food search
     searchFood(){
       let searchName = this.search.foodName;
-    let tableForm= this.checkingTableForm();
+      let tableForm = this.checkingTableForm();
       //this is making sure all input is filled out
       if (!tableForm){
           return;
@@ -195,7 +195,7 @@ export default {
       .then(response => {
         //this checks if there is no response
         if (response.data.length === 0){
-          this.searchError = "No Results found for this search";
+          this.searchError = "No results found for this search? Try our ";
           return;
         }
         this.selectedFood = response.data;
@@ -203,16 +203,16 @@ export default {
       })
       .catch(error => {
         if (error.status === 404){
-          this.searchError = "No Results found for this search.";
+          this.searchError = "No results found for this search.";
         } else {
           this.searchError = "An error happen while searching. Please try again.";
         }
         console.error(error);
       });
     },
-    //this error is not working 
+    //this error is not working (It worked when I tried it. - Juan)
     checkingTableForm(){
-      if (!this.meal.logDay|| !this.meal.mealType || !this.food.numOfServings || !this.search.foodName) {
+      if (!this.meal.logDay || !this.meal.mealType || !this.food.numOfServings || !this.search.foodName) {
         this.tableFilledError = "All fields must be filled out.";
         return false;
       }
@@ -257,6 +257,10 @@ export default {
         this.showTable = false;
     },
 
+    showMeal(){
+      this.$router.push({name:'showMeals'});
+    }
+
 
   },
 
@@ -273,4 +277,9 @@ export default {
 </script>
 
 <style>
+
+#title {
+  text-align: center;
+}
+
 </style>

@@ -41,9 +41,9 @@ public class JdbcMealsDao implements MealsDao {
     @Override
     public Meals createMeal(Meals meals) {
         Meals newMeal = null;
-        String sql = "INSERT INTO meals (meal_id, user_id,meal_type, log_day, is_quick_meal) VALUES (?, ?, ?, ?, ?) RETURNING meal_id";
+        String sql = "INSERT INTO meals (user_id, meal_type, meal_name, meal_description, log_day, is_quick_meal) VALUES (?, ?, ?, ?, ?, ?) RETURNING meal_id";
         try {
-            int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getMealId(), meals.getUserId(), meals.getMealType(), meals.getLogDay(), meals.isQuickMeal());
+            int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getUserId(), meals.getMealType(), meals.getMealName(), meals.getMealDescription(), meals.getLogDay(), meals.isQuickMeal());
             newMeal = getMealById(mealId);
 //            String fSql = "INSERT INTO meal_food (meal_id, food_id) VALUES (?, ?)";
 //            for (Food food : foodList) {
@@ -57,22 +57,22 @@ public class JdbcMealsDao implements MealsDao {
         return newMeal;
     }
 
-    @Override
-    public int getTotalCalories(int mealId){
-        Meals meals = new Meals();
-        String sql = "SELECT SUM(f.calories * f.num_of_servings) AS total_calories " +
-                "FROM meal_food mf " +
-                "JOIN food f ON mf.food_id = f.food_id " +
-                "JOIN meals m ON mf.meal_id = m.meal_id " +
-                "WHERE mf.meal_id = ? " +
-                "GROUP BY mf.meal_id, m.log_day;";
-        try{
-            int calories = jdbcTemplate.queryForObject(sql, int.class, mealId);
-            meals.setTotalCalories(calories);
-        }catch(Exception e){
-            throw new DaoException("Error retrieving total calories", e);
-        } return meals.getTotalCalories();
-    }
+//    @Override
+//    public int getTotalCalories(int mealId){
+//        Meals meals = new Meals();
+//        String sql = "SELECT SUM(f.calories * f.num_of_servings) AS total_calories " +
+//                "FROM meal_food mf " +
+//                "JOIN food f ON mf.food_id = f.food_id " +
+//                "JOIN meals m ON mf.meal_id = m.meal_id " +
+//                "WHERE mf.meal_id = ? " +
+//                "GROUP BY mf.meal_id, m.log_day;";
+//        try{
+//            int calories = jdbcTemplate.queryForObject(sql, int.class, mealId);
+//            meals.setTotalCalories(calories);
+//        }catch(Exception e){
+//            throw new DaoException("Error retrieving total calories", e);
+//        } return meals.getTotalCalories();
+//    }
 
     @Override
     public Meals getMealById(int mealId) {
@@ -138,6 +138,8 @@ public class JdbcMealsDao implements MealsDao {
         meals.setMealId(sql.getInt("meal_id"));
         meals.setUserId(sql.getInt("user_id"));
         meals.setMealType(sql.getString("meal_type"));
+        meals.setMealName(sql.getNString("meal_name"));
+        meals.setMealDescription(sql.getNString("meal_description"));
         meals.setLogDay(sql.getString("log_day"));
         meals.setQuickMeal(sql.getBoolean("is_quick_meal"));
         return meals;

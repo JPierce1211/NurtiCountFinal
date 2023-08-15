@@ -7,10 +7,12 @@ import Register from '../views/Register.vue'
 import store from '../store/index.js'
 import editProfile from '../views/EditProfile.vue'
 import createProfile from '../views/CreateProfile.vue'
-import DBWeightChart from '../components/DBWieghtChart.vue'
+import Profile from '../views/Profile.vue'
 import meal from '../views/Meal.vue'
 import FoodDetails from '../components/FoodDetails.vue'
 //import showFood from '../components/Meals.vue'
+import progress from '../views/Progress.vue'
+import MealsDetails from '../components/MealsDetails.vue'
 
 Vue.use(Router)
 
@@ -66,7 +68,14 @@ const router = new Router({
       component: meal,
 
     },
-    
+    {
+      path: "/profile/",
+      name: "profile",
+      component: Profile,
+      meta: {
+        requiresAuth: false
+      }
+    },
     {
       path: "/createProfile/",
       name: "createProfile",
@@ -74,14 +83,8 @@ const router = new Router({
     },
     {
       path: "/profile/:id/edit",
-      //may have to change end point to add id or change backend 
       name: "editProfile",
       component: editProfile,
-    },
-    {
-      path: '/progress/:profile-id',
-      name: 'lineGraphDB',
-      component: DBWeightChart,
     },
     {
       path: "/myMeal",
@@ -92,6 +95,16 @@ const router = new Router({
       path:"/myMeal/food-details",
       name:"foodDetails",
       component: FoodDetails
+    },
+    {
+      path: "/progress",
+      name: "progress",
+      component: progress,
+    },
+    {
+      path: "/myMeal/meal-detail",
+      name:"mealDetails",
+      component:MealsDetails
     }
   ]
 })

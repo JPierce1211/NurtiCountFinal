@@ -7,13 +7,11 @@ import java.util.List;
 
 public interface GoalDao {
 
-    List<Goals> list();
+    List<Goals> list(int userId);
 
-    List<Goals> getGoalByDate(String date);
+    List<Goals> getGoalsByDate(int userId, String date);
 
-    List<Goals> getGoalsByTimeframe(String fromDate, String toDate);
-
-    Goals getGoalsByProfileId(int profileId);
+    List<Goals> getGoalsByTimeframe(int userId, String fromDate, String toDate);
 
     Goals getGoalByGoalId(int goalId);
 

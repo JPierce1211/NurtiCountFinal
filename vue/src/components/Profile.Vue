@@ -1,15 +1,27 @@
 <template>
     <div>
 
-        <h2>
-            Profile information goes here
-        </h2>
+        <DBProfile />
 
-        <router-link class="nav-item" v-bind:to="{ name: 'editProfile' }"> Edit Profile </router-link>
+        <router-link class="nav-item" v-bind:to="{ name: 'createProfile' }"> Edit Profile </router-link>
 
     </div>
 </template>
 
+<script>
+
+import DBProfile from './DBProfile.vue';
+
+export default {
+
+    components: 
+    {
+      DBProfile,
+
+    }
+}
+
+</script>
 
 
 <style scoped>
