@@ -5,6 +5,7 @@ import com.techelevator.dao.MealsDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Food;
 import com.techelevator.model.FoodDto;
+import com.techelevator.model.Meals;
 import com.techelevator.service.FoodFactService;
 import com.techelevator.service.FoodFactServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -80,7 +81,7 @@ public class FoodController {
     }
 
     @GetMapping("/supersearch") //supersearch?foodByName=
-    public FoodDto[] getFacts(@RequestParam(required = false) String foodByName, boolean userWildCard) {
+    public Food[] getFacts(@RequestParam(required = false) String foodByName, boolean userWildCard) {
         try {
             return foodFactService.getFacts(foodByName, userWildCard);
         } catch (DaoException e) {
@@ -121,10 +122,10 @@ public class FoodController {
         } return foodList;
     }
 
-//    @PostMapping("/addyourfood")
-//    public FoodDto addFoodToMeal(@RequestParam int mealId, int foodId, String logDay) {
+//    @PostMapping("/{mealId}/addfood")
+//    public Food addFoodToMeal(@RequestParam int mealId, int foodId, String logDay) {
 //        try {
-//            mealsDao.createMeal(addFoodToMeal(foodFactService.getFacts()));
+//             createdMeal = mealsDao.createMeal(mealId);
 //        }
 //
 //    }
