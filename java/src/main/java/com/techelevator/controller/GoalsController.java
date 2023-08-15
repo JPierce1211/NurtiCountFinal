@@ -2,14 +2,17 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.ProfileDao;
 import com.techelevator.dao.GoalDao;
+import com.techelevator.dao.UserDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Goals;
+import com.techelevator.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.List;
 
 @CrossOrigin
@@ -20,20 +23,20 @@ public class GoalsController {
 
     private GoalDao goalDao;
 
-    private ProfileDao profileDao;
+    private UserDao userDao;
 
-    public GoalsController(GoalDao goalDao, ProfileDao profileDao){
+    public GoalsController(GoalDao goalDao, UserDao userDao){
         this.goalDao = goalDao;
-        this.profileDao = profileDao;
+        this.userDao = userDao;
     }
 
-    @GetMapping("/goals")
-    public List<Goals> listAllGoals(){
-        return goalDao.list();
+    @GetMapping("/myGoals/{userId}")//WORKS
+    public List<Goals> listAllGoals(@PathVariable int userId){
+        return goalDao.list(userId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/createGoals")
+    @PostMapping("/createGoals")//WORKS
     public Goals create(@RequestBody Goals goal){
         try {
             return goalDao.createGoal(goal);
@@ -42,29 +45,26 @@ public class GoalsController {
         }
     }
 
-    @PutMapping("/goals/update")
+    @PutMapping("/goals/update")//WORKS
     public Goals update(@RequestBody Goals goal){
         return goalDao.updateGoal(goal);
     }
 
-    @GetMapping("/goals/{userId}")
-    public Goals getGoalByUser(@PathVariable int userId){
-        return goalDao.getGoalsByUserId(userId);
-    }
-
-    @GetMapping("/goals/time")
-    public List<Goals> getProgressOverTime(@RequestBody String fromDate, @RequestBody String toDate){
+    @GetMapping("/goals/time")//?fromDate= &toDate=
+    public List<Goals> getProgressOverTime(@RequestParam(value = "fromDate") String fromDate, @RequestParam(value = "toDate") String toDate, Principal principal){
+        User user = userDao.getUserByUsername(principal.getName());
+        int userId = user.getId();
         return goalDao.getGoalsByTimeframe(fromDate, toDate);
     }
 
-    @GetMapping("/goals/{goalId}")
+    @GetMapping("/goals/{goalId}")//WORKS
     public Goals getGoalById(@PathVariable int goalId){
         Goals progress = goalDao.getGoalByGoalId(goalId);
         return progress;
     }
 
     @GetMapping("/goals/date")
-    public List<Goals> getGoalsByDate(String date){
+    public List<Goals> getGoalsByDate(@RequestParam String date){
         return goalDao.getGoalsByDate(date);
     }
 
