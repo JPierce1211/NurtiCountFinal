@@ -16,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.security.Principal;
 
 @CrossOrigin
-@Component
 @RestController
 @PreAuthorize("isAuthenticated()")
 public class ProfileController {

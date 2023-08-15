@@ -14,7 +14,7 @@ public class Meals {
     private String logDay;
 
     private boolean isQuickMeal;
-   // private int totalCalories;
+    // private int totalCalories;
 
     public Meals() {};
 
@@ -22,11 +22,11 @@ public class Meals {
         this.mealId = mealId;
         this.userId = userId;
         this.mealType = mealType;
-       // this.mealName = mealName;
+        // this.mealName = mealName;
         //this.mealDescription = mealDescription;
         this.logDay = logDay;
         this.isQuickMeal = isQuickMeal;
-       //this.totalCalories = totalCalories;
+        //this.totalCalories = totalCalories;
 
     }
 
