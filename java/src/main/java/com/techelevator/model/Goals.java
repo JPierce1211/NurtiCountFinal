@@ -3,17 +3,27 @@ package com.techelevator.model;
 public class Goals {
 
     private int goalId;
+    private int userId;
     private double desiredWeight;
     private double bmi;
-    private String date;
+    private String logDay;
 
     public Goals(){};
 
-    public Goals(int goalId, double desiredWeight, double bmi, String date) {
+    public Goals(int goalId, int userId, double desiredWeight, double bmi, String logDay) {
         this.goalId = goalId;
+        this.userId = userId;
         this.desiredWeight = desiredWeight;
         this.bmi = bmi;
-        this.date = date;
+        this.logDay = logDay;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getGoalId() {
@@ -40,11 +50,11 @@ public class Goals {
         this.bmi = bmi;
     }
 
-    public String getDate() {
-        return date;
+    public String getLogDay() {
+        return logDay;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setLogDay(String logDay) {
+        this.logDay = logDay;
     }
 }
