@@ -22,19 +22,20 @@ public class JdbcFoodDao implements FoodDao {
 
     @Override
     public Food addNewFood(FoodDto food) {
-    Food newFood = null;
-    String sql = "INSERT INTO food (food_name, food_type, serving_size, calories) VALUES (?, ?, ?, ?) RETURNING food_id";
-		try {
-        int foodId = jdbcTemplate.queryForObject(sql, int.class, food.getFoodName(), food.getFoodType(), food.getServingSize(), food.getCalories());
-       newFood = getFoodById(foodId);
-    } catch (CannotGetJdbcConnectionException e) {
-        throw new DaoException("Unable to connect to server or database", e);
-    } catch (DataIntegrityViolationException e) {
-        throw new DaoException("Data integrity violation", e);
-    }
-		return newFood;
+        Food newFood = null;
+        String sql = "INSERT INTO food (food_name, food_type, serving_size, calories) VALUES (?, ?, ?, ?) RETURNING food_id";
+        try {
+            int foodId = jdbcTemplate.queryForObject(sql, int.class, food.getFoodName(), food.getFoodType(), food.getServingSize(), food.getCalories());
+            newFood = getFoodById(foodId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return newFood;
 
-}
+    }
+
     @Override
     public Food getFoodById(int foodId) {
         Food food = null;
@@ -54,22 +55,22 @@ public class JdbcFoodDao implements FoodDao {
     public List<Food> listFood() {
         List<Food> foodList = new ArrayList<>();
         String sql = "SELECT food_id, food_name, food_type, serving_size, calories, num_of_servings, is_quick_food FROM food";
-            try {
-                SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-                while (results.next()) {
-                    Food item = mapRowToFood(results);
-                    foodList.add(item);
-                }
-            } catch (CannotGetJdbcConnectionException e) {
-                throw new DaoException("Unable to connect to server or database", e);
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            while (results.next()) {
+                Food item = mapRowToFood(results);
+                foodList.add(item);
             }
-                return foodList;
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return foodList;
     }
 
     @Override
-    public List<Food> getFoodByName(String foodName, boolean useWildCard){
+    public List<Food> getFoodByName(String foodName, boolean useWildCard) {
         List<Food> allFoodName = new ArrayList<>();
-        if(useWildCard){
+        if (useWildCard) {
             foodName = "%" + foodName + "%";
         }
         String sql = "SELECT food_id, food_name, food_type, serving_size, calories, num_of_servings, is_quick_food FROM food WHERE food_name ILIKE ?";
@@ -79,24 +80,26 @@ public class JdbcFoodDao implements FoodDao {
                 Food getFoodName = mapRowToFood(results);
                 allFoodName.add(getFoodName);
             }
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println("Not a number");
-        }catch (CannotGetJdbcConnectionException e) {
+        } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
-        } return allFoodName;
+        }
+        return allFoodName;
     }
+
     @Override
     public int deleteFoodById(int foodId) {
-            int numberOfRows = 0;
-            String sql = "DELETE FROM food WHERE food_id = ?";
-            try {
-                numberOfRows = jdbcTemplate.update(sql, foodId);
-            } catch (CannotGetJdbcConnectionException e) {
-                throw new DaoException("Unable to connect to server or database", e);
-            } catch (DataIntegrityViolationException e) {
-                throw new DaoException("Data integrity violation", e);
-            }
-            return numberOfRows;
+        int numberOfRows = 0;
+        String sql = "DELETE FROM food WHERE food_id = ?";
+        try {
+            numberOfRows = jdbcTemplate.update(sql, foodId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return numberOfRows;
     }
 
 //    // We did not add foodName so this is a placeholder for it
@@ -114,35 +117,36 @@ public class JdbcFoodDao implements FoodDao {
 //    }
 
     @Override
-    public List<Food> addFoodByName(String foodName){
+    public List<Food> addFoodByName(String foodName) {
         List<Food> foodItem = new ArrayList<>();
         String sql = "SELECT food_id, food_type, serving_size, calories, num_of_servings, is_quick_food FROM food WHERE food_name = ?";
-            try {
-                SqlRowSet results = jdbcTemplate.queryForRowSet(sql, foodName);
-                if (results.next()) {
-                    foodItem = (List<Food>) mapRowToFood(results);
-                }
-            } catch (CannotGetJdbcConnectionException e) {
-                throw new DaoException("Unable to connect to server or database", e);
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, foodName);
+            if (results.next()) {
+                foodItem = (List<Food>) mapRowToFood(results);
             }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
         return foodItem;
+    }
+
+    @Override
+    public int addFoodToMeal(int mealId, int foodId, String logDay) {
+        String sql = "INSERT INTO meal_food (meal_id, food_id, log_day) VALUES (?, ?, ?)";
+        try {
+            int result = jdbcTemplate.update(sql, mealId, foodId, logDay);
+            return result;
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
 
     }
 
-//    @Override
-//    public FoodDto addFoodToMeal(int mealId, int foodId, String logDay) {
-//        FoodDto foodInMeal = null;
-//        String sql = "INSERT INTO meal_food (meal_id, food_id, log_day) VALUES (?, ?, ?)";
-//            try {
-//                SqlRowSet result = jdbcTemplate.update(sql, mealId, foodId, logDay);
-//            } catch (CannotGetJdbcConnectionException e) {
-//                throw new DaoException("Unable to connect to server or database", e);
-//            } catch (DataIntegrityViolationException e) {
-//                 throw new DaoException("Data integrity violation", e);
-//            }
-//            return foodInMeal;
-//        }
-//    }
+
+
 
 //    @Override
 //    public List<Food> getFoodName(String foodName) {
