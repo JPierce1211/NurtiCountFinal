@@ -17,7 +17,6 @@ import javax.websocket.server.PathParam;
 import java.util.List;
 
 @CrossOrigin
-@Component
 @RestController
 @RequestMapping("/meals/food")
 public class FoodController {
