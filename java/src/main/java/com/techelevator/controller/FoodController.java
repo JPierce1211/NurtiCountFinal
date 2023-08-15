@@ -17,7 +17,6 @@ import javax.websocket.server.PathParam;
 import java.util.List;
 
 @CrossOrigin
-@Component
 @RestController
 @RequestMapping("/meals/food")
 public class FoodController {
@@ -25,10 +24,12 @@ public class FoodController {
     private FoodDao foodDao;
     private FoodDto foodDto;
     private FoodFactServiceImpl foodFactService;
+    private MealsDao mealsDao;
 
-    public FoodController(FoodDao foodDao, FoodFactServiceImpl foodFactService) {
+    public FoodController(FoodDao foodDao, FoodFactServiceImpl foodFactService, MealsDao mealsDao) {
         this.foodDao = foodDao;
         this.foodFactService = foodFactService;
+        this.mealsDao = mealsDao;
 
     }
 
@@ -118,6 +119,14 @@ public class FoodController {
         if (foodList == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Food item not found");
         } return foodList;
+    }
+
+    @PostMapping("/addyourfood")
+    public FoodDto addFoodToMeal(@RequestParam int mealId, int foodId, String logDay) {
+        try {
+            mealsDao.createMeal(addFoodToMeal(foodFactService.getFacts()));
+        }
+
     }
 
 }

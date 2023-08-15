@@ -129,6 +129,21 @@ public class JdbcFoodDao implements FoodDao {
 
     }
 
+    @Override
+    public FoodDto addFoodToMeal(int mealId, int foodId, String logDay) {
+        FoodDto foodInMeal = null;
+        String sql = "INSERT INTO meal_food (meal_id, food_id, log_day) VALUES (?, ?, ?)";
+            try {
+                SqlRowSet result = jdbcTemplate.update(sql, mealId, foodId, logDay);
+            } catch (CannotGetJdbcConnectionException e) {
+                throw new DaoException("Unable to connect to server or database", e);
+            } catch (DataIntegrityViolationException e) {
+                 throw new DaoException("Data integrity violation", e);
+            }
+            return foodInMeal;
+        }
+    }
+
 //    @Override
 //    public List<Food> getFoodName(String foodName) {
 //        return null;
