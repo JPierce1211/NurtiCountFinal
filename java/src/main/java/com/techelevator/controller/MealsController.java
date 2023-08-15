@@ -17,6 +17,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 @Component
+@CrossOrigin
 @PreAuthorize("isAuthenticated()")
 @RestController
 public class MealsController {
