@@ -24,11 +24,12 @@ public class JdbcGoalDao implements GoalDao {
     }
 
     @Override
-    public List<Goals> list(){ //List all progress in one place
+    public List<Goals> list(int userId){ //List all goals in one place
         List<Goals> goalCheckPoints = new ArrayList<>();
-        String sql = "SELECT goal_id, desired_weight, bmi, log_day FROM goals;";
+        String sql = "SELECT goal_id, user_id, desired_weight, bmi, log_day FROM goals " +
+                "WHERE user_id = ?;";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
             while (results.next()){
                 Goals goal = mapRowToGoals(results);
                 goalCheckPoints.add(goal);
@@ -40,13 +41,13 @@ public class JdbcGoalDao implements GoalDao {
     }
 
     @Override
-    public List<Goals> getGoalByDate(String date){ //Retrieve a specific progress log by a certain date
+    public List<Goals> getGoalsByDate(int userId, String date){ //Retrieve a specific progress log by a certain date
         List<Goals> goalDate = new ArrayList<>();
-        String sql = "SELECT goal_id, desired_weight, bmi, log_day " +
+        String sql = "SELECT goal_id, user_id, desired_weight, bmi, log_day " +
                 "FROM goals " +
-                "WHERE log_day = ?;";
+                "WHERE user_id = ? AND log_day = ?;";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, date);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, date);
             while (results.next()){
                 Goals goal = mapRowToGoals(results);
                 goalDate.add(goal);
@@ -59,14 +60,13 @@ public class JdbcGoalDao implements GoalDao {
     }
 
     @Override
-    public List<Goals> getGoalsByTimeframe(String fromDate, String toDate){ //Viewing trajectories based on timeframes
+    public List<Goals> getGoalsByTimeframe(int userId, String fromDate, String toDate){ //Viewing trajectories based on timeframes
         List<Goals> progressChart = new ArrayList<>();
-        String sql = "SELECT goal_id, desired_weight, bmi, log_day " +
+        String sql = "SELECT goal_id, user_id, desired_weight, bmi, log_day " +
                 "FROM goals " +
-                "WHERE log_day BETWEEN ? AND ? " +
-                "ORDER BY log_day;";
+                "WHERE (user_id = ?) AND (log_day BETWEEN ? AND ?);";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, fromDate, toDate);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, fromDate, toDate);
             while (results.next()) {
                 progressChart.add(mapRowToGoals(results));
             }
@@ -76,26 +76,9 @@ public class JdbcGoalDao implements GoalDao {
         return progressChart;
     }
 
-    @Override
-    public Goals getGoalsByProfileId(int profileId){ //Get all progress by the profile to be ready to display
-        Goals goals = null;
-        String sql = "SELECT goal_id, desired_weight, bmi, log_day " +
-                "FROM goals " +
-                "WHERE profile_id = ?;";
-        try{
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, profileId);
-            if (results.next()){
-                goals = mapRowToGoals(results);
-            }
-        }catch (CannotGetJdbcConnectionException e){
-            throw new DaoException("Unable to connect to server or database", e);
-        }
-        return goals;
-    }
-
     public Goals getGoalByGoalId(int goalId){ //Specific progress point
         Goals goals = null;
-        String sql = "SELECT goal_id, desired_weight, bmi, log_day " +
+        String sql = "SELECT goal_id, user_id, desired_weight, bmi, log_day " +
                 "FROM goals " +
                 "WHERE goal_id = ?;";
         try{
@@ -112,11 +95,10 @@ public class JdbcGoalDao implements GoalDao {
     @Override
     public Goals createGoal(Goals goal){ //Allows user to log a new progress point
         Goals newGoal = null;
-        String sql = "INSERT INTO goals (desired_weight, bmi, log_day) " +
-                "VALUES (?, ?, ?) RETURNING goal_id;";
+        String sql = "INSERT INTO goals (user_id, desired_weight, bmi, log_day) " +
+                "VALUES (?, ?, ?, ?) RETURNING goal_id;";
         try{
-            //The profileDao.getProfileById(progress.getProfileById) may be redundant
-            int newGoalId = jdbcTemplate.queryForObject(sql, int.class, goal.getDesiredWeight(), goal.getBmi(), goal.getDate());
+            int newGoalId = jdbcTemplate.queryForObject(sql, int.class, goal.getUserId(), goal.getDesiredWeight(), goal.getBmi(), goal.getLogDay());
 
             newGoal = getGoalByGoalId(newGoalId);
         }catch (CannotGetJdbcConnectionException e) {
@@ -130,10 +112,10 @@ public class JdbcGoalDao implements GoalDao {
     @Override
     public Goals updateGoal(Goals goal){ //Allows user to update current progress
         Goals updateGoal = null;
-        String sql = "UPDATE goals SET desired_weight = ?, bmi  = ?, log_day = ? " +
+        String sql = "UPDATE goals SET user_id = ?, desired_weight = ?, bmi = ?, log_day = ? " +
                 "WHERE goal_id = ?;";
         try{
-            int numberOfRows = jdbcTemplate.update(sql, goal.getDesiredWeight(), goal.getBmi(), goal.getDate());
+            int numberOfRows = jdbcTemplate.update(sql, goal.getUserId(), goal.getDesiredWeight(), goal.getBmi(), goal.getLogDay(), goal.getGoalId());
             if(numberOfRows == 0){
                 throw new DaoException("Zero rows affected, expected at least one");
             }else{
@@ -151,9 +133,10 @@ public class JdbcGoalDao implements GoalDao {
     private Goals mapRowToGoals(SqlRowSet rs){
         Goals goals = new Goals();
         goals.setGoalId(rs.getInt("goal_id"));
+        goals.setUserId(rs.getInt("user_id"));
         goals.setDesiredWeight(rs.getDouble("desired_weight"));
         goals.setBmi(rs.getDouble("bmi"));
-        goals.setDate(rs.getString("log_day"));
+        goals.setLogDay(rs.getString("log_day"));
         return goals;
     }
 }
