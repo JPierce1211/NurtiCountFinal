@@ -42,7 +42,6 @@ CREATE TABLE meals(
 
 CREATE TABLE food (
 	food_id serial PRIMARY KEY,
-	meal_id int REFERENCES meals(meal_id),
 	food_name varchar(100) NOT NULL,
 	food_type varchar(50) NOT NULL,
 	serving_size decimal NOT NULL,
@@ -68,7 +67,7 @@ COMMIT TRANSACTION;
 -- 	CONSTRAINT FK_meal_user FOREIGN KEY (meal_id) REFERENCES meal_user(meal_id),
 -- 	CONSTRAINT UQ_meal_id UNIQUE (meal_id)
 
-
+--meal_id int REFERENCES meals(meal_id),
 -- CREATE TABLE meal_user (
 -- 	meal_id serial PRIMARY KEY,
 -- 	user_id int,
