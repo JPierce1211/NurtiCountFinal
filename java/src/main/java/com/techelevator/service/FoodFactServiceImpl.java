@@ -1,5 +1,6 @@
 package com.techelevator.service;
 
+import com.techelevator.model.Food;
 import com.techelevator.model.FoodDto;
 import org.springframework.http.*;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,8 +41,9 @@ public class FoodFactServiceImpl {
         return new HttpEntity<>(headers);
     }
 
-    public FoodDto[] getFacts(String name, boolean useWildCard){
-        FoodDto[] foods = null;
+    public Food[] getFacts(String name, boolean useWildCard){
+        FoodDto[] foodDto = null;
+        Food[] food = null;
         if(useWildCard){
             name = "%" + name + "%";
         }
@@ -49,9 +51,16 @@ public class FoodFactServiceImpl {
         ResponseEntity<FoodDto[]> response =
                 restTemplate.exchange(API_URL + name, HttpMethod.GET,
                         makeAuthEntity(), FoodDto[].class);
-        foods = response.getBody();
+        foodDto = response.getBody();
+        //Loop through foodDto(foreach loop)
+        for(int i = 0; i < foodDto.length; i++){
+            //Pass each foodDto to mapFoodDtoToFood
+        }
 
-        return foods;
+        //That returns back a food
+        //That food will be added to the food array created up top
+        mapFoodDtoToFood(foodDto);
+        return food;
     }
 
 
@@ -78,14 +87,14 @@ public class FoodFactServiceImpl {
 
 
 
-    private FoodDto saveFoodToDatabase(SqlRowSet fd) {
-        FoodDto foodDto = new FoodDto();
+    private Food mapFoodDtoToFood(FoodDto foodDto) {
+        Food food = new Food();
 //        foodDto.setFoodId(fd.getInt("food_id"));
-        foodDto.setFoodName(fd.getString("food_name"));
+        food.setFoodName(foodDto.getFoodName());
 //        foodDto.setFoodType(fd.getString("food_type"));
-        foodDto.setServingSize(fd.getInt("serving_size"));
-        foodDto.setCalories(fd.getDouble("calories"));
-            return foodDto;
+        food.setServingSize(foodDto.getServingSize());
+        food.setCalories(foodDto.getCalories());
+        return food;
     }
 
 

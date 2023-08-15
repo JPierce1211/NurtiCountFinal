@@ -80,7 +80,7 @@ public class FoodController {
     }
 
     @GetMapping("/supersearch") //supersearch?foodByName=
-    public FoodDto[] getFacts(@RequestParam(required = false) String foodByName, boolean userWildCard) {
+    public Food[] getFacts(@RequestParam(required = false) String foodByName, boolean userWildCard) {
         try {
             return foodFactService.getFacts(foodByName, userWildCard);
         } catch (DaoException e) {
