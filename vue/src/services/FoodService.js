@@ -16,6 +16,7 @@ export default {
     },
 
     createMeal(meal){
+        alert("create meal")
         return axios.post('/createMeal',meal);
     },
 

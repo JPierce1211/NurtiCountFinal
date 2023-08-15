@@ -191,7 +191,7 @@ export default {
 
       this.searchError ="";
 
-      foodService.getFoodByName(searchName)
+      foodService.superSearch(searchName)
       .then(response => {
         //this checks if there is no response
         if (response.data.length === 0){
