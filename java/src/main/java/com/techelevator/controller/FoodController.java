@@ -5,6 +5,7 @@ import com.techelevator.dao.MealsDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Food;
 import com.techelevator.model.FoodDto;
+import com.techelevator.model.Meals;
 import com.techelevator.service.FoodFactService;
 import com.techelevator.service.FoodFactServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -24,10 +25,12 @@ public class FoodController {
     private FoodDao foodDao;
     private FoodDto foodDto;
     private FoodFactServiceImpl foodFactService;
+    private MealsDao mealsDao;
 
-    public FoodController(FoodDao foodDao, FoodFactServiceImpl foodFactService) {
+    public FoodController(FoodDao foodDao, FoodFactServiceImpl foodFactService, MealsDao mealsDao) {
         this.foodDao = foodDao;
         this.foodFactService = foodFactService;
+        this.mealsDao = mealsDao;
 
     }
 
@@ -78,7 +81,7 @@ public class FoodController {
     }
 
     @GetMapping("/supersearch") //supersearch?foodByName=
-    public FoodDto[] getFacts(@RequestParam(required = false) String foodByName, boolean userWildCard) {
+    public Food[] getFacts(@RequestParam(required = false) String foodByName, boolean userWildCard) {
         try {
             return foodFactService.getFacts(foodByName, userWildCard);
         } catch (DaoException e) {
@@ -118,5 +121,13 @@ public class FoodController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Food item not found");
         } return foodList;
     }
+
+//    @PostMapping("/{mealId}/addfood")
+//    public Food addFoodToMeal(@RequestParam int mealId, int foodId, String logDay) {
+//        try {
+//             createdMeal = mealsDao.createMeal(mealId);
+//        }
+//
+//    }
 
 }

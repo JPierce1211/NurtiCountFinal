@@ -8,7 +8,23 @@ export default {
        return axios.get(url)
     },
 
+    superSearch(searchName)
+    {
+       const search = "?foodByName=" + searchName;
+       const url = `meals/food/supersearch${search}`;
+       return axios.get(url)
+    },
+
     createMeal(meal){
+        alert("create meal")
         return axios.post('/createMeal',meal);
+    },
+
+    getMealDetails(mealId){
+        return axios.get('/meals/' + mealId);
+    },
+
+    getAllMeals(){
+        return axios.get("/meals");
     }
 }

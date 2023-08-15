@@ -2,10 +2,10 @@
   <div>
       <div class="Meal-details">
         <h1 class="title"> Meal Details </h1>
-        <p class="meal-name"> Meal Name: {{meal.name}}</p>
-        <p class="meal-type"> Meal Type: {{meal.type}} </p>
-        <p class="meal-date"> Date: {{meal.logDay}} </p>
-        <p class="meal-description"> Description: {{meal.description}} </p>
+        <p class="meal-name"> Meal Name: {{mealDetails.mealName}}</p>
+        <p class="meal-type"> Meal Type: {{mealDetails.mealType}} </p>
+        <p class="meal-date"> Date: {{mealDetails.logDay}} </p>
+        <p class="meal-description"> Description: {{mealDetails.mealDescription}} </p>
       </div>
       <div class="food-details">
           <h2 class="food-title">Foods</h2>
@@ -20,10 +20,11 @@
 </template>
 
 <script>
+import FoodService from '../services/FoodService';
 export default {
     data(){
         return {
-            meal: {},
+            mealDetails: {},
 
             foods:[],
         }
@@ -31,8 +32,15 @@ export default {
 
     created(){
         const mealId = this.$route.params.mealId;
-        this.getMealDetails(mealId);
-        this.getFoodsDetails(mealId);
+        // this.getMealDetails(mealId);
+        // this.getFoodsDetails(mealId);
+        FoodService.getMealDetails(mealId)
+        .then(response => {
+            this.mealDetails = response.data;
+        })
+        .catch(error => {
+            console.error("Error fetching the meal details:", error);
+        })
     },
 
     methods: {

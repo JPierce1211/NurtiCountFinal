@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FoodDto {
     private int foodId;
-    @JsonProperty("name")
+//    @JsonProperty("name")
     private String foodName;
     private String foodType;
-    @JsonProperty("serving_size_g")
+//    @JsonProperty("serving_size_g")
     private int servingSize;
     private Double calories;
 

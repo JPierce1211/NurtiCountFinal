@@ -18,7 +18,7 @@ const api = {
         // alert(formData.displayName);
         // alert(formData.userId);
         
-        return axios.post(`/profile/${userId}`, formData);
+        return axios.put(`/profile/${userId}`, formData);
     },
 
     getProfileInfo(userId) 
