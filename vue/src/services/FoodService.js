@@ -21,5 +21,9 @@ export default {
 
     getMealDetails(mealId){
         return axios.get('/meals/' + mealId);
+    },
+
+    getAllMeals(){
+        return axios.get("/meals");
     }
 }

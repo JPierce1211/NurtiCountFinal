@@ -78,6 +78,16 @@ export default {
     };
   },
 
+  mounted(){
+      FoodService.getAllMeals()
+      .then((response) => {
+          this.mealsArray = response.data;
+      })
+      .catch((error) => {
+          console.error("Error fetching the meals:", error)
+      })
+  },
+
   methods: {
     createMealForm() {
       console.log("Creating meal with:", this.meal);
