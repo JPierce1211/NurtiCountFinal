@@ -104,6 +104,9 @@ export default {
             logDay: "",
             isQuickMeal: false,
           };
+          let increment = 1;
+          this.$store.commit('SET_STAR_RATING', increment);
+          console.log("Star Rating: ", this.$store.state.starRating );
         })
         .catch((error) => {
           console.error("Error creating the meal:", error);
