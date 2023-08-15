@@ -17,6 +17,7 @@ const api = {
         // alert('Updating Profile...');
         // alert(formData.displayName);
         // alert(formData.userId);
+        
         return axios.post(`/profile/${userId}`, formData);
     },
 
