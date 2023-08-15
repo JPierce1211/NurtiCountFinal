@@ -42,7 +42,7 @@ public class FoodFactServiceImpl {
     }
 
     public Food[] getFacts(String name, boolean useWildCard){
-        FoodDto[] foodDto = null;
+        FoodDto[] foodDto;
         Food[] food = null;
         if(useWildCard){
             name = "%" + name + "%";
@@ -52,14 +52,31 @@ public class FoodFactServiceImpl {
                 restTemplate.exchange(API_URL + name, HttpMethod.GET,
                         makeAuthEntity(), FoodDto[].class);
         foodDto = response.getBody();
-        //Loop through foodDto(foreach loop)
-        for(int i = 0; i < foodDto.length; i++){
-            //Pass each foodDto to mapFoodDtoToFood
-        }
 
+        for (int i = 0; i < foodDto.length - 1; i++){
+
+            Food foodInNewArray = mapFoodDtoToFood(foodDto[i]);
+            food[i++] = foodInNewArray;
+
+        }
+//        for(FoodDto prop : foodDto){
+//            mapFoodDtoToFood(prop);
+//        }
+        //Loop through foodDto(foreach loop)
+        //Pass each foodDto to mapFoodDtoToFood
         //That returns back a food
         //That food will be added to the food array created up top
-//        mapFoodDtoToFood(foodDto);
+
+        return food;
+    }
+
+    private Food mapFoodDtoToFood(FoodDto foodDto) {
+        Food food = new Food();
+//        foodDto.setFoodId(fd.getInt("food_id"));
+        food.setFoodName(foodDto.getFoodName());
+//        foodDto.setFoodType(fd.getString("food_type"));
+        food.setServingSize(foodDto.getServingSize());
+        food.setCalories(foodDto.getCalories());
         return food;
     }
 
@@ -87,15 +104,7 @@ public class FoodFactServiceImpl {
 
 
 
-    private Food mapFoodDtoToFood(FoodDto foodDto) {
-        Food food = new Food();
-//        foodDto.setFoodId(fd.getInt("food_id"));
-        food.setFoodName(foodDto.getFoodName());
-//        foodDto.setFoodType(fd.getString("food_type"));
-        food.setServingSize(foodDto.getServingSize());
-        food.setCalories(foodDto.getCalories());
-        return food;
-    }
+
 
 
 
