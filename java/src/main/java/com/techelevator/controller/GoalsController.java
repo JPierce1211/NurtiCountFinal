@@ -30,13 +30,15 @@ public class GoalsController {
         this.userDao = userDao;
     }
 
-    @GetMapping("/myGoals/{userId}")//WORKS
-    public List<Goals> listAllGoals(@PathVariable int userId){
+    @GetMapping("/myGoals")//WORKS
+    public List<Goals> listAllGoals(Principal principal){
+        User user = userDao.getUserByUsername(principal.getName());
+        int userId = user.getId();
         return goalDao.list(userId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/createGoals")//WORKS
+    @PostMapping("/goals/create")//WORKS
     public Goals create(@RequestBody Goals goal){
         try {
             return goalDao.createGoal(goal);
@@ -63,9 +65,11 @@ public class GoalsController {
         return progress;
     }
 
-    @GetMapping("/goals/date")
-    public List<Goals> getGoalsByDate(@RequestParam String date){
-        return goalDao.getGoalsByDate(date);
+    @GetMapping("/goals/date")//WORKS but needs this in the URL -----> ?date=
+    public List<Goals> getGoalsByDate(@RequestParam(value = "date") String date, Principal principal){
+        User user = userDao.getUserByUsername(principal.getName());
+        int userId = user.getId();
+        return goalDao.getGoalsByDate(userId, date);
     }
 
 

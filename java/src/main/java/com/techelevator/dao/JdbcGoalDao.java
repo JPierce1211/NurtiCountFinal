@@ -41,13 +41,13 @@ public class JdbcGoalDao implements GoalDao {
     }
 
     @Override
-    public List<Goals> getGoalsByDate(String date){ //Retrieve a specific progress log by a certain date
+    public List<Goals> getGoalsByDate(int userId, String date){ //Retrieve a specific progress log by a certain date
         List<Goals> goalDate = new ArrayList<>();
         String sql = "SELECT goal_id, user_id, desired_weight, bmi, log_day " +
                 "FROM goals " +
-                "WHERE log_day = ?;";
+                "WHERE user_id = ? AND log_day = ?;";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, date);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, date);
             while (results.next()){
                 Goals goal = mapRowToGoals(results);
                 goalDate.add(goal);

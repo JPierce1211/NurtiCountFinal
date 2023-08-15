@@ -9,7 +9,7 @@ public interface GoalDao {
 
     List<Goals> list(int userId);
 
-    List<Goals> getGoalsByDate(String date);
+    List<Goals> getGoalsByDate(int userId, String date);
 
     List<Goals> getGoalsByTimeframe(int userId, String fromDate, String toDate);
 
