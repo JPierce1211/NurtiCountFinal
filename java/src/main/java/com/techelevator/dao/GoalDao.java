@@ -11,7 +11,7 @@ public interface GoalDao {
 
     List<Goals> getGoalsByDate(String date);
 
-    List<Goals> getGoalsByTimeframe(String fromDate, String toDate);
+    List<Goals> getGoalsByTimeframe(int userId, String fromDate, String toDate);
 
     Goals getGoalByGoalId(int goalId);
 

@@ -50,11 +50,11 @@ public class GoalsController {
         return goalDao.updateGoal(goal);
     }
 
-    @GetMapping("/goals/time")//?fromDate= &toDate=
+    @GetMapping("/goals/time")//WORKS but needs this in the URL -----> ?fromDate= &toDate=
     public List<Goals> getProgressOverTime(@RequestParam(value = "fromDate") String fromDate, @RequestParam(value = "toDate") String toDate, Principal principal){
         User user = userDao.getUserByUsername(principal.getName());
         int userId = user.getId();
-        return goalDao.getGoalsByTimeframe(fromDate, toDate);
+        return goalDao.getGoalsByTimeframe(userId, fromDate, toDate);
     }
 
     @GetMapping("/goals/{goalId}")//WORKS

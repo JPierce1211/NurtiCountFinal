@@ -60,14 +60,13 @@ public class JdbcGoalDao implements GoalDao {
     }
 
     @Override
-    public List<Goals> getGoalsByTimeframe(String fromDate, String toDate){ //Viewing trajectories based on timeframes
+    public List<Goals> getGoalsByTimeframe(int userId, String fromDate, String toDate){ //Viewing trajectories based on timeframes
         List<Goals> progressChart = new ArrayList<>();
         String sql = "SELECT goal_id, user_id, desired_weight, bmi, log_day " +
                 "FROM goals " +
-                "WHERE log_day BETWEEN ? AND ? " +
-                "ORDER BY log_day;";
+                "WHERE (user_id = ?) AND (log_day BETWEEN ? AND ?);";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, fromDate, toDate);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, fromDate, toDate);
             while (results.next()) {
                 progressChart.add(mapRowToGoals(results));
             }
