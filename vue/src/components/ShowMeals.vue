@@ -25,7 +25,7 @@
                 </div>
                 <div>
                     <button type="submit">Create Meal</button>
-                    <button @click="$router.push('component/Meals.vue')"> Add Food to Meal </button>
+                    <!-- <button @click="$router.push('component/FoodDetails.vue')"> Add Food to Meal </button> -->
                 </div>  
             </form>                    
         </div>
@@ -39,7 +39,7 @@
                     </tr>  
                 </thead> 
                 <tbody>
-                    <tr v-for="meal in meals" :key="meal.id">
+                    <tr v-for="meal in mealsArray" :key="meal.id">
                         <td>{{meal.name}}</td>
                         <td>{{meal.description}}</td>
                         <td>
@@ -65,32 +65,41 @@ export default {
             meal:{
                 mealId: "",
                 name:"",
-                type:"",
+                mealType:"",
                 description:"",
                 isQuickMeal:"",
                 logDay:"",
 
             },
 
-            meals: [],
+            mealsArray: [],
         };
     },
 
     methods: {
         createMealForm(){
-           this.meal = {
-                name: '',
-                mealType: '',
-                logDay: '',
-                description: '',
-            };
+          const newMeal = {...this.meal}
 
-            this.meal.push(this.meal);
+            this.mealsArray.push(newMeal);
+
+              this.meal = {
+                  name: '',
+                  mealType:'',
+                  logDay:'',
+                  description:'',
+            
+            };
+        },
+        
+        editMeal(){
+
         },
 
-        // editMeal(meal){
+        addFood(){
+            this.$router.push({name:'foodDetails'})
+        },
 
-        //  }
+
     }
 
 }

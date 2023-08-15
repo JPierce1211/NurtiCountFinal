@@ -98,7 +98,7 @@
     </div>
     <div class="butn-ShowMeals">  
       <!-- this button will save the foods into a meal and transfer it to the next componenet -->
-      <button @click="$router.push('component/showMeals.vue')">Show Meals</button>
+      <button @click="showMeal()">Show Meals</button>
       <button v-on:click="newSearch"> New Search </button>
     </div> 
   </div>  
@@ -256,6 +256,10 @@ export default {
         this.tableFilledError = "";
         this.showTable = false;
     },
+
+    showMeal(){
+      this.$router.push({name:'showMeals'});
+    }
 
 
   },

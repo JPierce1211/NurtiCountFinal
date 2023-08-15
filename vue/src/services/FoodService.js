@@ -7,4 +7,8 @@ export default {
        const url = `meals/food/foodByName/${food}`;
        return axios.get(url)
     },
+
+    createMeal(meal){
+        return axios.post('/createMeal',meal);
+    }
 }
