@@ -30,14 +30,14 @@ CREATE TABLE profile (
 );
 
 CREATE TABLE meals(
-	meal_id int PRIMARY KEY,
+	meal_id serial PRIMARY KEY,
 	user_id int REFERENCES users(user_id),
 	meal_type varchar(10) NOT NULL,
 	meal_name varchar(1000) NULL,
 	meal_description varchar(1000) NULL,
 	log_day varchar(10) NOT NULL,
-	is_quick_meal boolean NOT NULL
-
+	is_quick_meal boolean NOT NULL,
+	total_calories decimal NULL
 );
 
 CREATE TABLE food (

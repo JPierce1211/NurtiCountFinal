@@ -16,17 +16,16 @@ import org.springframework.web.server.ResponseStatusException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
-@Component
-@CrossOrigin(origins = "http://localhost:8080/")
+@CrossOrigin()
 @PreAuthorize("isAuthenticated()")
 @RestController
 public class MealsController {
     private JdbcTemplate jdbcTemplate;
-    private JdbcMealsDao mealsDao;
-    private JdbcFoodDao foodDao;
-    private JdbcUserDao userDao;
+    private MealsDao mealsDao;
+    private FoodDao foodDao;
+    private UserDao userDao;
 
-    public MealsController(JdbcMealsDao mealsDao, JdbcFoodDao foodDao, JdbcUserDao userDao) {
+    public MealsController(MealsDao mealsDao, FoodDao foodDao, UserDao userDao) {
         this.mealsDao = mealsDao;
         this.foodDao = foodDao;
         this.userDao = userDao;
@@ -60,18 +59,19 @@ public class MealsController {
         return meals;
     }
 
-    @GetMapping("/meals/{mealId}/calories")
-    public int calTotal(@PathVariable int mealId, Principal principal, Meals meals){
-        User user = userDao.getUserByUsername(principal.getName());
-        meals.setUserId(user.getId());
-        int meal = mealsDao.getTotalCalories(mealId);
-        return meal;
-    }
+//    @GetMapping("/meals/{mealId}/calories")
+//    public int calTotal(@PathVariable int mealId, Principal principal, Meals meals){
+//        User user = userDao.getUserByUsername(principal.getName());
+//        meals.setUserId(user.getId());
+//        int meal = mealsDao.getTotalCalories(mealId);
+//        return meal;
+//    }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createMeal")
     public Meals createMeal(@RequestBody Meals meals, Principal principal) {
         User user = userDao.getUserByUsername(principal.getName());
+        meals.setUserId(user.getId());
         if(user != null){
             return mealsDao.createMeal(meals);
         }else{
