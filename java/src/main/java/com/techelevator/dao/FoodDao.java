@@ -21,6 +21,6 @@ public interface FoodDao {
     List<Food> getFoodByName(String foodName, boolean useWildCard);
 
     Food mapRowToFood(SqlRowSet rs);
-//    FoodDto addFoodToMeal(int mealId, int foodId, String logDay);
+   int addFoodToMeal(int mealId, int foodId, String logDay);
 }
 

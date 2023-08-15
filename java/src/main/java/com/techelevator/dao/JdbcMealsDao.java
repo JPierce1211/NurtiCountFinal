@@ -138,8 +138,8 @@ public class JdbcMealsDao implements MealsDao {
         meals.setMealId(sql.getInt("meal_id"));
         meals.setUserId(sql.getInt("user_id"));
         meals.setMealType(sql.getString("meal_type"));
-        meals.setMealName(sql.getNString("meal_name"));
-        meals.setMealDescription(sql.getNString("meal_description"));
+        meals.setMealName(sql.getString("meal_name"));
+        meals.setMealDescription(sql.getString("meal_description"));
         meals.setLogDay(sql.getString("log_day"));
         meals.setQuickMeal(sql.getBoolean("is_quick_meal"));
         return meals;
