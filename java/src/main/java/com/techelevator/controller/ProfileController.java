@@ -16,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.security.Principal;
 
 @CrossOrigin
-@Component
 @RestController
 @PreAuthorize("isAuthenticated()")
 public class ProfileController {
@@ -61,13 +60,6 @@ public class ProfileController {
         return newProfile;
     }
 
-//    @PutMapping("/profile/{id}")
-//    public Profile update(@RequestBody Profile updatedProfile, @PathVariable int id){
-//        updatedProfile.setProfileId(id);
-//        Profile updateProfile = profileDao.updateProfile(updatedProfile);
-//        return updateProfile;
-//    }
-
     @PutMapping("/profile/edit")
     public Profile update(@RequestBody Profile updatedProfile){
         return profileDao.updateProfile(updatedProfile);
@@ -80,3 +72,11 @@ public class ProfileController {
 
     }
 }
+
+//    @PutMapping("/profile/{id}")
+//    public Profile update(@RequestBody Profile updatedProfile, @PathVariable int id){
+//        updatedProfile.setProfileId(id);
+//        Profile updateProfile = profileDao.updateProfile(updatedProfile);
+//        return updateProfile;
+//    }
+

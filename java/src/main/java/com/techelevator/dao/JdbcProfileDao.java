@@ -75,15 +75,15 @@ public class JdbcProfileDao implements ProfileDao{
     @Override
     public Profile updateProfile(Profile profile){
         Profile updateProfile = null;
-        String sql = "UPDATE profile SET user_id = ?, birthday = ?, height = ?, current_weight = ?, display_name = ?, profile_pic_id = ?, goals = ? " +
+        String sql = "UPDATE profile SET birthday = ?, height = ?, current_weight = ?, display_name = ?, profile_pic_id = ?, goals = ? " +
                 "WHERE user_id = ?;";
         try{
-            int numberOfRows = jdbcTemplate.update(sql, profile.getUserId(), profile.getBirthday(), profile.getHeight(),
-                    profile.getCurrentWeight(), profile.getDisplayName(), profile.getProfilePicId(), profile.getProfileId(), profile.getGoals());
+            int numberOfRows = jdbcTemplate.update(sql, profile.getBirthday(), profile.getHeight(), profile.getCurrentWeight(),
+                    profile.getDisplayName(), profile.getProfilePicId(), profile.getGoals(), profile.getUserId());
             if(numberOfRows == 0){
                 throw new DaoException("Zero rows affected, expected at least one");
             }else{
-                updateProfile = getProfileById(profile.getProfileId());
+                updateProfile = getProfileById(profile.getUserId());
             }
         }catch(CannotGetJdbcConnectionException e){
             throw new DaoException("Unable to connect to server or database", e);

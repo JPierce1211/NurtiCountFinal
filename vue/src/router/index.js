@@ -11,7 +11,8 @@ import Profile from '../views/Profile.vue'
 import meal from '../views/Meal.vue'
 import FoodDetails from '../components/FoodDetails.vue'
 //import showFood from '../components/Meals.vue'
-import progress from '../components/Progress.vue'
+import progress from '../views/Progress.vue'
+import MealsDetails from '../components/MealsDetails.vue'
 
 Vue.use(Router)
 
@@ -94,12 +95,17 @@ const router = new Router({
       path:"/myMeal/food-details",
       name:"foodDetails",
       component: FoodDetails
-    },
+    },cc
     {
       path: "/progress/",
       name: "progress",
       component: progress,
     },
+    {
+      path: "/myMeal/meal-detail",
+      name:"mealDetails",
+      component:MealsDetails
+    }
   ]
 })
 
