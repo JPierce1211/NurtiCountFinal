@@ -17,7 +17,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 @Component
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:8080/")
 @PreAuthorize("isAuthenticated()")
 @RestController
 public class MealsController {
