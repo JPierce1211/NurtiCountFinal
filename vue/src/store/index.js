@@ -31,7 +31,11 @@ export default new Vuex.Store({
       birthday:'',
       picture:'',
       weight:'',
-    }
+    },
+    meals:[],
+
+    starRating: 0
+
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -51,11 +55,14 @@ export default new Vuex.Store({
       state.user = {};
       axios.defaults.headers.common = {};
     },
-    SET_PROFILE_ID(state, profileId) {
-      state.profileId = profileId;
+    SET_PROFILE(state, profile) {
+      state.profile = profile;
     },
     SET_USER_ID(state, userId) {
       state.userId = userId;
     },
+    SET_STAR_RATING(state, increment){
+      state.starRating += increment;
+    }
   }
 })
