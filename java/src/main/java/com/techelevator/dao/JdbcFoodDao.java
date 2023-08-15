@@ -131,19 +131,19 @@ public class JdbcFoodDao implements FoodDao {
         return foodItem;
     }
 
-    @Override
-    public int addFoodToMeal(int mealId, int foodId, String logDay) {
-        String sql = "INSERT INTO meal_food (meal_id, food_id, log_day) VALUES (?, ?, ?)";
-        try {
-            int result = jdbcTemplate.update(sql, mealId, foodId, logDay);
-            return result;
-        } catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
-        } catch (DataIntegrityViolationException e) {
-            throw new DaoException("Data integrity violation", e);
-        }
-
-    }
+//    @Override
+//    public int addFoodToMeal(int mealId, int foodId, String logDay) {
+//        String sql = "INSERT INTO meal_food (meal_id, food_id, log_day) VALUES (?, ?, ?)";
+//        try {
+//            int result = jdbcTemplate.update(sql, mealId, foodId, logDay);
+//            return result;
+//        } catch (CannotGetJdbcConnectionException e) {
+//            throw new DaoException("Unable to connect to server or database", e);
+//        } catch (DataIntegrityViolationException e) {
+//            throw new DaoException("Data integrity violation", e);
+//        }
+//
+//    }
 
 
 

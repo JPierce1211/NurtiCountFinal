@@ -22,8 +22,8 @@ public class Meals {
         this.mealId = mealId;
         this.userId = userId;
         this.mealType = mealType;
-        // this.mealName = mealName;
-        //this.mealDescription = mealDescription;
+        this.mealName = mealName;
+        this.mealDescription = mealDescription;
         this.logDay = logDay;
         this.isQuickMeal = isQuickMeal;
         //this.totalCalories = totalCalories;
