@@ -42,24 +42,34 @@ public class FoodFactServiceImpl {
     }
 
     public Food[] getFacts(String name, boolean useWildCard){
-        FoodDto[] foodDto = null;
-        Food[] food = null;
+        FoodDto[] foodDto;
+
         if(useWildCard){
             name = "%" + name + "%";
         }
-
         ResponseEntity<FoodDto[]> response =
                 restTemplate.exchange(API_URL + name, HttpMethod.GET,
                         makeAuthEntity(), FoodDto[].class);
         foodDto = response.getBody();
-        //Loop through foodDto(foreach loop)
-        for(int i = 0; i < foodDto.length; i++){
-            //Pass each foodDto to mapFoodDtoToFood
+
+        Food[] food = new Food[foodDto.length];
+        //Loop through foodDto
+        for (int i = 0; i < foodDto.length; i++){
+            //Pass each foodDto to mapFoodDtoToFood and return back as food
+            Food foodInNewArray = mapFoodDtoToFood(foodDto[i]);
+            food[i] = foodInNewArray;//This food will be added to the food array created up top
         }
 
-        //That returns back a food
-        //That food will be added to the food array created up top
-//        mapFoodDtoToFood(foodDto);
+        return food;
+    }
+
+    private Food mapFoodDtoToFood(FoodDto foodDto) {
+        Food food = new Food();
+//        foodDto.setFoodId(fd.getInt("food_id"));
+        food.setFoodName(foodDto.getFoodName());
+//        foodDto.setFoodType(fd.getString("food_type"));
+        food.setServingSize(foodDto.getServingSize());
+        food.setCalories(foodDto.getCalories());
         return food;
     }
 
@@ -87,15 +97,7 @@ public class FoodFactServiceImpl {
 
 
 
-    private Food mapFoodDtoToFood(FoodDto foodDto) {
-        Food food = new Food();
-//        foodDto.setFoodId(fd.getInt("food_id"));
-        food.setFoodName(foodDto.getFoodName());
-//        foodDto.setFoodType(fd.getString("food_type"));
-        food.setServingSize(foodDto.getServingSize());
-        food.setCalories(foodDto.getCalories());
-        return food;
-    }
+
 
 
 
