@@ -43,21 +43,21 @@ public class FoodFactServiceImpl {
 
     public Food[] getFacts(String name, boolean useWildCard){
         FoodDto[] foodDto;
-        Food[] food = null;
+
         if(useWildCard){
             name = "%" + name + "%";
         }
-
         ResponseEntity<FoodDto[]> response =
                 restTemplate.exchange(API_URL + name, HttpMethod.GET,
                         makeAuthEntity(), FoodDto[].class);
         foodDto = response.getBody();
 
-        for (int i = 0; i < foodDto.length - 1; i++){
+        Food[] food = new Food[foodDto.length];
+
+        for (int i = 0; i < foodDto.length; i++){
 
             Food foodInNewArray = mapFoodDtoToFood(foodDto[i]);
-            food[i++] = foodInNewArray;
-
+            food[i] = foodInNewArray;
         }
 //        for(FoodDto prop : foodDto){
 //            mapFoodDtoToFood(prop);
