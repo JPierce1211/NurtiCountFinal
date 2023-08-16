@@ -122,9 +122,9 @@ public class JdbcMealsDao implements MealsDao {
     @Override
     public Meals updateMealsById(Meals meals, int id) {
         Meals updateMeals = null;
-        String sql = "UPDATE meals SET meal_type = ?, meal_name = ?, meal_description = ?, log_day = ?, is_quick_meal = ? WHERE meal_id = ?";
+        String sql = "UPDATE meals SET meal_type = ?, meal_name = ?, meal_description = ?, log_day = ?, is_quick_meal = ?, total_calories = ? WHERE meal_id = ?";
         try {
-            int rowsAffected = jdbcTemplate.update(sql, meals.getMealType(), meals.getMealName(), meals.getMealDescription(), meals.getLogDay(), meals.isQuickMeal(), id);
+            int rowsAffected = jdbcTemplate.update(sql, meals.getMealType(), meals.getMealName(), meals.getMealDescription(), meals.getLogDay(), meals.isQuickMeal(), meals.getTotalCalories(), id);
             if (rowsAffected == 0) {
                 throw new DaoException("Zero rows affected, expected at least one");
             }
@@ -136,6 +136,7 @@ public class JdbcMealsDao implements MealsDao {
         }
         return updateMeals;
     }
+
 
     @Override
     public Meals getMealDate(String date) {
@@ -156,6 +157,7 @@ public class JdbcMealsDao implements MealsDao {
         meals.setMealDescription(sql.getString("meal_description"));
         meals.setLogDay(sql.getString("log_day"));
         meals.setQuickMeal(sql.getBoolean("is_quick_meal"));
+        meals.setTotalCalories(sql.getInt("total_calories"));
         return meals;
     }
 }

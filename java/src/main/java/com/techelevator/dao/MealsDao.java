@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Food;
+import com.techelevator.model.FoodMealDto;
 import com.techelevator.model.Meals;
 
 import java.time.LocalDate;
