@@ -92,7 +92,7 @@ const router = new Router({
       component: meal,
     },
     {
-      path:"/myMeal/food-details",
+      path:"/myMeal/:mealId/food-details",
       name:"foodDetails",
       component: FoodDetails
     },
