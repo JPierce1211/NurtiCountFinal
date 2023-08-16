@@ -1,8 +1,8 @@
 <template>
   <div class="profile-container">
+    <h3 class="center-text">{{ $store.state.profile.displayName }}</h3>
 
-    <h3 class="center-text">{{ displayName }}</h3>
-    <br/>
+    <br />
     <div class="db-profile-pic">
       <img :src="proPicURL" alt="Profile Image" class="profile-pic" />
     </div>
@@ -13,87 +13,62 @@
 </template>
 
 <script>
-import ProfileService from '../services/ProfileService.js';
 import profileStars from './ProfileStars.vue';
+
 
 export default 
 {
-    components: 
+  components:
     {
-        profileStars,
+      profileStars
     },
-
-    data() 
+    data()
     {
-        return {
-        displayName: '',
-        picId: null,
-        picFileName: '',
-        proPicURL: '',
+        return{
+            proPicURL: null,
         };
     },
-
-    async mounted() 
-    {
-        await this.getProfileData();
-        await this.getProfilePicUrl(this.picId);
-        //await alert(this.proPicURL + ' is the URL for your profile picture');
-    },
-
     methods: 
-    {
-
-        async getProfileData() 
         {
-            try 
+            logProfileData() 
                 {
-                    const response = await ProfileService.getProfileInfo(this.$store.state.userId);
-
-
-                    this.displayName = response.data.displayName;
-                    this.picId = response.data.profilePicId;
-                    this.picFileName = ProfileService.getPicUrl(this.picId);
-
-                    return response;
-
-                } 
-            catch (error) 
+                console.log(this.$store.state.profile);
+                },
+            getProfilePicUrl(picId) 
                 {
-                    console.error('Error fetching profile data:', error);
-                }
+                    if (picId > 0 || picId < 10) 
+                        {
+                          console.log(this.$store.state.profile.displayName + "'s birthday is " + this.$store.state.profile.birthday);
+
+                          const realPicId = parseInt(picId, 10);
+
+                          this.proPicURL = require(`@/imgs/pngs/0` + realPicId + `.png`);
+                        }
+                },
         },
-
-        async getProfilePicUrl(picId)
-        {
-            if (picId > 0 || picId < 10)
+            mounted() 
                 {
-                    this.proPicURL = require(`@/imgs/pngs/0` + picId + `.png`);
-                }
-            return this.proPicURL;
-        },
-    },
+                    this.logProfileData();
+                    this.getProfilePicUrl(this.$store.state.profile.profilePicId);
+                },
 };
 </script>
 
 <style scoped>
-
-.profile-container
-{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    justify-items: center;
-    align-items: center;    
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  justify-items: center;
+  align-items: center;
 }
 
-div.profile-container > h3 
-{
-    font-size: 24pt;
+div.profile-container > h3 {
+  font-size: 36pt;
+  word-wrap: break-word;
 }
 
-.profile-pic
-{
-    width: 80px;
+.profile-pic {
+  width: 80px;
 }
-
 </style>

@@ -125,90 +125,37 @@ export default {
 
   methods: 
   {
-    formatDateForSQL(date) 
-    {
-      const d = new Date(date);
-      const year = d.getFullYear();
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    },
+    
 
     submitForm() 
     {
-      const fullBirthday = this.formatDateForSQL(this.profile.birthDay);
-      
-
-      alert('Profile ID # ' + this.profileId)
-      console.log(ProfileService.getProfileInfo(this.$store.state.profile.userId));
+      //alert('Profile ID # ' + this.profileId)
+      //console.log(ProfileService.getProfileInfo(this.$store.state.profile.userId));
       const formData = 
       {
         userId: this.$store.state.profile.userId,
         height: this.profile.height,
         displayName: this.profile.displayName,
-        birthday: fullBirthday,
+        birthday: this.profile.birthDay,
         profilePicId: this.profile.profilePicId,
         currentWeight: this.profile.currentWeight,
         goals: this.profile.goals,
       };
 
-
-      // if (this.profileId === 0)
-      // {
-      //   ProfileService.createProfile(formData)
-      //       .then(response => 
-      //       {
-      //         if (response.status === 201) 
-      //         {
-                  
-      //             alert('Profile ID # ' + this.profileId)  // delete this later
-
-      //             this.$router.push(`/`);
-      //         }
-      //           else
-      //         {
-      //           alert('Unable to create a new profile'); 
-      //         }
-      //       })
-      //       .catch(error => {
-      //         this.handleErrorResponse(error, "creating");
-      //   });
-      // }
-      //   else
-      // {
-      //   ProfileService.updateProfile(formData.userId, formData)
-      //         .then(response => 
-      //       {
-      //         if (response.status === 200) 
-      //         {
-                  
-      //             alert('Profile ID # ' + this.profileId);  // delete this later
-
-      //             this.$router.push(`/`);
-      //         }
-      //           else
-      //         {
-      //           alert('Unable to update profile'); 
-      //         }
-      //       })
-
-
- ////////// Above I attempted to rewrite the code below in a manner consistent with our KanBan lecture excercise material.
-
-
-
+    //console.log("The user ID within formData is: " + formData.userId);  
+    this.$store.commit("SET_PROFILE", formData);
 
       ProfileService.getProfileInfo(this.$store.state.profile.userId)
         .then(response => {
           if (response.data) 
           {
             //alert('response DOT data DOT userid = ' + response.data.userId);
-            alert('getProfileInfo() searched and returned an existing profile for this user. Proceeding to update profile')
+            //alert('getProfileInfo() searched and returned an existing profile for this user. Proceeding to update profile')
             this.updateProfile(response.data, formData);
           } 
           else 
           {
-            alert('getProfileInfo() searched and returned no existing profile for this user. Proceeding to create profile')
+            //alert('getProfileInfo() searched and returned no existing profile for this user. Proceeding to create profile')
             this.createProfile(formData);
           }
         })
@@ -223,7 +170,7 @@ export default {
           if (response.status === 201) {
             //this.$store.state.user.hasProfile = true;
  
-            this.$store.commit("SET_PROFILE_ID", response.data.profileId); 
+            //this.$store.commit("SET_PROFILE_ID", response.data.profileId); 
             this.$router.push(`/`);
             
           }
@@ -238,10 +185,10 @@ export default {
     },
 
     updateProfile(existingProfile, formData) {
-      ProfileService.updateProfile(existingProfile.userId, formData)
+      ProfileService.updateProfile(formData)
         .then(response => {
           if (response.status === 200) {
-            this.$router.push(`/`);
+            this.$router.push(`/profile`);
           }
         })
         .catch(error => {
