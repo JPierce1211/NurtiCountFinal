@@ -26,7 +26,7 @@ export default {
       }
     },
     starImagePath() {
-      return 'src/imgs/pngs/star.jpg';
+      return '@/imgs/pngs/star.jpg';
     },
   },
 };

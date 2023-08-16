@@ -19,7 +19,7 @@
           <tr>
             <td>
               <input type="date" id="logDay" v-model="meal.logDay" />
-              {{ format_date(meal.logDay) }}
+              
             </td>
             <td>
               <select id="mealDropDown" v-model="meal.mealType">
@@ -56,6 +56,7 @@
           </tr>
         </tbody>
       </table> 
+
       <!-- add button to move to see all meals for the day -->
       <!-- create a show method -->
       <p class="error"> {{ searchError}}</p>
@@ -139,6 +140,8 @@ export default {
 
       quickFood: [],
 
+      showForm: false,
+
       meal: {
         foods: [],
         mealId: "",
@@ -191,11 +194,12 @@ export default {
 
       this.searchError ="";
 
-      foodService.superSearch(searchName)
+      foodService.getFoodByName(searchName)
       .then(response => {
         //this checks if there is no response
         if (response.data.length === 0){
-          this.searchError = "No results found for this search? Try our ";
+          this.superSearch();
+          this.searchError = "SuperSearch activated. (Calorie information based on 100g)";
           return;
         }
         this.selectedFood = response.data;
@@ -210,6 +214,38 @@ export default {
         console.error(error);
       });
     },
+
+    //SuperSearch
+    superSearch(){
+      let searchName = this.search.foodName;
+      let tableForm = this.checkingTableForm();
+      //this is making sure all input is filled out
+      if (!tableForm){
+          return;
+      } 
+
+      this.searchError ="";
+
+      foodService.superSearch(searchName)
+      .then(response => {
+        //this checks if there is no response
+        if (response.data.length === 0){
+          this.searchError = "Hmmm...this must be a new food we haven't heard about yet.";
+          return;
+        }
+        this.selectedFood = response.data;
+        this.showTable = true;
+      })
+      .catch(error => {
+        if (error.status === 404){
+          this.searchError = "Hmmm...this must be a new food we haven't heard about yet.";
+        } else {
+          this.searchError = "An error happen while searching. Please try again.";
+        }
+        console.error(error);
+      });
+    },
+
     //this error is not working (It worked when I tried it. - Juan)
     checkingTableForm(){
       if (!this.meal.logDay || !this.meal.mealType || !this.food.numOfServings || !this.search.foodName) {
@@ -280,6 +316,10 @@ export default {
 
 #title {
   text-align: center;
+}
+
+p.error {
+
 }
 
 </style>
