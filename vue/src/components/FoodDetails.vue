@@ -107,7 +107,7 @@
               <!-- button should be disabled if there is no foods selected -->
               <!-- the meal method should save meals to an array-->
               <!-- v-bind:disabled="!selectedFood.length" -->
-              <button v-on:click.prevent="saveFoods()">Add Food to Meal</button>
+              <button v-on:click.prevent="saveFoodsToMeal()">Add Food to Meal</button>
             </td> 
           </tr>
         </tbody>
@@ -282,14 +282,13 @@ export default {
       }
     }, 
 
-    saveFoods(){
-      if(this.selectedFood.foodId === 0){
-        FoodService.addToFoods(this.food).then(response => {
+    saveFoodsToMeal(){
+        FoodService.addFoodToMeal(this.meal.mealId).then(response => {
         if(response.status === 201){
-          this.$router.push({name:'foodDetails'});
+          this.successMessage = "Added food to your meal!"
           }
+          this.$router.push({name:'foodDetails'});
         })
-      } 
     },
 
     //takes selected food items and puts it in a meal object

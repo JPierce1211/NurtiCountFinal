@@ -19,6 +19,10 @@ export default {
         return axios.post('/meals/food', foodItem)    
     },
 
+    addFoodToMeal(meal){//Added 'addFoodToMeal' in the MealsController
+        return axios.post(`meals/${meal.id}/addFood`, meal)
+    },
+
     createMeal(meal){
         alert("create meal")
         return axios.post('/createMeal',meal);
