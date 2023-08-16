@@ -83,7 +83,7 @@
             <td>{{ foodItem.foodName }}</td>
             <!-- Looking to make a checkdown box for user to input the number of servings of each food to reflect the calorie intake. Was initially {{ foodItem.foodType }} -->
             <td>
-              <select id="servingsDropDown" v-model="food.numOfServings">
+              <select id="servingsDropDown" v-model="foodItem.foodType">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -151,14 +151,16 @@ export default {
         logDay: "",
         isQuickMeal: "",
       },
-      food: {
+      food: {//Edited data object based on Myron and Jared's meeting. Will mark what was updated below.
+        mealId: "", //ADDED
         foodId: "",
+        logDay: "", //ADDED
+        calories: "", //Was on line 61 under 'servingSize'
         foodName: "",
-        foodType: "",
+        // foodType: "", This is set to null, so we don't need it
         servingSize: "",
-        calories: "",
         numOfServings: "",
-        isQuickFood: "false",
+        quickFood: false, //Changed from 'isQuickFood' to 'quickFood' due to deserialization
       },
       search: {
         foodName: "",
@@ -284,7 +286,7 @@ export default {
       if(this.selectedFood.foodId === 0){
         FoodService.addToFoods(this.food).then(response => {
         if(response.status === 201){
-          // this.successMessage = "Added to your meal!"
+          this.$router.push({name:'foodDetails'});
           }
         })
       } 
@@ -317,7 +319,7 @@ export default {
     isTableFilled(){//Inital method was this ---> return this.search.foodName && this.meal.logDay && this.food.numOfServings && this.meal.mealType
       return this.search.foodName;
     },
-    calorieIntake(){
+    totalCaloriesForFood(){
       let servings = this.food.numOfServings;
       return servings * this.selectedFood.calories;
     }
