@@ -2,7 +2,7 @@
   <div>
     <div class="line-chart" v-if="goals.length > 0">
       <div class="data-point" v-for="(goal, index) in goals" :key="index">
-        <div class="bar" :style="{ height: (goal.desiredWeight / highestDesiredWeight) * 120 + 'px' }"></div>
+        <div class="bar" :style="{ height: ((goal.desiredWeight - 100) / (highestDesiredWeight - 100) * 120) + 'px' }"></div>
         <div class="label">
           {{ goal.logDay }}
           <br>
