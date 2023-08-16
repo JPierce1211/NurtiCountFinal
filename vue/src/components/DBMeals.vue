@@ -23,6 +23,7 @@ export default {
         FoodService.getAllMeals()
         .then((response) => {
             this.mealsArray = response.data;
+            console.log("All of the meals: ", this.mealsArray);
         })
         .catch((error) => {
             console.error("Error fetching the meals:", error)
@@ -32,9 +33,9 @@ export default {
     computed: {
         quickMeals(){
             return this.mealsArray
-                .filter(meal => meal.isQuickMeal = 'True')
+                .filter(meal => meal.quickMeal == true)
                 //.sort((a,b) => new Date(b.logDay) - new Date(a.logDay))
-                .slice(0,3);
+                // .slice(-3);
         }
     }
 }

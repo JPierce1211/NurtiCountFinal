@@ -30,5 +30,11 @@ export default {
 
     getAllMeals(){
         return axios.get("/meals");
+    },
+
+    deleteFoodById(foodId){
+        return axios.delete('/meals/food/' + foodId)
     }
+
+
 }
