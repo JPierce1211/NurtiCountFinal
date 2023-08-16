@@ -57,6 +57,20 @@ public class JdbcMealsDao implements MealsDao {
         return newMeal;
     }
 
+    @Override
+    public int addFoodToMeal(int mealId) {
+        String sql = "INSERT INTO meal_food (food_id, log_day) VALUES (?, ?)";
+        try {
+            int result = jdbcTemplate.update(sql, mealId);
+            return result;
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+
+    }
+
 //    @Override
 //    public int getTotalCalories(int mealId){
 //        Meals meals = new Meals();

@@ -1,20 +1,15 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.*;
-import com.techelevator.exception.DaoException;
-import com.techelevator.model.Food;
 import com.techelevator.model.Meals;
-import com.techelevator.model.Profile;
 import com.techelevator.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.util.List;
 @CrossOrigin()
 @PreAuthorize("isAuthenticated()")
@@ -79,16 +74,29 @@ public class MealsController {
         }
 
     }
-
-//    @ResponseStatus(HttpStatus.CREATED)
-//    @PostMapping("/createMeal")
-//    public Meals createMeal(@RequestBody Meals meals, List<Food> foodInMeal) {
-//        Meals newMeal = null;
+    @PostMapping("meals/{mealId}/addFood")
+    public int addFoodToMeal(@PathVariable int mealId, @RequestBody Meals meals, Principal principal) {
+        User user = userDao.getUserByUsername(principal.getName());
+        meals.setUserId(user.getId());
+        if(meals != null){
+            return mealsDao.addFoodToMeal(mealId);
+        }
 //        try {
-//            newMeal = mealsDao.createMeal(meals, List<Food> foodInMeal);
+//            int rowsAffected = mealsDao.addFoodToMeal(mealId);
+//            if(rowsAffected > 0){
+//                Meals updatedMeal = mealsDao.getMealById(mealId);
+//                return updatedMeal;
+//            }else{
+//                return null;
+//            }
+//        }catch (DaoException e){
+//            return null;
 //        }
-//
-//    }
+
+        return mealId;
+    }
+
+
 
     @PutMapping("/meals/{mealId}")
     public Meals update(Principal principal, @RequestBody Meals updatedMeal,@PathVariable int mealId){
