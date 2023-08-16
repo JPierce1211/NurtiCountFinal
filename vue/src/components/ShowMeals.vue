@@ -3,7 +3,7 @@
     <div class="MealForm">
       <form @submit.prevent="createMealForm">
         <div class="input">
-          <label for="meal-Name"> Meal Name: </label>
+          <label for="meal-Name"> Meal Name </label>
           <input type="text" id="meal-name" v-model="meal.mealName" />
         </div>
         <div>
@@ -14,9 +14,13 @@
             <option value="Dinner">Dinner</option>
             <option value="Snack">Snack</option>
           </select>
+        <div>
+          <label for="quick meal">Quick Meal </label>
+          <input type="checkbox" id="quick meal" v-model="meal.isQuickMeal" />
+        </div>
         </div>
         <div class="input">
-          <label for="date"> Date: </label>
+          <label for="date"> Date </label>
           <input type="date" id="logDay" v-model="meal.logDay" />
         </div>
         <div class="text-description">
