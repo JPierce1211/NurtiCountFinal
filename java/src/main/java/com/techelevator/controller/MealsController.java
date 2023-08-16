@@ -1,9 +1,7 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.*;
-import com.techelevator.model.Food;
-import com.techelevator.model.Meals;
-import com.techelevator.model.User;
+import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -75,21 +73,28 @@ public class MealsController {
         }
 
     }
+
+    //create FoodMealDto with foodId and mealId and logday
     @PostMapping("meals/{mealId}/addFood")
-    public int addFoodToMeal(@PathVariable int mealId, @RequestBody Food food, @RequestBody Meals meals) {
-        mealsDao.addFoodToMeal(food.getFoodId(), meals.getLogDay(), mealId);
-        return mealId;
+    public void addFoodToMeal(@PathVariable int mealId, @RequestBody FoodMealDto foodMealDto) {
+        // add condition that handles foodId of 0; Call method for insert sql to create food entity; then run addToMeal
+        if (foodMealDto.getFoodId() == 0) {
+            FoodDto newFoodDto = new FoodDto();
+            newFoodDto.setFoodName(foodMealDto.getFoodName());
+            newFoodDto.setCalories(foodMealDto.getCalories());
+            newFoodDto.setServingSize(foodMealDto.getServingSize());
+            newFoodDto.setNumOfServings(foodMealDto.getNumOfServings());
+            newFoodDto.setQuickFood(foodMealDto.getQuickFood());
+            Food newFood = foodDao.addNewFood(newFoodDto);
+
+            foodMealDto.setFoodId(newFood.getFoodId());
         }
-    //        try {
-//            int rowsAffected = mealsDao.addFoodToMeal(mealId);
-//            if(rowsAffected > 0){
-//                Meals updatedMeal = mealsDao.getMealById(mealId);
-//                return updatedMeal;
-//            }else{
-//                return null;
-//            }
-//        }catch (DaoException e){
-//            return null;
+
+        if(foodMealDto.getFoodId() > 0){
+            mealsDao.addFoodToMeal(foodMealDto.getFoodId(), foodMealDto.getLogDay(), mealId);
+
+        }
+    }
 
 
     @PutMapping("/meals/{mealId}")

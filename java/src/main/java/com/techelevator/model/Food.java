@@ -12,16 +12,16 @@ public class Food {
     private double calories;
 
     private double numOfServings;
-    private boolean isQuickFood;
+    private boolean quickFood;
 
-    public Food(int foodId, String foodName, String foodType, double servingSize, double calories, double numOfServings, boolean isQuickFood) {
+    public Food(int foodId, String foodName, String foodType, double servingSize, double calories, double numOfServings, boolean quickFood) {
         this.foodId = foodId;
         this.foodName = foodName;
         this.foodType = foodType;
         this.servingSize = servingSize;
         this.calories = calories;
         this.numOfServings = numOfServings;
-        this.isQuickFood = isQuickFood;
+        this.quickFood = quickFood;
     }
 
     public String getFoodName() {
@@ -77,11 +77,11 @@ public class Food {
         this.numOfServings = numOfServings;
     }
 
-    public boolean isQuickFood() {
-        return isQuickFood;
+    public boolean getQuickFood() {
+        return quickFood;
     }
 
     public void setQuickFood(boolean quickFood) {
-        isQuickFood = quickFood;
+        this.quickFood = quickFood;
     }
 }

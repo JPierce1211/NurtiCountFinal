@@ -1,4 +1,5 @@
- INSERT INTO food (food_name, food_type, serving_size, calories, num_of_servings, is_quick_food)
+INSERT INTO food (food_name, food_type, serving_size, calories, num_of_servings, is_quick_food)
+
 VALUES 
 	('Chicken', 'Protein', 1, 110, 1, false),
 	('Chicken Breast', 'Protein', 1, 165, 1, false),

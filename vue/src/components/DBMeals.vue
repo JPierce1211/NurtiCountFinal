@@ -1,17 +1,46 @@
 <template>
-
-<div class="db-meals">
-    <!--
-        Within here we list a handful of suggested healthy meals. We do so based on sample data we populate the tables with
-        -->
-        <h3>
-            Meals
-        </h3>
+  <div class="db-meals">
+        <h3>Recent Quick Meals</h3>
         <ul>
-            <li>Meal one</li>
-            <li>Meal two</li>
-            <li>Meal three</li>
+            <li v-for="meal in quickMeals" :key="meal.Id">
+                {{meal.mealName}} - {{meal.description}}
+            </li>
         </ul>
 </div>
-
 </template>
+
+<script>
+import FoodService from "../services/FoodService";
+
+export default {
+    data(){
+        return {
+            mealsArray: [],
+        };
+    },
+
+    mounted(){
+        FoodService.getAllMeals()
+        .then((response) => {
+            this.mealsArray = response.data;
+        })
+        .catch((error) => {
+            console.error("Error fetching the meals:", error)
+        })
+    },
+
+    computed: {
+        quickMeals(){
+            return this.mealsArray
+                .filter(meal => meal.isQuickMeal = 'True')
+                //.sort((a,b) => new Date(b.logDay) - new Date(a.logDay))
+                .slice(0,3);
+        }
+    }
+}
+</script>
+
+<style>
+
+</style>
+
