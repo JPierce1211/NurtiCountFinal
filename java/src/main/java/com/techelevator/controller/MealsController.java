@@ -1,6 +1,7 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.*;
+import com.techelevator.model.Food;
 import com.techelevator.model.Meals;
 import com.techelevator.model.User;
 import org.springframework.http.HttpStatus;
@@ -75,13 +76,11 @@ public class MealsController {
 
     }
     @PostMapping("meals/{mealId}/addFood")
-    public int addFoodToMeal(@PathVariable int mealId, @RequestBody Meals meals, Principal principal) {
-        User user = userDao.getUserByUsername(principal.getName());
-        meals.setUserId(user.getId());
-        if(meals != null){
-            return mealsDao.addFoodToMeal(mealId);
+    public int addFoodToMeal(@PathVariable int mealId, @RequestBody Food food, @RequestBody Meals meals) {
+        mealsDao.addFoodToMeal(food.getFoodId(), meals.getLogDay(), mealId);
+        return mealId;
         }
-//        try {
+    //        try {
 //            int rowsAffected = mealsDao.addFoodToMeal(mealId);
 //            if(rowsAffected > 0){
 //                Meals updatedMeal = mealsDao.getMealById(mealId);
@@ -91,11 +90,6 @@ public class MealsController {
 //            }
 //        }catch (DaoException e){
 //            return null;
-//        }
-
-        return mealId;
-    }
-
 
 
     @PutMapping("/meals/{mealId}")
