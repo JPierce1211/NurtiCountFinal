@@ -16,7 +16,7 @@
           </select>
         <div>
           <label for="quick meal">Quick Meal </label>
-          <input type="checkbox" id="quick meal" v-model="meal.isQuickMeal" />
+          <input type="checkbox" id="quick meal" v-model="meal.isQuickMeal" v-on:change="makeQuickMeal" />
         </div>
         </div>
         <div class="input">
@@ -37,7 +37,6 @@
         </div>
       </form>
     </div>
-
     <div>
       <table>
         <thead>
@@ -46,7 +45,6 @@
             <td>Description Of All Meals</td>
           </tr>
         </thead>
-
         <tbody>
           <tr v-for="meal in mealsArray" :key="meal.mealId">
             <td>{{ meal.mealName }}</td>
@@ -61,11 +59,9 @@
     </div>
   </div>
 </template>
-
 <script>
 import FoodService from "../services/FoodService";
 //import addFood from "../component/Meals.vue";
-
 export default {
   data() {
     return {
@@ -78,11 +74,9 @@ export default {
         logDay: "",
         isQuickMeal: false,
       },
-
       mealsArray: [],
     };
   },
-
   mounted(){
       FoodService.getAllMeals()
       .then((response) => {
@@ -92,7 +86,6 @@ export default {
           console.error("Error fetching the meals:", error)
       })
   },
-
   methods: {
     createMealForm() {
       console.log("Creating meal with:", this.meal);
@@ -117,24 +110,19 @@ export default {
           console.error("Error creating the meal:", error);
         });
     },
-
       editMeal(meal) {
     this.$router.push({name:"mealDetails", params: {mealId: meal.mealId}})
     },
-
     addFood() {
     this.$router.push({ name: "foodDetails" });
     },
   },
-
     makeQuickMeal() {
-      this.meal.isQuickMeal = true; 
+      this.meal.isQuickMeal = !this.meal.isQuickMeal;
     }
 };
 </script>
-
 <style>
-
 .MealForm {
   display: flex;
   justify-content: space-between;
@@ -143,27 +131,25 @@ export default {
   gap: 10px;
   margin-right: 20px;
 }
-
 .input{
   display: flex;
   align-items: flex-start;
   margin-right: 20px;
 }
-
 .text-description{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-
 textarea{
   width:100%;
   resize: vertical;
 }
 
-
-
-
-
-
 </style>
+
+
+
+
+
+
