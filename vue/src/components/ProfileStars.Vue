@@ -2,6 +2,7 @@
   <div>
     <h4>Star Rating:</h4>
     <div class="star-rating">
+      <p> {{ this.$store.state.starRating }} </p>
       <img
         v-for="star in stars"
         :key="star"
@@ -9,6 +10,7 @@
         alt="Star"
         class="star"
       />
+      
     </div>
   </div>
 </template>
@@ -26,7 +28,7 @@ export default {
       }
     },
     starImagePath() {
-      return '@/imgs/pngs/star.jpg';
+      return require('@/imgs/pngs/star.jpg');
     },
   },
 };
@@ -39,7 +41,7 @@ export default {
 }
 
 .star {
-  width: 20px; /* Adjust the width as needed */
-  height: 20px; /* Adjust the height as needed */
+  width: 35px; /* Adjust the width as needed */
+  height: 35px; /* Adjust the height as needed */
 }
 </style>
