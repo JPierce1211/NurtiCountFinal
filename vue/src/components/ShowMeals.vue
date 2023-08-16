@@ -126,6 +126,10 @@ export default {
     this.$router.push({ name: "foodDetails" });
     },
   },
+
+    makeQuickMeal() {
+      this.meal.isQuickMeal = true; 
+    }
 };
 </script>
 
