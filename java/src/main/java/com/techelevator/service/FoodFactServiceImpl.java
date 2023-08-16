@@ -53,19 +53,12 @@ public class FoodFactServiceImpl {
         foodDto = response.getBody();
 
         Food[] food = new Food[foodDto.length];
-
+        //Loop through foodDto
         for (int i = 0; i < foodDto.length; i++){
-
+            //Pass each foodDto to mapFoodDtoToFood and return back as food
             Food foodInNewArray = mapFoodDtoToFood(foodDto[i]);
-            food[i] = foodInNewArray;
+            food[i] = foodInNewArray;//This food will be added to the food array created up top
         }
-//        for(FoodDto prop : foodDto){
-//            mapFoodDtoToFood(prop);
-//        }
-        //Loop through foodDto(foreach loop)
-        //Pass each foodDto to mapFoodDtoToFood
-        //That returns back a food
-        //That food will be added to the food array created up top
 
         return food;
     }
