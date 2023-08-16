@@ -25,10 +25,8 @@ public class FoodFactServiceImpl {
     private static final String API_NINJA_KEY = "X-Api-Key";
     private static final String API_NINJA_VALUE = "ZTiKebEmbGDPgIwUgnV3XQ==biRhU7uo94M8dOUL";
     private RestTemplate restTemplate = new RestTemplate();
-//    private String X_API_KEY = "ZTiKebEmbGDPgIwUgnV3XQ==biRhU7uo94M8dOUL";
 
     private final JdbcTemplate jdbcTemplate;
-
 
     public FoodFactServiceImpl( JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -37,7 +35,6 @@ public class FoodFactServiceImpl {
     private HttpEntity<FoodDto> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.add(API_NINJA_KEY, API_NINJA_VALUE);
-//        headers.set(API_NINJA_KEY, API_NINJA_VALUE);
         return new HttpEntity<>(headers);
     }
 
@@ -65,9 +62,7 @@ public class FoodFactServiceImpl {
 
     private Food mapFoodDtoToFood(FoodDto foodDto) {
         Food food = new Food();
-//        foodDto.setFoodId(fd.getInt("food_id"));
         food.setFoodName(foodDto.getFoodName());
-//        foodDto.setFoodType(fd.getString("food_type"));
         food.setServingSize(foodDto.getServingSize());
         food.setCalories(foodDto.getCalories());
         return food;

@@ -15,6 +15,10 @@ export default {
        return axios.get(url)
     },
 
+    addToFoods(foodItem){//Added 'saveNewFood' method from the FoodController
+        return axios.post('/meals/food', foodItem)    
+    },
+
     createMeal(meal){
         alert("create meal")
         return axios.post('/createMeal',meal);
