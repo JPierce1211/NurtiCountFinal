@@ -13,9 +13,15 @@
 </template>
 
 <script>
+import profileStars from './ProfileStars.vue';
+
 
 export default 
 {
+  components:
+    {
+      profileStars
+    },
     data()
     {
         return{

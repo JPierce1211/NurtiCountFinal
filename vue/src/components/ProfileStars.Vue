@@ -1,59 +1,45 @@
 <template>
   <div>
-    <h2><!--Title For Stars Here--></h2>
-    <ul>
-      <li v-for="(meal, index) in meals" :key="index">
-        <h3>Meal ID: {{ meal.mealId }}</h3>
-        <p>User ID: {{ meal.userId }}</p>
-        <p>Meal Type: {{ meal.mealType }}</p>
-        <p>Meal Name: {{ meal.mealName || 'No name available' }}</p>
-        <p>Meal Description: {{ meal.mealDescription || 'No description available' }}</p>
-        <p>Log Day: {{ meal.logDay }}</p>
-        <!--<p>Total Calories: {{ meal.totalCalories }}</p>-->
-        <p>Quick Meal: {{ meal.quickMeal ? 'Yes' : 'No' }}</p>
-      </li>
-    </ul>
+    <h4>Star Rating:</h4>
+    <div class="star-rating">
+      <img
+        v-for="star in stars"
+        :key="star"
+        :src="starImagePath"
+        alt="Star"
+        class="star"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import mealService from "../services/MealService.js";
-
-export default 
-{
-  data() 
-  {
-    return {
-      meals: []
-    };
+export default {
+  computed: {
+    stars() {
+      const starCount = this.$store.state.starRating;
+      console.log("star Rating is " + starCount);
+      if (starCount <= 5) {
+        return Array(starCount).fill(null);
+      } else {
+        return [null];
+      }
+    },
+    starImagePath() {
+      return 'src/imgs/pngs/star.jpg';
+    },
   },
-  mounted() 
-  {
-    // const response = mealService.getMeal();
-
-    // if(response && response.data)
-    //   {
-    //     this.meal = response.data; 
-    //   }
-    // else
-    //   {
-    //     console.log("Error fetching meals:");
-    //   }
-
-      mealService.getMeals()
-        .then(response => {
-          this.meals = response.data;
-          console.log('here is the meals object' + this.meals);
-        })
-        .catch(error => {
-          console.log("Error fetching meals:", error);
-        });
-  }
 };
 </script>
 
 <style scoped>
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+}
 
-    
-
+.star {
+  width: 20px; /* Adjust the width as needed */
+  height: 20px; /* Adjust the height as needed */
+}
 </style>
