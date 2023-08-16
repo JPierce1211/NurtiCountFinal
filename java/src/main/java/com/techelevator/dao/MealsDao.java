@@ -9,6 +9,7 @@ import java.util.List;
 public interface MealsDao{
     List<Meals> findAll(int userId);
     Meals createMeal(Meals meals);
+    int addFoodToMeal(int mealId);
     // int getTotalCalories(int mealId);
     Meals getMealById(int userId);
     int deleteMealById(int mealId);

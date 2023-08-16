@@ -9,19 +9,81 @@
                 <p class="chart-date">Date#1</p>
                 <p class="chart-weight">185 lbs</p>
                 <div class="outline">
+                    <!-- <div class="level" :style="{ width: $store.state.divWidth + 'px' }" >  
+                        
+                    </div> -->
+                </div>
+            </div>
+                        <div class="weight-box">
+                <p class="chart-date">Date#1</p>
+                <p class="chart-weight">185 lbs</p>
+                <div class="outline">
                     <div class="level">
                         
                     </div>
                 </div>
             </div>
-            
+                        <div class="weight-box">
+                <p class="chart-date">Date#1</p>
+                <p class="chart-weight">185 lbs</p>
+                <div class="outline">
+                    <div class="level">
+                        
+                    </div>
+                </div>
+            </div>
+                        <div class="weight-box">
+                <p class="chart-date">Date#1</p>
+                <p class="chart-weight">185 lbs</p>
+                <div class="outline">
+                    <div class="level">
+                        
+                    </div>
+                </div>
+            </div>
+                        <div class="weight-box">
+                <p class="chart-date">Date#1</p>
+                <p class="chart-weight">185 lbs</p>
+                <div class="outline">
+                    <div class="level">
+                        
+                    </div>
+                </div>
+            </div>
+                        <div class="weight-box">
+                <p class="chart-date">Date#1</p>
+                <p class="chart-weight">185 lbs</p>
+                <div class="outline">
+                    <div class="level">
+                        
+                    </div>
+                </div>
+            </div>
+                        <div class="weight-box">
+                <p class="chart-date">Date#1</p>
+                <p class="chart-weight">185 lbs</p>
+                <div class="outline">
+                    <div class="level">
+                        
+                    </div>
+                </div>
+            </div>
+                        <div class="weight-box">
+                <p class="chart-date">Date#1</p>
+                <p class="chart-weight">185 lbs</p>
+                <div class="outline">
+                    <div class="level">
+                        
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 
-    
+
 
 </script>
 

@@ -64,12 +64,12 @@ export default {
                 { 
                   if (profileResponse.data.profileId === null || profileResponse.data.profileId === undefined) 
                   { 
-
                     this.$router.push("/createProfile/");
                   } 
                   else 
                   {
-                    this.$store.commit("SET_PROFILE_ID", profileResponse.data.profileId); 
+                    //console.log("this is the profile info", profileResponse.data);
+                    this.$store.commit("SET_PROFILE", profileResponse.data); 
                     this.$router.push("/");
                   }
                 }
