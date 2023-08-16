@@ -34,6 +34,10 @@ export default {
 
     deleteFoodById(foodId){
         return axios.delete('/meals/food/' + foodId)
+    },
+
+    updateMeal(mealId){
+        return axios.put(`/meals/` + mealId)
     }
 
 
