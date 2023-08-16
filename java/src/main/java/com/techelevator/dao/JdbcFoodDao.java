@@ -25,7 +25,7 @@ public class JdbcFoodDao implements FoodDao {
         Food newFood = null;
         String sql = "INSERT INTO food (food_name, food_type, serving_size, calories, num_of_servings, is_quick_food) VALUES (?, ?, ?, ?, ?, ?) RETURNING food_id";
         try {
-            int foodId = jdbcTemplate.queryForObject(sql, int.class, food.getFoodName(), food.getFoodType(), food.getServingSize(), food.getCalories(), food.getNumOfServings(), food.isQuickFood());
+            int foodId = jdbcTemplate.queryForObject(sql, int.class, food.getFoodName(), food.getFoodType(), food.getServingSize(), food.getCalories(), food.getNumOfServings(), food.getQuickFood());
             newFood = getFoodById(foodId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);

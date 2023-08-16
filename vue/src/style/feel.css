@@ -28,6 +28,12 @@ body
     text-align: center;
 }
 
+.center-content
+{
+    display: block;
+    margin: auto;
+}
+
 .content 
 {
     width: 768px;
@@ -56,6 +62,11 @@ body
 .banner > img 
 {
     max-width: 600px;
+}
+
+hr
+{
+    width: 70%;
 }
 
 .nav-item 
@@ -138,7 +149,7 @@ button, .text-box
     font-family: 'ncFont', Arial, sans-serif;
     text-align: center;
     text-decoration: none;
-    transition: background-color 1s ease, color 1s ease, font-weight 1s ease, border 1s ease;
+    transition: background-color 1s ease, color 1s ease, font-weight 1s ease;
 }
 
 button
