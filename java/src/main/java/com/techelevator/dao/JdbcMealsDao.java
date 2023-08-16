@@ -122,9 +122,9 @@ public class JdbcMealsDao implements MealsDao {
     @Override
     public Meals updateMealsById(Meals meals, int id) {
         Meals updateMeals = null;
-        String sql = "UPDATE meals SET meal_type = ?, log_day = ?, is_quick_meal = ? WHERE meal_id = ?";
+        String sql = "UPDATE meals SET meal_type = ?, meal_name = ?, meal_description = ?, log_day = ?, is_quick_meal = ? WHERE meal_id = ?";
         try {
-            int rowsAffected = jdbcTemplate.update(sql, meals.getMealType(), meals.getLogDay(), meals.isQuickMeal(), id);
+            int rowsAffected = jdbcTemplate.update(sql, meals.getMealType(), meals.getMealName(), meals.getMealDescription(), meals.getLogDay(), meals.isQuickMeal(), id);
             if (rowsAffected == 0) {
                 throw new DaoException("Zero rows affected, expected at least one");
             }
