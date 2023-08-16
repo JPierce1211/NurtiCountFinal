@@ -62,10 +62,13 @@ export default {
         // }
 
         deleteMeal(){
+            console.log("deleteMeal method called")
             MealService.deleteMeal(this.mealDetails.mealId)
             .then(response => {
+                console.log("response from server:", response)
                 if (response.status === 204){
-                this.$router.push({name: 'showMeals'});
+                    console.log("trying to navigate back")
+                this.$router.back();
                 } else {
                     this.error ="Can Not Delete! Try Again"
                 }
