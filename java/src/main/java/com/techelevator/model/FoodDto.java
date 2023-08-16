@@ -10,6 +10,8 @@ public class FoodDto {
     @JsonProperty("serving_size_g")
     private int servingSize;
     private Double calories;
+    private int numOfServings;
+    private boolean quickFood;
 
     public int getFoodId() {
         return foodId;
@@ -51,6 +53,21 @@ public class FoodDto {
         this.calories = calories;
     }
 
+    public int getNumOfServings() {
+        return numOfServings;
+    }
+
+    public void setNumOfServings(int numOfServings) {
+        this.numOfServings = numOfServings;
+    }
+
+    public boolean getQuickFood() {
+        return quickFood;
+    }
+
+    public void setQuickFood(boolean quickFood) {
+            quickFood = quickFood;
+    }
 
     @Override
     public String toString() {
@@ -60,6 +77,7 @@ public class FoodDto {
                 ", foodType='" + foodType + '\'' +
                 ", servingSize=" + servingSize +
                 ", calories=" + calories +
+                ", numOfServings=" + numOfServings +
                 '}';
     }
 }
