@@ -6,7 +6,7 @@
       <br />
       <h4>{{ $store.state.profile.displayName }}'s Height:</h4>
       <p>
-        {{ $store.state.profile.height }}
+        {{ $store.state.profile.height }} Inches
       </p>
       <br />
       <h4>{{ $store.state.profile.displayName }}'s Weight:</h4>
