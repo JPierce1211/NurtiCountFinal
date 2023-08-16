@@ -2,9 +2,9 @@
   <div>
     <div class="MealForm">
       <form @submit.prevent="createMealForm">
-        <div>
+        <div class="input">
           <label for="meal-Name"> Meal Name: </label>
-          <input type="text" v-model="meal.mealName" />
+          <input type="text" id="meal-name" v-model="meal.mealName" />
         </div>
         <div>
           <label for="meal-type">Meal Type </label>
@@ -15,15 +15,16 @@
             <option value="Snack">Snack</option>
           </select>
         </div>
-        <div>
+        <div class="input">
           <label for="date"> Date: </label>
           <input type="date" id="logDay" v-model="meal.logDay" />
         </div>
-        <div>
+        <div class="text-description">
           <label for="meal-description"> Meal Description: </label>
           <textarea
             v-model="meal.mealDescription"
             placeholder="Write a description for Your Meal"
+            id="description"
           ></textarea>
         </div>
         <div>
@@ -125,4 +126,36 @@ export default {
 </script>
 
 <style>
+
+.MealForm {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-right: 20px;
+}
+
+.input{
+  display: flex;
+  align-items: flex-start;
+  margin-right: 20px;
+}
+
+.text-description{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+textarea{
+  width:100%;
+  resize: vertical;
+}
+
+
+
+
+
+
 </style>
