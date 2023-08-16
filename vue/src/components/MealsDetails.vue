@@ -4,7 +4,7 @@
       <h1 id="title">Meal Details</h1>
       <p id="meal-name">Meal Name: {{ mealDetails.mealName }}</p>
       <p id="meal-type">Meal Type: {{ mealDetails.mealType }}</p>
-      <p id="meal-quickMeal"> Is This Meal a Quick Meal?: {{mealDetails.quickMeal}}
+      <p id="meal-quickMeal"> Is This Meal a Quick Meal? {{mealDetails.quickMeal}}
       <p id="meal-date">Date: {{ mealDetails.logDay }}</p>
       <p id="meal-description">
         Description: {{ mealDetails.mealDescription }}
@@ -23,7 +23,7 @@
       </div>
       <div class="meal-actions">
         <p class="error-message">{{ error }}</p>
-        <button @click="editMeal">Edit Meal</button>
+        <button @click="$router.push({name: 'editMeal'})">Edit Meal</button>
         <button @click="deleteMeal">Delete Meal</button>
         <button @click="$router.push({name:'showMeals'})"> Show All Meals </button>
       </div>

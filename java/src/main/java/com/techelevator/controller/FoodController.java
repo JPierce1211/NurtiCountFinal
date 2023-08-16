@@ -58,6 +58,19 @@ public class FoodController {
         return foodItem;
     }
 
+    @GetMapping("/mealFood/{mealId}")
+    public List<Food> listFoodMeals(@PathVariable int mealId) {
+        List<Food> allFood;
+        try {
+            allFood = foodDao.getFoodByMealId(mealId);
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (allFood == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Food item not found");
+        } return allFood;
+    }
+
     @DeleteMapping("/{foodId}")
     public void deleteFoodById(@PathVariable int foodId) {
         try {

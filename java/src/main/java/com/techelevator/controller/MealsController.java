@@ -99,6 +99,8 @@ public class MealsController {
 
     @PutMapping("/meals/{mealId}")
     public Meals update(Principal principal, @RequestBody Meals updatedMeal,@PathVariable int mealId){
+        User user = userDao.getUserByUsername(principal.getName());
+        updatedMeal.setUserId(user.getId());
         Meals newMeal = mealsDao.updateMealsById(updatedMeal, mealId);
         return newMeal;
 

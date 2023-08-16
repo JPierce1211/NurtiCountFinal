@@ -19,8 +19,8 @@ export default {
         return axios.post('/meals/food', foodItem)    
     },
 
-    addFoodToMeal(meal){//Added 'addFoodToMeal' in the MealsController
-        return axios.post(`meals/${meal.id}/addFood`, meal)
+    addFoodToMeal(foodmealdto){//Added 'addFoodToMeal' in the MealsController
+        return axios.post(`meals/${foodmealdto.mealId}/addFood`, foodmealdto)
     },
 
     createMeal(meal){
@@ -36,8 +36,14 @@ export default {
         return axios.get("/meals");
     },
 
+    //getfoodbyId
+
     deleteFoodById(foodId){
         return axios.delete('/meals/food/' + foodId)
+    },
+
+    updateMeal(mealId){
+        return axios.put(`/meals/` + mealId)
     }
 
 

@@ -13,6 +13,7 @@ import FoodDetails from '../components/FoodDetails.vue'
 //import showFood from '../components/Meals.vue'
 import progress from '../views/Progress.vue'
 import MealsDetails from '../components/MealsDetails.vue'
+import EditMeal from '../components/EditMeal.vue'
 
 Vue.use(Router)
 
@@ -92,7 +93,7 @@ const router = new Router({
       component: meal,
     },
     {
-      path:"/myMeal/food-details",
+      path:"/myMeal/:mealId/food-details",
       name:"foodDetails",
       component: FoodDetails
     },
@@ -105,6 +106,11 @@ const router = new Router({
       path: "/myMeal/meal-detail:mealId",
       name:"mealDetails",
       component:MealsDetails
+    },
+    {
+      path: "/myMeal/meal-detail:mealId/edit",
+      name:"editMeal",
+      component: EditMeal
     }
   ]
 })

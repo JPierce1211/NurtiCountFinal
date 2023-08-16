@@ -13,20 +13,20 @@ public class Meals {
 
     private String logDay;
 
-    private boolean isQuickMeal;
-    // private int totalCalories;
+    private boolean quickMeal;
+    private int totalCalories;
 
     public Meals() {};
 
-    public Meals(int mealId, int userId, String mealType, String mealName, String mealDescription, String logDay, boolean isQuickMeal) {
+    public Meals(int mealId, int userId, String mealType, String mealName, String mealDescription, String logDay, boolean quickMeal) {
         this.mealId = mealId;
         this.userId = userId;
         this.mealType = mealType;
         this.mealName = mealName;
         this.mealDescription = mealDescription;
         this.logDay = logDay;
-        this.isQuickMeal = isQuickMeal;
-        //this.totalCalories = totalCalories;
+        this.quickMeal = quickMeal;
+        this.totalCalories = totalCalories;
 
     }
 
@@ -78,21 +78,21 @@ public class Meals {
         this.logDay = logDay;
     }
 
-    public boolean isQuickMeal() {
-        return isQuickMeal;
+    public boolean getQuickMeal() {
+        return quickMeal;
     }
 
     public void setQuickMeal(boolean quickMeal) {
-        isQuickMeal = quickMeal;
+        quickMeal = quickMeal;
     }
 
-//    public int getTotalCalories() {
-//        return totalCalories;
-//    }
-//
-//    public void setTotalCalories(int totalCalories) {
-//        this.totalCalories = totalCalories;
-//    }
+    public int getTotalCalories() {
+        return totalCalories;
+    }
+
+    public void setTotalCalories(int totalCalories) {
+        this.totalCalories = totalCalories;
+    }
 
     public void addNewFood(Food food) {
     }

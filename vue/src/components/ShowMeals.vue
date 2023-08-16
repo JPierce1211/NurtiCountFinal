@@ -51,7 +51,7 @@
             <td>{{ meal.mealDescription }}</td>
             <td>
               <button @click="editMeal(meal)">Meal Details</button>
-              <button @click="addFood()">Add Food</button>
+              <button @click="addFood(meal)">Add Food</button>
             </td>
           </tr>
         </tbody>
@@ -113,8 +113,10 @@ export default {
       editMeal(meal) {
     this.$router.push({name:"mealDetails", params: {mealId: meal.mealId}})
     },
-    addFood() {
-    this.$router.push({ name: "foodDetails" });
+
+    addFood(meal) {
+      console.log("Meal Id is: ", meal.mealId);
+    this.$router.push({ name: "foodDetails", params: {mealId: meal.mealId} });
     },
   },
     makeQuickMeal() {
