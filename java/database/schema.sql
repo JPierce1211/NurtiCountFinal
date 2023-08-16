@@ -51,7 +51,7 @@ CREATE TABLE food (
 );
 
 CREATE TABLE meal_food(
-	meal_id int REFERENCES meals(meal_id),
+	meal_id serial REFERENCES meals(meal_id),
 	food_id int REFERENCES food(food_id),
 	log_day varchar(10) NOT NULL,
 	CONSTRAINT PK_meal_foods PRIMARY KEY (meal_id, food_id)

@@ -140,7 +140,7 @@ h3
 .level
 {
     background: #5b695d;
-    height: 10px;
+    height: 3px;
 }
 
 </style>

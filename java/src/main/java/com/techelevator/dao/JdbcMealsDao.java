@@ -58,10 +58,10 @@ public class JdbcMealsDao implements MealsDao {
     }
 
     @Override
-    public int addFoodToMeal(int mealId) {
-        String sql = "INSERT INTO meal_food (food_id, log_day) VALUES (?, ?)";
+    public int addFoodToMeal(int foodId, String logDay, int meal_id) {
+        String sql = "INSERT INTO meal_food (food_id, log_day) VALUES (?, ?) WHERE meal_id = ?";
         try {
-            int result = jdbcTemplate.update(sql, mealId);
+            int result = jdbcTemplate.update(sql, foodId, logDay, meal_id);
             return result;
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
