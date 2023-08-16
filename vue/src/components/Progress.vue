@@ -1,146 +1,111 @@
 <template>
-    <div>
-        <div class="center-content">
-            <h3>
-                Weight Loss Progress (2 week span)
-            </h3>
-
-            <div class="weight-box">
-                <p class="chart-date">Date#1</p>
-                <p class="chart-weight">185 lbs</p>
-                <div class="outline">
-                    <!-- <div class="level" :style="{ width: $store.state.divWidth + 'px' }" >  
-                        
-                    </div> -->
-                </div>
-            </div>
-                        <div class="weight-box">
-                <p class="chart-date">Date#1</p>
-                <p class="chart-weight">185 lbs</p>
-                <div class="outline">
-                    <div class="level">
-                        
-                    </div>
-                </div>
-            </div>
-                        <div class="weight-box">
-                <p class="chart-date">Date#1</p>
-                <p class="chart-weight">185 lbs</p>
-                <div class="outline">
-                    <div class="level">
-                        
-                    </div>
-                </div>
-            </div>
-                        <div class="weight-box">
-                <p class="chart-date">Date#1</p>
-                <p class="chart-weight">185 lbs</p>
-                <div class="outline">
-                    <div class="level">
-                        
-                    </div>
-                </div>
-            </div>
-                        <div class="weight-box">
-                <p class="chart-date">Date#1</p>
-                <p class="chart-weight">185 lbs</p>
-                <div class="outline">
-                    <div class="level">
-                        
-                    </div>
-                </div>
-            </div>
-                        <div class="weight-box">
-                <p class="chart-date">Date#1</p>
-                <p class="chart-weight">185 lbs</p>
-                <div class="outline">
-                    <div class="level">
-                        
-                    </div>
-                </div>
-            </div>
-                        <div class="weight-box">
-                <p class="chart-date">Date#1</p>
-                <p class="chart-weight">185 lbs</p>
-                <div class="outline">
-                    <div class="level">
-                        
-                    </div>
-                </div>
-            </div>
-                        <div class="weight-box">
-                <p class="chart-date">Date#1</p>
-                <p class="chart-weight">185 lbs</p>
-                <div class="outline">
-                    <div class="level">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div class="prog-content">
+      <div>
+          <!-- Bar Chart -->
+          <DBWieghtChart />
+      </div>
+      <div>
+          <!-- Form -->
+          <progress-form />
+      </div>
+    <button @click="fetchMyGoals" class="center-content">See All Entries</button>
+    <div v-for="(goal, index) in goals" :key="index">
+        <p class="prog-label">
+          Date (Year-Month-Day)
+        </p> 
+        <p class="prog-value">
+            {{ goal.logDay }}
+        </p>
+        <p class="prog-label">
+            Weight (lbs)
+        </p> 
+        <p class="prog-value">
+            {{ goal.desiredWeight }}
+        </p>
+        <p class="prog-label">
+            BMI index
+        </p> 
+        <p class="prog-value">
+            {{ goal.bmi }}
+        </p>
+      
+      <hr>
+    </div>  
+  </div>
 </template>
 
 <script>
+import ProgressServices from '../services/ProgressService';
+import DBWieghtChart from './DBWieghtChart.vue';
+import ProgressForm from './ProgressForm.vue';
 
 
+export default {
+    name: 'Progress',
 
+    components:
+        {
+            DBWieghtChart,
+            ProgressForm,
+        },
+
+    data() {
+        return {
+        goals: [] // Store the fetched goals here
+        };
+    },
+    methods: 
+        {
+            async fetchMyGoals() 
+                {
+                try 
+                    {
+                        const response = await ProgressServices.getMyGoals();
+                        this.goals = response.data;
+                        console.log(this.goals);
+
+                    }
+                        catch (error) 
+                    {
+                        console.error(error);
+                    }
+                }
+            }
+};
 </script>
+
+
 
 <style scoped>
 
-.center-content
+.prog-content
 {
-    width: 90%;
-    position: relative; 
-    padding: 20px;
-    background: #fff;
-    font-weight: bolder;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin: 40px;
 }
 
-h3
+.prog-label 
 {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    margin-left: 100px;
+    font-size: 10pt; 
+    font-style: italic;
+    color: #5b695d;
 }
 
-.weight-box
+.prog-value 
 {
-    box-sizing: border-box;
-    width: 100%;
-    margin: 20px 0;
+    margin-left: 400px; 
 }
-
-.chart-date
-{
-    color: #000;
-    text-transform: uppercase;
-    margin: 0 0 10px;
-    padding: 0;
-    letter-spacing: 1px;
-}
-
-.chart-weight
-{
-    float: right;
-    position: relative;
-    top: -25%
-}
-
-.outline
-{
-    background: #262626;
-    padding: 4px;
-    box-sizing: border-box;
-    border: 1px solid #5b695d;
-    border-radius: 0px;
-}
-
-.level
-{
-    background: #5b695d;
-    height: 3px;
-}
-
 </style>
+
+
+
+
+
+
+
+

@@ -24,7 +24,9 @@
 
           <DBWieghtChart />
           <!-- Insert Dynamic content (bar chart of pounds lost) that leads to the progress endpoint -->
-
+          <div class="graph-button">
+            <router-link class="nav-item" v-bind:to="{ name: 'progress' }">See All Progress</router-link>
+          </div>
         </div>
 
 
@@ -59,6 +61,13 @@ export default {
 </script>
 
 <style scoped>
+
+.graph-button
+{
+  display: flex;
+  justify-content: center;
+  margin: 40px;
+}
 
 .dashboard
 {
