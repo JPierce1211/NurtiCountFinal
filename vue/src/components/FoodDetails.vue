@@ -11,7 +11,7 @@
           <tr>
             <!-- <th>Date</th>
             <th>Meal Type</th> -->
-            <th>Number Of Servings</th>
+            <!-- <th>Number Of Servings</th> -->
             <!-- test if our database can search multiple strings  -->
             <th>Food Search</th>
             <!-- <th>Search Food</th> -->
@@ -31,17 +31,17 @@
                 <option value="Snack">Snack</option>
               </select>
             </td> -->
-            <td>
-              <input
+            <!-- <td> -->
+              <!-- <input
                 type="text"
                 id="numOfServings"
                 v-model="food.numOfServings"
                 min="1"
-              />
-            </td>
+              /> -->
+            <!-- </td> -->
             <td>
-              <label for="foodFilter">Enter a specific food name, including cooking style: </label>
-              <input type="text" id="foodFilter" v-model="search.foodName" placeholder="e.g Grilled Chicken Breast"/>
+              <label for="foodFilter">Enter specific food names, including cooking style: </label>
+              <input type="text" id="foodFilter" class="searchbar" v-model="search.foodName" placeholder="e.g Grilled Chicken Breast"/>
             </td>
             <!-- <td>
                    <select id="quickMealFilter" v-model="search.isQuickMeal"/>
@@ -51,7 +51,7 @@
             <td>
               <!-- when this button is hit then it should be add to the meal's array/table -->
               <!-- need a is loading method might take this out -->
-              <p class="tblfill-error">{{tableFilledError}}</p>
+              <!-- <p class="tblfill-error">{{tableFilledError}}</p> -->
               <!-- :disabled="!isTableFilled" -->
               <button v-on:click="searchFood" >Search Food</button>
             </td>
@@ -70,7 +70,7 @@
         <thead>
           <tr>
             <th>Food Name</th>
-            <th>Food Type</th>
+            <th>Num. of Servings</th> <!--This was Food Type, orignally. -->
             <th>Serving Size</th>
             <th>Calories</th>
             <th>Quick Food?</th>
@@ -81,7 +81,21 @@
           <tr v-for="foodItem in selectedFood" :key="foodItem.foodId">
             <!-- will need a v-for to show multiple results if going down that route -->
             <td>{{ foodItem.foodName }}</td>
-            <td>{{ foodItem.foodType }}</td>
+            <!-- Looking to make a checkdown box for user to input the number of servings of each food to reflect the calorie intake. Was initially {{ foodItem.foodType }} -->
+            <td>
+              <select id="servingsDropDown" v-model="food.numOfServings">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </td>
             <td>{{ foodItem.servingSize }}</td>
             <td>{{ foodItem.calories }}</td>
             <td>
@@ -114,24 +128,7 @@ import FoodService from '../services/FoodService';
 export default {
   data() {
     return {
-      selectedFood: [
-      //    {
-      //    foodId: "1",
-      //   foodName: "Grilled Chicken Breast",
-      //    foodType: "Protein",
-      //    servingSize: "150g",
-      //    calories: "165",
-      //    numOfServings: "1",
-      //  },
-      //  {
-      //     foodId: "2",
-      //    foodName: "BBQ Chicken",
-      //    foodType: "Protein",
-      //   servingSize: "150g",
-      //   calories: "165",
-      //   numOfServings: "1",
-      // }
-      ],
+      selectedFood: [],
       //change to false if not hardcoding
       showTable: false,
 
@@ -254,8 +251,8 @@ export default {
     //if (!this.meal.logDay || !this.meal.mealType || !this.food.numOfServings || !this.search.foodName)
 
     checkingTableForm(){
-      if (!this.food.numOfServings || !this.search.foodName) {
-        this.tableFilledError = "All fields must be filled out."; //this error is not working (It works for me. - Juan)
+      if (!this.search.foodName) {
+        this.tableFilledError = "Please search a food."; //this error is not working (It works for me. - Juan)
         return false;
       }
         this.tableFilledError = "";
@@ -284,10 +281,10 @@ export default {
     }, 
 
     saveFoods(){
-      if(this.food.foodId === 0){
+      if(this.selectedFood.foodId === 0){
         FoodService.addToFoods(this.food).then(response => {
         if(response.status === 201){
-          this.successMessage = "Added to your meal!"
+          // this.successMessage = "Added to your meal!"
           }
         })
       } 
@@ -317,8 +314,12 @@ export default {
   },
 
   computed: {
-    isTableFilled(){
-      return this.search.foodName && this.meal.logDay && this.food.numOfServings && this.meal.mealType;
+    isTableFilled(){//Inital method was this ---> return this.search.foodName && this.meal.logDay && this.food.numOfServings && this.meal.mealType
+      return this.search.foodName;
+    },
+    calorieIntake(){
+      let servings = this.food.numOfServings;
+      return servings * this.selectedFood.calories;
     }
 
   },
@@ -330,7 +331,7 @@ export default {
 
 <style>
 
-#title {
+#title{
   text-align: center;
 }
 
@@ -338,6 +339,14 @@ p.error {
   text-align: center;
   font-weight: bolder;
   font-style: italic;
+}
+
+#tblhead {
+  text-align: center;
+}
+
+.searchbar {
+  width: 500px;
 }
 
 </style>
