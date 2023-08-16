@@ -43,7 +43,7 @@ public class JdbcMealsDao implements MealsDao {
         Meals newMeal = null;
         String sql = "INSERT INTO meals (user_id, meal_type, meal_name, meal_description, log_day, is_quick_meal) VALUES (?, ?, ?, ?, ?, ?) RETURNING meal_id";
         try {
-            int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getUserId(), meals.getMealType(), meals.getMealName(), meals.getMealDescription(), meals.getLogDay(), meals.isQuickMeal());
+            int mealId = jdbcTemplate.queryForObject(sql, int.class, meals.getUserId(), meals.getMealType(), meals.getMealName(), meals.getMealDescription(), meals.getLogDay(), meals.getQuickMeal());
             newMeal = getMealById(mealId);
 //            String fSql = "INSERT INTO meal_food (meal_id, food_id) VALUES (?, ?)";
 //            for (Food food : foodList) {
@@ -124,7 +124,7 @@ public class JdbcMealsDao implements MealsDao {
         Meals updateMeals = null;
         String sql = "UPDATE meals SET meal_type = ?, meal_name = ?, meal_description = ?, log_day = ?, is_quick_meal = ?, total_calories = ? WHERE meal_id = ?";
         try {
-            int rowsAffected = jdbcTemplate.update(sql, meals.getMealType(), meals.getMealName(), meals.getMealDescription(), meals.getLogDay(), meals.isQuickMeal(), meals.getTotalCalories(), id);
+            int rowsAffected = jdbcTemplate.update(sql, meals.getMealType(), meals.getMealName(), meals.getMealDescription(), meals.getLogDay(), meals.getQuickMeal(), meals.getTotalCalories(), id);
             if (rowsAffected == 0) {
                 throw new DaoException("Zero rows affected, expected at least one");
             }
