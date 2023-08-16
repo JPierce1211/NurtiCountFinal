@@ -40,10 +40,11 @@ CREATE TABLE meals(
 	total_calories decimal NULL
 );
 
+
 CREATE TABLE food (
 	food_id serial PRIMARY KEY,
 	food_name varchar(100) NOT NULL,
-	food_type varchar(50) NOT NULL,
+	food_type varchar(50) NULL,
 	serving_size decimal NOT NULL,
 	calories decimal NOT NULL,
 	num_of_servings decimal NOT NULL,
@@ -54,8 +55,10 @@ CREATE TABLE meal_food(
 	meal_id int REFERENCES meals(meal_id),
 	food_id int REFERENCES food(food_id),
 	log_day varchar(10) NOT NULL,
-	CONSTRAINT PK_meal_foods PRIMARY KEY (meal_id, food_id)
+	CONSTRAINT PK_meal_foods PRIMARY KEY (meal_id, food_id, log_day)
 );
+
+
 
 CREATE TABLE profile_img (
 	profile_pic_id serial,
