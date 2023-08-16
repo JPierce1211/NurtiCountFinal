@@ -48,7 +48,7 @@
             <td>{{ meal.mealDescription }}</td>
             <td>
               <button @click="editMeal(meal)">Meal Details</button>
-              <button @click="addFood()">Add Food to Meal</button>
+              <button @click="addFood()">Add Food</button>
             </td>
           </tr>
         </tbody>
