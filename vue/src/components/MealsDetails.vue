@@ -17,6 +17,7 @@
                 <button @click="deleteFood(food.id)"> Delete Food </button>
           </div>
           <div class="meal-actions">
+              <p class="error-message">{{error}}</p>
               <button @click="deleteMeal">Delete Meal</button>
               <button @click="showAllMeals"> Show All Meals </button> 
           </div>   
@@ -26,12 +27,15 @@
 
 <script>
 import FoodService from '../services/FoodService';
+import MealService from '../services/MealService';
 export default {
     data(){
         return {
             mealDetails: {},
 
             foods:[],
+
+            error: ""
         }
     },
 
@@ -58,7 +62,17 @@ export default {
         // }
 
         deleteMeal(){
-            
+            MealService.deleteMeal(this.mealDetails.mealId)
+            .then(response => {
+                if (response.status === 204){
+                this.$router.push({name: 'showMeals'});
+                } else {
+                    this.error ="Can Not Delete! Try Again"
+                }
+            })
+            .catch(error => {
+                console.error("Error deleting meal: ", error)
+            });
         }
     }
 }
