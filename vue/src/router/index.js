@@ -108,7 +108,7 @@ const router = new Router({
       component:MealsDetails
     },
     {
-      path: "/myMeal/meal-detail:mealId/edit",
+      path: "/myMeal/meal-detail/:mealId/edit",
       name:"editMeal",
       component: EditMeal
     }

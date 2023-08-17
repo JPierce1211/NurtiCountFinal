@@ -42,8 +42,8 @@ export default {
         return axios.delete('/meals/food/' + foodId)
     },
 
-    updateMeal(mealId){
-        return axios.put(`/meals/` + mealId)
+    updateMeal(mealId, updatedMeal){
+        return axios.put(`/meals/` + mealId, updatedMeal)
     }
 
 

@@ -4,7 +4,9 @@
       <h1 id="title">Meal Details</h1>
       <p id="meal-name">Meal Name: {{ mealDetails.mealName }}</p>
       <p id="meal-type">Meal Type: {{ mealDetails.mealType }}</p>
-      <p id="meal-quickMeal"> Is This Meal a Quick Meal? {{mealDetails.quickMeal}}
+      <p id="meal-quickMeal">
+        Is This Meal a Quick Meal? {{ mealDetails.quickMeal }}
+      </p>
       <p id="meal-date">Date: {{ mealDetails.logDay }}</p>
       <p id="meal-description">
         Description: {{ mealDetails.mealDescription }}
@@ -13,8 +15,8 @@
     <div class="food-details">
       <h2 class="food-title">Foods</h2>
       <div v-for="food in foods" :key="food.id">
-        <p class="food-name">Food Name: {{ food.name }}</p>
-        <p class="food-type">Food Type: {{ food.type }}</p>
+        <p class="food-name">Food Name: {{ food.foodName }}</p>
+        <p class="food-type">Food Type: {{ food.foodType }}</p>
         <p class="food-servingSize">Serving Size: {{ food.servingSize }}</p>
         <p class="food-numOfCalories">
           Number Of Calories: {{ food.calories }}
@@ -23,9 +25,11 @@
       </div>
       <div class="meal-actions">
         <p class="error-message">{{ error }}</p>
-        <button @click="$router.push({name: 'editMeal'})">Edit Meal</button>
+        <button @click="$router.push({ name: 'editMeal' })">Edit Meal</button>
         <button @click="deleteMeal">Delete Meal</button>
-        <button @click="$router.push({name:'showMeals'})"> Show All Meals </button>
+        <button @click="$router.push({ name: 'showMeals' })">
+          Show All Meals
+        </button>
       </div>
     </div>
   </div>
@@ -47,11 +51,11 @@ export default {
 
   created() {
     const mealId = this.$route.params.mealId;
-    // this.getMealDetails(mealId);
     // this.getFoodsDetails(mealId);
     FoodService.getMealDetails(mealId)
       .then((response) => {
         this.mealDetails = response.data;
+        this.getFoodsDetails();
       })
       .catch((error) => {
         console.error("Error fetching the meal details:", error);
@@ -59,13 +63,15 @@ export default {
   },
 
   methods: {
-    // getMealDetails(mealId){
-
-    // },
-
-    // getFoodsDetails(mealId){
-
-    // }
+    getFoodsDetails(){
+        MealService.getFoodMeals(this.mealDetails.mealId)
+        .then(response => {
+            this.foods = response.data;
+        })
+        .catch(error => [
+            console.error("Error fetching foods for meal:", error)
+        ])
+    },
 
     deleteMeal() {
       console.log("deleteMeal method called");
@@ -81,15 +87,10 @@ export default {
         })
         .catch((error) => {
           console.error("Error deleting meal: ", error);
-        });
+        })
     },
 
-    // showMeal(){
-    //     this.$route.push({name:"showMeals"})
-    // }
-  },
-
-    deleteFood() {
+     deleteFood(){
       console.log("deleteFood method called");
       MealService.deleteFoodById(this.food.foodId)
         .then((response) => {
@@ -103,9 +104,13 @@ export default {
         })
         .catch((error) => {
           console.error("Error deleting meal: ", error);
-        });
-    },
+        });    
+    }
 
+
+  },
+
+   
 };
 </script>
 

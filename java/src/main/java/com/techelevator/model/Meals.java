@@ -1,5 +1,7 @@
 package com.techelevator.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDate;
 
 public class Meals {
@@ -13,9 +15,9 @@ public class Meals {
 
     private String logDay;
 
+
     private boolean quickMeal;
     private int totalCalories;
-
     public Meals() {};
 
     public Meals(int mealId, int userId, String mealType, String mealName, String mealDescription, String logDay, boolean quickMeal) {
@@ -26,7 +28,7 @@ public class Meals {
         this.mealDescription = mealDescription;
         this.logDay = logDay;
         this.quickMeal = quickMeal;
-        this.totalCalories = totalCalories;
+//        this.totalCalories = totalCalories;
 
     }
 
@@ -83,7 +85,7 @@ public class Meals {
     }
 
     public void setQuickMeal(boolean quickMeal) {
-        quickMeal = quickMeal;
+        this.quickMeal = quickMeal;
     }
 
     public int getTotalCalories() {

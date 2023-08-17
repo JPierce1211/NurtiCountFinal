@@ -16,7 +16,11 @@
           </select>
         <div>
           <label for="quick meal">Quick Meal </label>
+<<<<<<< HEAD
           <input type="checkbox" id="quick meal" v-model="meal.quickMeal" v-on:change="makeQuickMeal" />
+=======
+          <input type="checkbox" id="quick meal" v-model="meal.quickMeal" @change="makeQuickMeal"/>
+>>>>>>> 0cd3e00a8d126e999f76ed47a3fe9f82a2f56e69
         </div>
         </div>
         <div class="input">
@@ -72,7 +76,7 @@ export default {
         mealName: "",
         mealDescription: "",
         logDay: "",
-        isQuickMeal: false,
+        quickMeal: false,
       },
       mealsArray: [],
     };
@@ -100,7 +104,7 @@ export default {
             mealName: "",
             mealDescription: "",
             logDay: "",
-            isQuickMeal: false,
+            quickMeal: false,
           };
           let increment = 1;
           this.$store.commit('SET_STAR_RATING', increment);
@@ -120,8 +124,12 @@ export default {
     },
   },
     makeQuickMeal() {
+<<<<<<< HEAD
      this.meal.quickMeal = !this.meal.quickMeal;
       // this.meal.quickMeal = true;
+=======
+      this.meal.quickMeal = true; 
+>>>>>>> 0cd3e00a8d126e999f76ed47a3fe9f82a2f56e69
     }
 };
 </script>
