@@ -4,18 +4,18 @@
   <div>
     <!-- Juan's suggestion: I changed the title to 'My Foods'. Why? Because I said so! Sike, because this component is catered toward the food we're putting in the meal. 
     Don't like my idea? That's cool. Change it back: My Meals-->
-    <h1 id="title">My Foods</h1>
+    <h1 id="title">Add Foods</h1>
     <div class="main">
       <table id="tblFood">
         <thead id="tblhead">
-          <tr>
+          <!-- <tr> -->
             <!-- <th>Date</th>
             <th>Meal Type</th> -->
             <!-- <th>Number Of Servings</th> -->
             <!-- test if our database can search multiple strings  -->
-            <th>Food Search</th>
+            <!-- <th>Food Search</th> -->
             <!-- <th>Search Food</th> -->
-          </tr>
+          <!-- </tr> -->
         </thead>
         <tbody>
           <tr>
@@ -119,6 +119,7 @@
               <!-- button should be disabled if there is no foods selected -->
               <!-- the meal method should save meals to an array-->
               <!-- v-bind:disabled="!selectedFood.length" -->
+              <p class="success">{{ successMessage }}</p>
               <button v-on:click.prevent="saveFoodsToMeal(foodItem)">
                 Add Food to Meal
               </button>
@@ -312,8 +313,11 @@ export default {
       this.foodMealDto.servingSize = foodObject.calories;
       this.foodMealDto.quickFood = foodObject.quickFood;
 
+      this.successMessage = "";
+
       FoodService.addFoodToMeal(this.foodMealDto).then((response) => {
         if (response.status === 201) {
+          console.log("successMessage: ", response)
           this.successMessage = "Added food to your meal!";
         }
         // this.$router.push({ name: "foodDetails" });
