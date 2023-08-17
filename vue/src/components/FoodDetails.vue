@@ -229,7 +229,7 @@ export default {
         })
         .catch((error) => {
           if (error.status === 404) {
-            this.searchError = "No results found for this search.";
+            this.searchError = "Hmmm...this must be a new food we haven't heard about yet.";
           } else {
             this.searchError =
               "An error happen while searching. Please try again.";
@@ -318,7 +318,6 @@ export default {
 
       FoodService.addFoodToMeal(this.foodMealDto).then((response) => {
         if (response.status === 201) {
-          console.log("successMessage: ", response)
           this.successMessage = "Added food to your meal!";
         }
         // this.$router.push({ name: "foodDetails" });

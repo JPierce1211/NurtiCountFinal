@@ -9,7 +9,7 @@
         <div>
           <label for="meal-type">Meal Type </label>
           <select id="mealDropDown" v-model="meal.mealType">
-            <option value="breakfast">Breakfast</option>
+            <option value="Breakfast">Breakfast</option>
             <option value="Lunch">Lunch</option>
             <option value="Dinner">Dinner</option>
             <option value="Snack">Snack</option>
