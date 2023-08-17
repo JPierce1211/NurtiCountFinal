@@ -309,8 +309,8 @@ export default {
       this.foodMealDto.foodId = foodObject.foodId;
       this.foodMealDto.logDay = "";
       this.foodMealDto.calories = foodObject.calories;
-      this.foodMealDto.foodName = foodObject.calories;
-      this.foodMealDto.servingSize = foodObject.calories;
+      this.foodMealDto.foodName = foodObject.foodName;
+      this.foodMealDto.servingSize = foodObject.servingSize;
       this.foodMealDto.quickFood = foodObject.quickFood;
 
       this.successMessage = "";
