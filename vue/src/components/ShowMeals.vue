@@ -16,11 +16,7 @@
           </select>
         <div>
           <label for="quick meal">Quick Meal </label>
-<<<<<<< HEAD
-          <input type="checkbox" id="quick meal" v-model="meal.quickMeal" v-on:change="makeQuickMeal" />
-=======
           <input type="checkbox" id="quick meal" v-model="meal.quickMeal" @change="makeQuickMeal"/>
->>>>>>> 0cd3e00a8d126e999f76ed47a3fe9f82a2f56e69
         </div>
         </div>
         <div class="input">
@@ -37,6 +33,7 @@
         </div>
         <div>
           <button type="submit">Create Meal</button>
+          <p class="tblfill-error">{{tableFilledError}}</p>
           <!-- <button @click="$router.push('component/FoodDetails.vue')"> Add Food to Meal </button> -->
         </div>
       </form>
@@ -79,7 +76,12 @@ export default {
         quickMeal: false,
       },
       mealsArray: [],
+
+      tableFilledError: "",
+      
     };
+   
+
   },
   mounted(){
       FoodService.getAllMeals()
@@ -92,10 +94,9 @@ export default {
   },
   methods: {
     createMealForm() {
-      console.log("Creating meal with:", this.meal);
+
       FoodService.createMeal(this.meal)
         .then((response) => {
-          console.log("Response body: ", response.data);
           this.mealsArray.push(response.data);
           this.meal = {
             mealId: 0,
@@ -124,14 +125,29 @@ export default {
     },
   },
     makeQuickMeal() {
-<<<<<<< HEAD
      this.meal.quickMeal = !this.meal.quickMeal;
       // this.meal.quickMeal = true;
-=======
-      this.meal.quickMeal = true; 
->>>>>>> 0cd3e00a8d126e999f76ed47a3fe9f82a2f56e69
-    }
+    },
+
+    checkingTableForm() {
+      if (!this.meal) {
+        this.tableFilledError = "Please fill out form"; //this error is not working (It works for me. - Juan)
+        return false;
+      }
+      this.tableFilledError = "";
+      return true;
+    },
+
+    computed: {
+    isTableFilled() {
+      //Inital method was this ---> return this.search.foodName && this.meal.logDay && this.food.numOfServings && this.meal.mealType
+      return this.search.foodName;
+    },
+  }
+
 };
+
+
 </script>
 <style>
 .MealForm {
