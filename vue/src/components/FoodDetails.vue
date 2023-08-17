@@ -69,7 +69,8 @@
 
       <!-- add button to move to see all meals for the day -->
       <!-- create a show method -->
-      <p class="error">{{ searchError }}</p>
+      <p class="error" v-if="error === true">{{ isDuplicateError }}</p>
+      <p class="success" v-if="success === true">{{ successMessage }}</p>
       <table
         v-show="showTable"
         v-on:submit.prevent="addFood"
@@ -88,7 +89,8 @@
         </thead>
 
         <tbody>
-          <tr v-for="foodItem in selectedFood" :key="foodItem.foodId">
+          <!-- :key was foodItem.foodId -->
+          <tr v-for="(foodItem, index) in selectedFood" :key="index"> 
             <!-- will need a v-for to show multiple results if going down that route -->
             <td>{{ foodItem.foodName }}</td>
             <!-- Looking to make a checkdown box for user to input the number of servings of each food to reflect the calorie intake. Was initially {{ foodItem.foodType }} -->
@@ -109,7 +111,6 @@
             <td>{{ foodItem.servingSize }}</td>
             <td>{{ foodItem.calories }}</td>
             <td>
-              <p class="error">{{ isDuplicateError }}</p>
               <!-- going to need a method to turn isQuickMeal True -->
               <button v-on:click="addToQuickFoods(foodItem)">
                 Add to Quick Foods
@@ -119,9 +120,8 @@
               <!-- button should be disabled if there is no foods selected -->
               <!-- the meal method should save meals to an array-->
               <!-- v-bind:disabled="!selectedFood.length" -->
-              <p class="success">{{ successMessage }}</p>
               <button v-on:click.prevent="saveFoodsToMeal(foodItem)">
-                Add Food to Meal
+                Add to Meal
               </button>
             </td>
           </tr>
@@ -149,8 +149,10 @@ export default {
       showTable: false,
       tableFilledError: "",
       searchError: "",
-      isDuplicateError: "",
+      error: false,
+      success: false,
       successMessage: "",
+      isDuplicateError: "",
       quickFood: [],
       showForm: false,
       meal: {},
@@ -292,20 +294,22 @@ export default {
         if (this.quickFood[i].foodId === foodItem.foodId) {
           isDuplicate = true;
           break;
-          //need a break to exit out the lopp if it finds true
+          //need a break to exit out the loop if it finds true
         }
       }
 
       if (!isDuplicate) {
         this.quickFood.push(foodItem);
       } else {
+        this.error = true;
+        this.success = false;
         this.isDuplicateError =
-          "ERROR: Already added to Quick Foods. Please Make Another Selection.";
+          `ERROR: Already added ${foodItem.foodName} to Quick Foods. Please Make Another Selection.`;
       }
     },
 
     saveFoodsToMeal(foodObject) {
-      //populate foodmealdto
+      //populate foodMealDTO
       this.foodMealDto.mealId = this.meal.mealId;
       this.foodMealDto.foodId = foodObject.foodId;
       this.foodMealDto.logDay = "";
@@ -314,11 +318,12 @@ export default {
       this.foodMealDto.servingSize = foodObject.servingSize;
       this.foodMealDto.quickFood = foodObject.quickFood;
 
-      this.successMessage = "";
-
       FoodService.addFoodToMeal(this.foodMealDto).then((response) => {
-        if (response.status === 201) {
-          this.successMessage = "Added food to your meal!";
+         console.log("Was successful!", response)
+        if (response.status === 200) {
+          this.success = true;
+          this.error = false;
+          this.successMessage = `Added ${foodObject.foodName} to meal!`;
         }
         // this.$router.push({ name: "foodDetails" });
       });
@@ -369,6 +374,7 @@ export default {
 }
 
 p.error {
+  color: rgb(163, 27, 17);
   text-align: center;
   font-weight: bolder;
   font-style: italic;
@@ -380,5 +386,12 @@ p.error {
 
 .searchbar {
   width: 500px;
+}
+
+.success {
+  color: rgb(12, 114, 12);
+  text-align: center;
+  font-weight: bolder;
+  font-style: italic;
 }
 </style>
