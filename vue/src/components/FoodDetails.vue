@@ -90,7 +90,7 @@
 
         <tbody>
           <!-- :key was foodItem.foodId -->
-          <tr v-for="(foodItem, index) in selectedFood" :key="index"> 
+          <tr v-for="foodItem in selectedFood" :key="foodItem.foodId"> 
             <!-- will need a v-for to show multiple results if going down that route -->
             <td>{{ foodItem.foodName }}</td>
             <!-- Looking to make a checkdown box for user to input the number of servings of each food to reflect the calorie intake. Was initially {{ foodItem.foodType }} -->
@@ -304,7 +304,7 @@ export default {
         this.error = true;
         this.success = false;
         this.isDuplicateError =
-          `ERROR: Already added ${foodItem.foodName} to Quick Foods. Please Make Another Selection.`;
+          `ERROR: Already added ${foodItem.foodName} to Quick Foods. Please make another selection.`;
       }
     },
 

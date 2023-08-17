@@ -3,7 +3,7 @@
     <div class="MealForm">
       <form @submit.prevent="createMealForm">
         <div class="input">
-          <label for="meal-Name"> Meal Name </label>
+          <label for="meal-name"> Meal Name </label>
           <input type="text" id="meal-name" v-model="meal.mealName" />
         </div>
         <div>
