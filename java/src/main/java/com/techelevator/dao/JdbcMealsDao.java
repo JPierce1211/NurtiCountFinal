@@ -25,7 +25,7 @@ public class JdbcMealsDao implements MealsDao {
     @Override
     public List<Meals> findAll(int userId) {
         List<Meals> meals = new ArrayList<>();
-        String sql = "SELECT * FROM meals WHERE user_id = ?";
+        String sql = "SELECT * FROM meals WHERE user_id = ? ORDER BY meal_id DESC";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         while (results.next()) {
             Meals meal = mapRowToMeals(results);
