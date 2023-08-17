@@ -16,7 +16,7 @@
           </select>
         <div>
           <label for="quick meal">Quick Meal </label>
-          <input type="checkbox" id="quick meal" v-model="meal.isQuickMeal" />
+          <input type="checkbox" id="quick meal" v-model="meal.quickMeal" @change="makeQuickMeal"/>
         </div>
         </div>
         <div class="input">
@@ -76,7 +76,7 @@ export default {
         mealName: "",
         mealDescription: "",
         logDay: "",
-        isQuickMeal: false,
+        quickMeal: false,
       },
 
       mealsArray: [],
@@ -107,7 +107,7 @@ export default {
             mealName: "",
             mealDescription: "",
             logDay: "",
-            isQuickMeal: false,
+            quickMeal: false,
           };
           let increment = 1;
           this.$store.commit('SET_STAR_RATING', increment);
@@ -129,7 +129,7 @@ export default {
   },
 
     makeQuickMeal() {
-      this.meal.isQuickMeal = true; 
+      this.meal.quickMeal = true; 
     }
 };
 </script>

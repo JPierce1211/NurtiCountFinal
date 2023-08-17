@@ -9,7 +9,11 @@ const api =
         
     deleteMeal(mealId){
         return axios.delete(`/meals/${mealId}`);
-    }    
+    }, 
+    
+    getFoodMeals(mealId){
+        return axios.get(`meals/food/mealFood/${mealId}`)
+    }
 };
 
 export default api;
