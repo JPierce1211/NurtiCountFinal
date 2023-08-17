@@ -91,7 +91,7 @@ public class JdbcFoodDao implements FoodDao {
     @Override
     public int deleteFoodById(int foodId) {
         int numberOfRows = 0;
-        String sql = "DELETE FROM food WHERE food_id = ?";
+        String sql = "DELETE FROM meal_food WHERE food_id = ?";
         try {
             numberOfRows = jdbcTemplate.update(sql, foodId);
         } catch (CannotGetJdbcConnectionException e) {
