@@ -16,7 +16,7 @@
           </select>
         <div>
           <label for="quick meal">Quick Meal </label>
-          <input type="checkbox" id="quick meal" v-model="meal.isQuickMeal" v-on:change="makeQuickMeal" />
+          <input type="checkbox" id="quick meal" v-model="meal.quickMeal" v-on:change="makeQuickMeal" />
         </div>
         </div>
         <div class="input">
@@ -120,7 +120,8 @@ export default {
     },
   },
     makeQuickMeal() {
-      this.meal.isQuickMeal = !this.meal.isQuickMeal;
+     this.meal.quickMeal = !this.meal.quickMeal;
+      // this.meal.quickMeal = true;
     }
 };
 </script>
