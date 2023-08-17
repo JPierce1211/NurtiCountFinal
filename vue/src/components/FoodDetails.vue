@@ -129,7 +129,8 @@
     </div>
     <div class="butn-ShowMeals">
       <!-- this button will save the foods into a meal and transfer it to the next componenet -->
-      <button @click="showMeal()">Show Meals</button>
+      <button @click="showMeal()">Show All Meals</button>
+      <button @click="mealDetails(meal)"> Show Meal Details</button>
       <button v-on:click="newSearch">New Search</button>
     </div>
   </div>
@@ -339,6 +340,10 @@ export default {
     showMeal() {
       this.$router.push({ name: "showMeals" });
     },
+
+    mealDetails(meal){
+      this.$router.push({name:"mealDetails", params: {mealId: meal.mealId}});
+    }
   },
 
   computed: {
@@ -351,6 +356,7 @@ export default {
       return servings * this.selectedFood.calories;
     },
   },
+
 };
 </script>
 
