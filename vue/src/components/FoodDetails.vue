@@ -370,6 +370,7 @@ export default {
 </script>
 
 <style>
+
 #title {
   text-align: center;
 }
@@ -401,4 +402,5 @@ p.error {
   font-weight: bolder;
   font-style: italic;
 }
+
 </style>
