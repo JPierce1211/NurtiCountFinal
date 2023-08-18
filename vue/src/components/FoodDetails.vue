@@ -69,6 +69,7 @@
 
       <!-- add button to move to see all meals for the day -->
       <!-- create a show method -->
+      <p class="superSearch">{{ searchError }}</p>
       <p class="error" v-if="error === true">{{ isDuplicateError }}</p>
       <p class="success" v-if="success === true">{{ successMessage }}</p>
       <table
@@ -95,7 +96,7 @@
             <td>{{ foodItem.foodName }}</td>
             <!-- Looking to make a checkdown box for user to input the number of servings of each food to reflect the calorie intake. Was initially {{ foodItem.foodType }} -->
             <td>
-              <select id="servingsDropDown" v-model="foodMealDto.numOfServings">
+              <select id="servingsDropDown" v-model="foodItem.numOfServings">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -371,6 +372,12 @@ export default {
 <style>
 #title {
   text-align: center;
+}
+
+.superSearch {
+  text-align: center;
+  font-weight: bolder;
+  font-style: italic;
 }
 
 p.error {
